@@ -9,7 +9,6 @@ import './App.css'
 import data from '../../utils/data.json';
 
 function App() {
-    // const dataJson = require('../../utils/data.json');
     return (
       <div className={appStyle.rootDiv}>
         <AppHeader />

@@ -1,18 +1,25 @@
 import React from 'react';
+import {arrayOf} from 'prop-types';
 import {ConstructorElement, CurrencyIcon, DragIcon, Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
 import burgerConstructorStyle from './burger-constructor.module.css';
+import * as BurgerConstants from "../../constants/burger-constants";
+
+BurgerConstructor.propTypes = {
+    data: arrayOf(BurgerPropTypes)
+}
 
 export default function BurgerConstructor (props)  {
 
-    const [bunData] = React.useState(props.data.filter( (elem) => elem.type === "bun"));
-    const [sauceAndMainData] = React.useState(props.data.filter( (elem) => elem.type !== "bun"));
+    const bunData = props.data.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_BUN);
+    const sauceAndMainData = props.data.filter( (elem) => elem.type !== BurgerConstants.INGREDIENTS_BUN);
 
     return (
         <section className={`${burgerConstructorStyle.burgerConstructor} mt-25`}>
             <div className={"ml-8"}>
                 <ConstructorElement
                     type="top"
-                    isLocked={true}
+                    isLocked
                     text={bunData[0].name}
                     price={bunData[0].price}
                     thumbnail={bunData[0].image}
@@ -35,7 +42,7 @@ export default function BurgerConstructor (props)  {
             <div className={"ml-8 pt-1"}>
                 <ConstructorElement
                     type="bottom"
-                    isLocked={true}
+                    isLocked
                     text={bunData[0].name}
                     price={bunData[0].price}
                     thumbnail={bunData[0].image}

@@ -1,14 +1,22 @@
 import React from 'react';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
 import burgerIngredientsStyle from './burger-ingredients.module.css';
 import IngredientItem from "../ingredient-item/ingredient-item";
+import {arrayOf} from "prop-types";
+import * as BurgerConstants from '../../constants/burger-constants';
+
+BurgerIngredients.propTypes = {
+    data: arrayOf(BurgerPropTypes)
+}
 
 export default function BurgerIngredients (props)  {
 
-    const [current, setCurrent] = React.useState('bun')
-    const [bunData] = React.useState(props.data.filter( (elem) => elem.type === "bun"));
-    const [saucenData] = React.useState(props.data.filter( (elem) => elem.type === "sauce"));
-    const [mainData] = React.useState(props.data.filter( (elem) => elem.type === "main"));
+    const [current, setCurrent] = React.useState(BurgerConstants.INGREDIENTS_BUN)
+
+    const bunData = props.data.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_BUN);
+    const sauceData = props.data.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_SAUCE);
+    const mainData = props.data.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_MAIN);
 
     return (
         <section className={`${burgerIngredientsStyle.burgerIngredients} p-10`}>
@@ -16,13 +24,13 @@ export default function BurgerIngredients (props)  {
                 <p className="text text_type_main-large">Соберите бургер</p>
             </div>
             <div style={{ display: 'flex' }} className={'pt-5 pb-10'}>
-                <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
+                <Tab value={BurgerConstants.INGREDIENTS_BUN} active={current === BurgerConstants.INGREDIENTS_BUN} onClick={setCurrent}>
                     Булки
                 </Tab>
-                <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
+                <Tab value={BurgerConstants.INGREDIENTS_SAUCE} active={current === BurgerConstants.INGREDIENTS_SAUCE} onClick={setCurrent}>
                     Соусы
                 </Tab>
-                <Tab value="main" active={current === 'main'} onClick={setCurrent}>
+                <Tab value={BurgerConstants.INGREDIENTS_MAIN} active={current === BurgerConstants.INGREDIENTS_MAIN} onClick={setCurrent}>
                     Начинки
                 </Tab>
             </div>
@@ -35,7 +43,7 @@ export default function BurgerIngredients (props)  {
                 </ul>
                 <p className='text text_type_main-medium'>Соусы</p>
                 <ul className={burgerIngredientsStyle.ingredientItem}>
-                        { saucenData.map (item =>(
+                        { sauceData.map (item =>(
                             <IngredientItem key={item._id} {...item} />
                         ))}
                 </ul>
