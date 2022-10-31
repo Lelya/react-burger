@@ -1,6 +1,8 @@
 .burgerIngredients {
     width: 600px;
     background: #131316;
+    display: flex;
+    flex-direction: column;
 }
 
 .ingredients {

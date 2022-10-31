@@ -1,5 +1,7 @@
 .burgerConstructor {
     width: 600px;
+    display: flex;
+    flex-direction: column;
 }
 .sauceAndMainData {
     height: 100%;

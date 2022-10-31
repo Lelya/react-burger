@@ -1,5 +1,6 @@
 .rootDiv {
-    height: 100vh;
+    flex: 1;
+    height: inherit;
 }
 .wrapper {
     height: 90%;
