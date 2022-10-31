@@ -1,0 +1,9 @@
+.rootDiv {
+    height: 100vh;
+}
+.wrapper {
+    height: 90%;
+    display: flex;
+    justify-content: center;
+}
+

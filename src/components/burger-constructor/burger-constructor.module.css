@@ -1,0 +1,39 @@
+.burgerConstructor {
+    width: 600px;
+}
+.sauceAndMainData {
+    height: 100%;
+    overflow-y: scroll;
+    scrollbar-color: #8585AD;
+    scrollbar-base-color: #2F2F37;
+}
+
+.sauceAndMainData::-webkit-scrollbar {
+    width: 8px;
+    background: #2F2F37;
+}
+
+.sauceAndMainData::-webkit-scrollbar-thumb {
+    background: #8585AD;
+    -webkit-border-radius: 0;
+}
+
+.sauceAndMainData::-webkit-scrollbar-corner {
+    background: #000;
+}
+
+.sauceAndMainData ul {
+    padding: 0;
+    margin: 0;
+}
+
+.blockItem{
+    display: flex;
+    align-items: center;
+}
+
+.totalSum {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
