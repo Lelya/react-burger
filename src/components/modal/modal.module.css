@@ -1,0 +1,29 @@
+.modal {
+    position: fixed;
+    z-index: 4;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #1C1C21;
+    border: 1px solid rgba(76, 76, 255, 0.2);
+    border-radius: 40px;
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    text-align: center;
+}
+.button {
+    position: relative;
+    float: right;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: unset;
+    cursor: pointer;
+    opacity: 1;
+    background-size: cover;
+    border: none;
+}
+.button:hover {
+    opacity: .8;
+}

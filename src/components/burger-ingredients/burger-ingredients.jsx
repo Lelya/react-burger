@@ -12,7 +12,7 @@ BurgerIngredients.propTypes = {
 
 export default function BurgerIngredients (props)  {
 
-    const [current, setCurrent] = React.useState(BurgerConstants.INGREDIENTS_BUN)
+    const [current, setCurrent] = React.useState(BurgerConstants.INGREDIENTS_BUN);
 
     const bunData = props.data.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_BUN);
     const sauceData = props.data.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_SAUCE);
