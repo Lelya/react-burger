@@ -1,12 +1,10 @@
 .header {
-    position: fixed;
-    top: 40px;
-    left: 0;
+    position: relative;
     width: 100%;
     background: #1C1C21;
 }
 .navigation {
-    max-width: 1200px;
+    max-width: 1250px;
     margin: 0 auto;
 }
 .navigation ul {
@@ -16,9 +14,12 @@
     display: flex;
     justify-content: center;
 }
+.navigation ul li {
+    padding: 10px 0;
+}
 .navigation .logo {
     flex-grow: 1;
-    margin-left: 6rem;
+    margin-left: 7rem;
 }
 .navButton{
     color: #fff;

@@ -1,0 +1,18 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.counter {
+    position: relative;
+}
+
+.price {
+    display: flex;
+    align-self: center;
+}
+
+.price span {
+    padding-right: 9px;
+}
