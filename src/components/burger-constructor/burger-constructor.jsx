@@ -23,7 +23,7 @@ export default function BurgerConstructor (props)  {
                 <ConstructorElement
                     type="top"
                     isLocked
-                    text={bunData[0].name}
+                    text={bunData[0].name + " (верх)"}
                     price={bunData[0].price}
                     thumbnail={bunData[0].image}
                 />
@@ -46,7 +46,7 @@ export default function BurgerConstructor (props)  {
                 <ConstructorElement
                     type="bottom"
                     isLocked
-                    text={bunData[0].name}
+                    text={bunData[0].name+ " (низ)"}
                     price={bunData[0].price}
                     thumbnail={bunData[0].image}
                 />
