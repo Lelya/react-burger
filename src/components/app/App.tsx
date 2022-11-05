@@ -4,43 +4,41 @@ import AppHeader from '../app-header/app-header';
 import appStyle from './App.module.css';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
+import { getData } from '../../services/api';
 import './App.css'
-import {URL_GET_DATA} from "../../constants/burger-constants";
+import {GET_INGREDIENTS} from "../../constants/burger-constants";
 
 export default function App() {
 
     const [isLoading, setIsLoading] = React.useState(false);
-    const [hasError, setHasError] = React.useState(false);
+    const [error, setError] = React.useState("");
     const [data, setData] = React.useState([]);
 
     React.useEffect(() => {
         getIngredients();
     }, [])
 
-
     const getIngredients = () => {
         setIsLoading(true);
-        fetch(URL_GET_DATA)
-            .then(res => res.json())
+        getData(GET_INGREDIENTS)
             .then(data => {
                 setData(data.data);
                 setIsLoading(false);
             })
             .catch(e => {
-                setHasError(true);
+                setError("Возникла ошибка во время получения данных");
                 setIsLoading(false);
             })
     };
-
 
     return (
       <div className={appStyle.rootDiv}>
         <AppHeader />
         <div className={appStyle.wrapper}>
             {isLoading && 'Загрузка...'}
-            {hasError && 'Произошла ошибка'}
+            {(error !== "" ) && error}
             {!isLoading &&
-                !hasError &&
+                error === "" &&
                 data.length &&
                 <>
                     <BurgerIngredients data={data}/>
