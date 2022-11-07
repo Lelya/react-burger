@@ -4,12 +4,15 @@ import {ConstructorElement, CurrencyIcon, DragIcon, Button} from "@ya.praktikum/
 import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
 import burgerConstructorStyle from './burger-constructor.module.css';
 import * as BurgerConstants from "../../constants/burger-constants";
+import OrderDetails from "../order-details/order-details";
 
 BurgerConstructor.propTypes = {
     data: arrayOf(BurgerPropTypes)
 }
 
 export default function BurgerConstructor (props)  {
+
+    const [isOpenModal, setIsOpenModal] = React.useState(false);
 
     const bunData = props.data.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_BUN);
     const sauceAndMainData = props.data.filter( (elem) => elem.type !== BurgerConstants.INGREDIENTS_BUN);
@@ -20,7 +23,7 @@ export default function BurgerConstructor (props)  {
                 <ConstructorElement
                     type="top"
                     isLocked
-                    text={bunData[0].name}
+                    text={bunData[0].name + " (верх)"}
                     price={bunData[0].price}
                     thumbnail={bunData[0].image}
                 />
@@ -43,17 +46,23 @@ export default function BurgerConstructor (props)  {
                 <ConstructorElement
                     type="bottom"
                     isLocked
-                    text={bunData[0].name}
+                    text={bunData[0].name+ " (низ)"}
                     price={bunData[0].price}
                     thumbnail={bunData[0].image}
                 />
             </div>
             <div className={`${burgerConstructorStyle.totalSum} mb-10 pt-10 pr-8`}>
                 <p className="text text_type_digits-medium pr-10">610<CurrencyIcon type="primary"/></p>
-                <Button type="primary" size="large"  htmlType={"button"}>
+                <Button type="primary" size="large" htmlType={"button"}
+                        onClick={() => {
+                            setIsOpenModal(true);
+                        }} >
                     Оформить заказ
                 </Button>
             </div>
+            {isOpenModal &&
+               <OrderDetails handlerClose={() => setIsOpenModal(false)} isOpenModal={isOpenModal}/>
+            }
         </section>
     )
 }

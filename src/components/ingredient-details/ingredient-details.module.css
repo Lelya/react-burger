@@ -1,0 +1,20 @@
+.imgModal img{
+    width: 100%;
+}
+
+.wrapperDescription {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 0 16px;
+    gap: 24px;
+}
+
+.wrapperDescription li {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.wrapperDescription li p:last-child{
+    padding-top: 15px;
+}
