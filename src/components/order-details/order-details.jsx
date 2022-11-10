@@ -7,13 +7,13 @@ import IngredientItem from "../ingredient-item/ingredient-item";
 IngredientItem.propTypes = {
     handlerClose: PropTypes.func,
     isOpenModal: PropTypes.bool,
+    order: PropTypes.number
 };
 
 export default function OrderDetails (props)  {
-
     return (
         <Modal handleClose={props.handlerClose} isOpen={props.isOpenModal}>
-            <p className="text text_type_digits-large pt-30 pr-25 pl-25">1234567890</p>
+            <p className="text text_type_digits-large pt-30 pr-25 pl-25">{props.order}</p>
             <p className="text text_type_main-medium pt-8">
                 Идентификатор заказа
             </p>

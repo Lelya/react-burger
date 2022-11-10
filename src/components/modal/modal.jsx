@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ReactDOM from "react-dom"
 import modalStyle from './modal.module.css';
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -8,11 +8,11 @@ import PropTypes from "prop-types";
 Modal.propTypes = {
     handlerClose: PropTypes.func,
     isOpen: PropTypes.bool,
-    children: PropTypes.array
+    children: PropTypes.any
 };
 export default function Modal ({handleClose, isOpen, children})  {
 
-    React.useEffect(() => {
+    useEffect(() => {
         const onCloseModalPressEsc = (e) => {
             if (e.key === 'Escape') {
                 handleClose()

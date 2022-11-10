@@ -1,22 +1,24 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
 import burgerIngredientsStyle from './burger-ingredients.module.css';
 import IngredientItem from "../ingredient-item/ingredient-item";
 import {arrayOf} from "prop-types";
 import * as BurgerConstants from '../../constants/burger-constants';
+import { IngredientsContext } from '../../services/burgerContext';
 
 BurgerIngredients.propTypes = {
     data: arrayOf(BurgerPropTypes)
 }
 
-export default function BurgerIngredients (props)  {
+export default function BurgerIngredients ()  {
 
-    const [current, setCurrent] = React.useState(BurgerConstants.INGREDIENTS_BUN);
+    const [current, setCurrent] = useState(BurgerConstants.INGREDIENTS_BUN);
+    const { ingredients } = useContext(IngredientsContext);
 
-    const bunData = props.data.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_BUN);
-    const sauceData = props.data.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_SAUCE);
-    const mainData = props.data.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_MAIN);
+    const bunData = ingredients.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_BUN);
+    const sauceData = ingredients.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_SAUCE);
+    const mainData = ingredients.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_MAIN);
 
     return (
         <section className={`${burgerIngredientsStyle.burgerIngredients} p-10`}>
