@@ -7,7 +7,7 @@ import * as BurgerConstants from "../../constants/burger-constants";
 import OrderDetails from "../order-details/order-details";
 import { IngredientsContext } from '../../services/burgerContext';
 import { postOrderInfo } from "../../services/api";
-import {SET_INGREDIENTS} from "../../constants/burger-constants";
+import {SET_INGREDIENTS_URL} from "../../constants/burger-constants";
 import ErrorModal from "../error-modal/error-modal";
 
 BurgerConstructor.propTypes = {
@@ -55,7 +55,7 @@ export default function BurgerConstructor ()  {
         ingredientIds.push(bunData[0]._id);
         ingredientIds = ingredientIds.concat(randomIngredients.map(item => item._id));
         ingredientIds.push(bunData[0]._id);
-        postOrderInfo(SET_INGREDIENTS, {ingredients: ingredientIds})
+        postOrderInfo(SET_INGREDIENTS_URL, {ingredients: ingredientIds})
             .then(result => {
                 if (result.success) {
                     setOrderId(result.order.number);
