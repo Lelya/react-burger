@@ -3,6 +3,7 @@ import Modal from "../modal/modal";
 import ingredientDetailStyle from './ingredient-details.module.css';
 import IngredientItem from "../ingredient-item/ingredient-item";
 import PropTypes from "prop-types";
+import { useSelector } from 'react-redux';
 
 IngredientItem.propTypes = {
     handlerClose: PropTypes.func.isRequired,
@@ -11,32 +12,35 @@ IngredientItem.propTypes = {
 };
 
 export default function IngredientDetails (props)  {
+
+    const currentItem = useSelector(store => store.ingredientItem.currentItem);
+
     return (
         <Modal handleClose={props.handlerClose} isOpen={props.isOpenModal}>
             <p className="text text_type_main-large pt-15 pr-10 pl-10" style={{textAlign:"left"}}>Детали ингредиента</p>
             <span className={ingredientDetailStyle.imgModal}>
-                <img src={props.data.image_large} alt={props.data.name} className="pt-15"/>
+                <img src={currentItem.image_large} alt={currentItem.name} className="pt-15"/>
             </span>
             <p className="text text_type_main-medium pt-4">
-                {props.data.name}
+                {currentItem.name}
             </p>
             <div className="pt-8 pb-15 pl-5 pr-5">
                 <ul className={ingredientDetailStyle.wrapperDescription}>
                     <li>
                         <p className="text text_type_main-default text_color_inactive">Каллории, ккал</p>
-                        <p className="text text_type_main-default text_color_inactive">{props.data.calories}</p>
+                        <p className="text text_type_main-default text_color_inactive">{currentItem.calories}</p>
                     </li>
                     <li>
                         <p className="text text_type_main-default text_color_inactive">Белки, г</p>
-                        <p className="text text_type_main-default text_color_inactive">{props.data.proteins}</p>
+                        <p className="text text_type_main-default text_color_inactive">{currentItem.proteins}</p>
                     </li>
                     <li>
                         <p className="text text_type_main-default text_color_inactive">Жиры, г</p>
-                        <p className="text text_type_main-default text_color_inactive">{props.data.fat}</p>
+                        <p className="text text_type_main-default text_color_inactive">{currentItem.fat}</p>
                     </li>
                     <li>
                         <p className="text text_type_main-default text_color_inactive">Углеводы, г</p>
-                        <p className="text text_type_main-default text_color_inactive">{props.data.carbohydrates}</p>
+                        <p className="text text_type_main-default text_color_inactive">{currentItem.carbohydrates}</p>
                     </li>
                 </ul>
             </div>

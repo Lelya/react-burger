@@ -3,7 +3,7 @@ import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILE
 const initialState = {
     items: [],
     isLoading: false,
-    isError: false
+    isError: false,
 };
 export const listAllIngredientsReducer = (state = initialState, action) => {
     switch (action.type) {

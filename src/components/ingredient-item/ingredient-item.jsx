@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientItemStyle from './ingredient-item.module.css';
 import PropTypes from "prop-types";
+import { useDispatch } from 'react-redux';
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import {OPEN_CURRENT_ITEM_DETAILS, CLOSE_CURRENT_ITEM_DETAILS} from "../../services/actions";
 
 IngredientItem.propTypes = {
     _id: PropTypes.string.isRequired,
@@ -15,11 +17,16 @@ IngredientItem.propTypes = {
 export default function IngredientItem (props)  {
 
     const [isOpenModal, setIsOpenModal] = useState(false);
+    const dispatch = useDispatch();
 
     return (
         <>
             <li className={`${ingredientItemStyle.wrapper} mb-8`} key={props._id}
                 onClick={() => {
+                    dispatch({
+                        type: OPEN_CURRENT_ITEM_DETAILS,
+                        item: props,
+                    });
                     setIsOpenModal(true);
                 }}
             >
@@ -29,7 +36,14 @@ export default function IngredientItem (props)  {
                 <p className={`text text_type_main-default`}>{props.name}</p>
             </li>
             {isOpenModal &&
-                <IngredientDetails handlerClose={() => setIsOpenModal(false)} isOpenModal={isOpenModal} data={props} />
+                <IngredientDetails
+                    handlerClose={() => {
+                        dispatch({
+                            type: CLOSE_CURRENT_ITEM_DETAILS,
+                        });
+                        setIsOpenModal(false)
+                    }}
+                    isOpenModal={isOpenModal} />
             }
         </>
     )

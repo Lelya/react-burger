@@ -5,9 +5,13 @@ export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 
+export const OPEN_CURRENT_ITEM_DETAILS = 'OPEN_CURRENT_ITEM_DETAILS';
+export const CLOSE_CURRENT_ITEM_DETAILS = 'CLOSE_CURRENT_ITEM_DETAILS';
+
 export const SET_ORDER_REQUEST = 'SET_ORDER_REQUEST';
 export const SET_ORDER_SUCCESS = 'SET_ORDER_SUCCESS';
 export const SET_ORDER_FAILED = 'SET_ORDER_FAILED';
+export const CLOSE_ORDER = 'CLOSE_ORDER';
 
 export function getIngredients() {
     return function(dispatch) {
@@ -24,7 +28,7 @@ export function getIngredients() {
                 }
             })
             .catch(error => {
-                // setError("Возникла ошибка во время получения данных");
+                debugger;
                 dispatch({
                     type: GET_INGREDIENTS_FAILED,
                     error

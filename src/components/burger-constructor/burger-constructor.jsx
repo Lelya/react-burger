@@ -1,14 +1,13 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {arrayOf} from 'prop-types';
 import { ConstructorElement, CurrencyIcon, DragIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
 import burgerConstructorStyle from './burger-constructor.module.css';
 import * as BurgerConstants from "../../constants/burger-constants";
 import OrderDetails from "../order-details/order-details";
-import { IngredientsContext } from '../../services/burgerContext';
-import { postOrderInfo } from "../../services/api";
-import {SET_INGREDIENTS_URL} from "../../constants/burger-constants";
 import ErrorModal from "../error-modal/error-modal";
+import {useDispatch, useSelector} from "react-redux";
+import { CLOSE_ORDER, postOrder} from "../../services/actions";
 
 BurgerConstructor.propTypes = {
     data: arrayOf(BurgerPropTypes)
@@ -16,12 +15,14 @@ BurgerConstructor.propTypes = {
 
 export default function BurgerConstructor ()  {
 
+    const dispatch = useDispatch();
+    const ingredients = useSelector(store => store.listAllIngredients.items);
+    const order = useSelector(store => store.orderInfo.orderId);
+    const error = useSelector(store => store.orderInfo.isError);
+
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0);
     const [randomIngredients, setRandomIngredients] = useState([]);
-    const [orderId, setOrderId] = useState(0);
-    const [error, setError] = useState("");
-    const { ingredients } = useContext(IngredientsContext);
 
     const bunData = ingredients.filter( (elem) => elem.type === BurgerConstants.INGREDIENTS_BUN);
     const sauceAndMainData = randomIngredients.filter( (elem) => elem.type !== BurgerConstants.INGREDIENTS_BUN);
@@ -29,11 +30,12 @@ export default function BurgerConstructor ()  {
     const createRandomIngredients = useCallback(
 () => {
             const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
-
-            while (randomIngredients.length !== 7) {
-                let index = getRandomInt(ingredients.length);
-                randomIngredients.push(ingredients[index]);
-                setRandomIngredients(randomIngredients.filter((v, i, arr) =>  arr.indexOf(v) === i));
+            if (ingredients.length ) {
+                while (randomIngredients.length !== 7) {
+                    let index = getRandomInt(ingredients.length);
+                    randomIngredients.push(ingredients[index]);
+                    setRandomIngredients(randomIngredients.filter((v, i, arr) => arr.indexOf(v) === i));
+                }
             }
         },[ingredients, randomIngredients]
     );
@@ -43,29 +45,22 @@ export default function BurgerConstructor ()  {
     }, [createRandomIngredients])
 
     useEffect(() => {
-        let sumOfPrices = bunData[0].price * 2;
-        randomIngredients.forEach((item) => {
-            sumOfPrices += item.price;
-        });
-        setTotalPrice(sumOfPrices);
+        if (bunData.length ) {
+            let sumOfPrices = bunData[0].price * 2;
+            randomIngredients.forEach((item) => {
+                sumOfPrices += item.price;
+            });
+            setTotalPrice(sumOfPrices);
+        }
     }, [bunData, setTotalPrice, randomIngredients])
 
-    const postOrder = () => {
+    const setOrder = () => {
         let ingredientIds = [];
         ingredientIds.push(bunData[0]._id);
         ingredientIds = ingredientIds.concat(randomIngredients.map(item => item._id));
         ingredientIds.push(bunData[0]._id);
-        postOrderInfo(SET_INGREDIENTS_URL, {ingredients: ingredientIds})
-            .then(result => {
-                if (result.success) {
-                    setOrderId(result.order.number);
-                    setIsOpenModal(true);
-                }
-            })
-            .catch(e => {
-                setError("Возникла ошибка во время создания заказа");
-                setIsOpenModal(true);
-            })
+        dispatch(postOrder(ingredientIds));
+        setIsOpenModal(true);
      };
 
     return (
@@ -109,14 +104,28 @@ export default function BurgerConstructor ()  {
             <div className={`${burgerConstructorStyle.totalSum} mb-10 pt-10 pr-8`}>
                 <p className="text text_type_digits-medium pr-10">{ totalPrice }<CurrencyIcon type="primary"/></p>
                 <Button type="primary" size="large" htmlType={"button"}
-                        onClick={postOrder} >
+                        onClick={setOrder} >
                     Оформить заказ
                 </Button>
             </div>
-            {isOpenModal && !error ? (
-                <OrderDetails handlerClose={() => setIsOpenModal(false)} order={orderId} isOpenModal={isOpenModal}/>
-            ) : (
-                <ErrorModal handlerClose={() => setIsOpenModal(false)} error={error} isOpenModal={isOpenModal}/>
+            {isOpenModal && !error && order !== 0 ? (
+                <OrderDetails
+                    handlerClose={() => {
+                        dispatch({
+                            type: CLOSE_ORDER,
+                        });
+                        setIsOpenModal(false);
+                    }}
+                    isOpenModal={isOpenModal}/>
+                ) : (
+                <ErrorModal
+                    handlerClose={() => {
+                        dispatch({
+                            type: CLOSE_ORDER,
+                        });
+                        setIsOpenModal(false);
+                    }}
+                    error={error} isOpenModal={isOpenModal}/>
             )}
         </section>
     )
