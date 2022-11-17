@@ -13,6 +13,10 @@ export const SET_ORDER_SUCCESS = 'SET_ORDER_SUCCESS';
 export const SET_ORDER_FAILED = 'SET_ORDER_FAILED';
 export const CLOSE_ORDER = 'CLOSE_ORDER';
 
+export const ADD_INGREDIENT_TO_CONSTRUCTOR = 'ADD_INGREDIENT_TO_CONSTRUCTOR';
+export const ADD_BUN_INGREDIENT_TO_CONSTRUCTOR = 'ADD_BUN_INGREDIENT_TO_CONSTRUCTOR';
+export const DELETE_INGREDIENT_TO_CONSTRUCTOR = 'DELETE_INGREDIENT_TO_CONSTRUCTOR';
+
 export function getIngredients() {
     return function(dispatch) {
         dispatch({
