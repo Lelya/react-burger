@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 import {arrayOf} from 'prop-types';
 import { ConstructorElement, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
@@ -15,6 +15,8 @@ import {
 } from "../../services/actions";
 import {useDrop} from 'react-dnd';
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
+import BurgerConstructorEmpty from "../burger-constructor-empty/burger-constructor-empty";
+import { v4 as uuidv4 } from 'uuid';
 
 BurgerConstructor.propTypes = {
     data: arrayOf(BurgerPropTypes)
@@ -34,18 +36,14 @@ export default function BurgerConstructor ()  {
 
     const totalPrice = useMemo(() => {
             if (bunData.length ) {
-                let sumOfPrices = bunData[0].price * 2;
-                sauceAndMainData.forEach((item) => {
-                    sumOfPrices += item.price;
-                });
-                return sumOfPrices;
+                return sauceAndMainData.reduce((l, el) => el.price + l, bunData[0].price * 2);
             }
         },
         [bunData, sauceAndMainData]
     );
 
     const moveIngredient = (item) => {
-        const uniqId = {uniqId: item.id + Math.random()};
+        const uniqId = {uniqId: uuidv4()};
         let ingredient = ingredients.filter((elem) => elem._id === item.id)[0];
         ingredient = Object.assign(uniqId, ingredient);
 
@@ -84,31 +82,7 @@ export default function BurgerConstructor ()  {
     return (
         <section className={`${burgerConstructorStyle.burgerConstructor} mt-25`} ref={dropTarget}>
         { bunData.length === 0 && sauceAndMainData.length === 0 ? (
-            <>
-                <div className={burgerConstructorStyle.emptyConstructorMessage}>
-                    <div className={burgerConstructorStyle.emptyConstructorMessageRow}>
-                        <div className={burgerConstructorStyle.emptyConstructorMessageCol}>
-                            <p className="text text_type_main-default text_color_inactive pb-2">
-                                Здесь пусто.
-                            </p>
-                        </div>
-                    </div>
-                    <div className={burgerConstructorStyle.emptyConstructorMessageRow}>
-                        <div className={burgerConstructorStyle.emptyConstructorMessageCol}>
-                            <p className="text text_type_main-default text_color_inactive pb-2">
-                                Выберите ингредиенты для бургера, перетащив их карточку сюда.
-                            </p>
-                        </div>
-                    </div>
-                    <div className={burgerConstructorStyle.emptyConstructorMessageRow}>
-                        <div className={burgerConstructorStyle.emptyConstructorMessageCol}>
-                            <p className="text text_type_main-default text_color_inactive pb-2">
-                             Не забудьте, добавить булки!
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </>
+           <BurgerConstructorEmpty/>
         ) : (
             <>
                 <div className={"ml-8"}>

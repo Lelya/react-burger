@@ -25,11 +25,5 @@
 .ingredients::-webkit-scrollbar-corner {
     background: #000;
 }
-.ingredientItem {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 16px;
-    gap: 24px;
-}
 
 

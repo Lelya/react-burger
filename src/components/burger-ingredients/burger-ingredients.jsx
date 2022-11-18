@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
 import burgerIngredientsStyle from './burger-ingredients.module.css';
-import IngredientItem from "../ingredient-item/ingredient-item";
 import {arrayOf} from "prop-types";
 import * as BurgerConstants from '../../constants/burger-constants';
 import { useSelector} from 'react-redux';
+import BurgerIngredientBlockType from "../burger-ingredient-block-type/burger-ingredient-block-type";
 
 BurgerIngredients.propTypes = {
     data: arrayOf(BurgerPropTypes)
@@ -14,9 +14,9 @@ BurgerIngredients.propTypes = {
 export default function BurgerIngredients ()  {
 
     const ingredients = useSelector(store => store.listAllIngredients.items);
-    const bunData = ingredients.filter((elem) => elem.type === BurgerConstants.INGREDIENTS_BUN);
-    const sauceData = ingredients.filter((elem) => elem.type === BurgerConstants.INGREDIENTS_SAUCE);
-    const mainData = ingredients.filter((elem) => elem.type === BurgerConstants.INGREDIENTS_MAIN);
+    const bunData = useMemo(() => ingredients.filter((elem) => elem.type === BurgerConstants.INGREDIENTS_BUN),[ingredients]);
+    const sauceData = useMemo(() => ingredients.filter((elem) => elem.type === BurgerConstants.INGREDIENTS_SAUCE),[ingredients]);
+    const mainData = useMemo(() => ingredients.filter((elem) => elem.type === BurgerConstants.INGREDIENTS_MAIN),[ingredients]);
 
     const [current, setCurrent] = useState(BurgerConstants.INGREDIENTS_BUN);
 
@@ -59,24 +59,24 @@ export default function BurgerIngredients ()  {
                 </Tab>
             </div>
             <div className={burgerIngredientsStyle.ingredients}>
-                <p className='text text_type_main-medium'>Булки</p>
-                <ul ref={bunRef} id={BurgerConstants.INGREDIENTS_BUN} className={burgerIngredientsStyle.ingredientItem}>
-                        { bunData.map (item =>(
-                            <IngredientItem key={item._id} {...item} />
-                        ))}
-                </ul>
-                <p className='text text_type_main-medium'>Соусы</p>
-                <ul ref={sauceRef} id={BurgerConstants.INGREDIENTS_SAUCE} className={burgerIngredientsStyle.ingredientItem}>
-                        { sauceData.map (item =>(
-                            <IngredientItem key={item._id} {...item} />
-                        ))}
-                </ul>
-                <p className='text text_type_main-medium'>Начинки</p>
-                <ul  ref={mainRef} id={BurgerConstants.INGREDIENTS_MAIN} className={burgerIngredientsStyle.ingredientItem}>
-                        { mainData.map (item =>(
-                            <IngredientItem key={item._id} {...item} />
-                        ))}
-                </ul>
+                <BurgerIngredientBlockType
+                    nameBlock={BurgerConstants.INGREDIENTS_BUN_NAME}
+                    idBlock={BurgerConstants.INGREDIENTS_BUN}
+                    blockRef={bunRef}
+                    items={bunData}
+                />
+                <BurgerIngredientBlockType
+                    nameBlock={BurgerConstants.INGREDIENTS_SAUCE_NAME}
+                    idBlock={BurgerConstants.INGREDIENTS_SAUCE}
+                    blockRef={sauceRef}
+                    items={sauceData}
+                />
+                <BurgerIngredientBlockType
+                    nameBlock={BurgerConstants.INGREDIENTS_MAIN_NAME}
+                    idBlock={BurgerConstants.INGREDIENTS_MAIN}
+                    blockRef={mainRef}
+                    items={mainData}
+                />
             </div>
         </section>
     )

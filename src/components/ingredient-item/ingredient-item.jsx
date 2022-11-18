@@ -1,25 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientItemStyle from './ingredient-item.module.css';
-import PropTypes from "prop-types";
 import {useDispatch, useSelector} from 'react-redux';
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {OPEN_CURRENT_ITEM_DETAILS, CLOSE_CURRENT_ITEM_DETAILS} from "../../services/actions";
 import {useDrag} from "react-dnd";
 import {INGREDIENTS_BUN} from "../../constants/burger-constants";
+import {BurgerPropTypes} from "../../prop-types/burger-prop-types";
 
 IngredientItem.propTypes = {
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
+    ingredient: BurgerPropTypes
 };
 
-export default function IngredientItem (props)  {
+export default function IngredientItem ({ingredient})  {
 
     const [isOpenModal, setIsOpenModal] = useState(false);
-    const [ingredient] = useState(props);
     const [counter, setCounter] = useState(0);
 
     const dispatch = useDispatch();
