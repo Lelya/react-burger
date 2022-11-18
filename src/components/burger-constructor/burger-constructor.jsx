@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {arrayOf} from 'prop-types';
 import { ConstructorElement, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
@@ -28,10 +28,21 @@ export default function BurgerConstructor ()  {
     const error = useSelector(store => store.orderInfo.isError);
 
     const [isOpenModal, setIsOpenModal] = useState(false);
-    const [totalPrice, setTotalPrice] = useState(0);
 
     const bunData = useSelector(store => store.listConstructorIngredients.bun);
     const sauceAndMainData = useSelector(store => store.listConstructorIngredients.items);
+
+    const totalPrice = useMemo(() => {
+            if (bunData.length ) {
+                let sumOfPrices = bunData[0].price * 2;
+                sauceAndMainData.forEach((item) => {
+                    sumOfPrices += item.price;
+                });
+                return sumOfPrices;
+            }
+        },
+        [bunData, sauceAndMainData]
+    );
 
     const moveIngredient = (item) => {
         const uniqId = {uniqId: item.id + Math.random()};
@@ -59,17 +70,7 @@ export default function BurgerConstructor ()  {
         drop(item) {
              moveIngredient(item);
         },
-    });
-
-    useEffect(() => {
-        if (bunData.length ) {
-            let sumOfPrices = bunData[0].price * 2;
-            sauceAndMainData.forEach((item) => {
-                sumOfPrices += item.price;
-            });
-            setTotalPrice(sumOfPrices);
-        }
-    }, [bunData, setTotalPrice, sauceAndMainData])
+    })
 
     const setOrder = () => {
         let ingredientIds = [];
