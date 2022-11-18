@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientItemStyle from './ingredient-item.module.css';
 import PropTypes from "prop-types";
@@ -14,7 +14,7 @@ IngredientItem.propTypes = {
 
 export default function IngredientItem (props)  {
 
-    const [isOpenModal, setIsOpenModal] = React.useState(false);
+    const [isOpenModal, setIsOpenModal] = useState(false);
 
     return (
         <>
