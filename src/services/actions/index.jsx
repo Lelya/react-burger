@@ -33,7 +33,6 @@ export function getIngredients() {
                 }
             })
             .catch(error => {
-                debugger;
                 dispatch({
                     type: GET_INGREDIENTS_ERROR,
                     error
@@ -57,7 +56,6 @@ export function postOrder(ingredientIds) {
                 }
             })
             .catch(error => {
-                // setError("Возникла ошибка во время создания заказа");
                 dispatch({
                     type: SET_ORDER_ERROR,
                     error
