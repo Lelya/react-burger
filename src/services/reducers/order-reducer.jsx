@@ -1,4 +1,4 @@
-import { SET_ORDER_REQUEST, SET_ORDER_SUCCESS, SET_ORDER_FAILED, CLOSE_ORDER} from '../actions';
+import { SET_ORDER_REQUEST, SET_ORDER_SUCCESS, SET_ORDER_ERROR, CLOSE_ORDER} from '../actions';
 
 const orderInitialState = {
     orderId: '',
@@ -21,7 +21,7 @@ export const orderReducer  = (state = orderInitialState, action) => {
                 ...state,
                 isError: false, orderId: action.orderNumber, isLoading: false, isOpen: true};
         }
-        case SET_ORDER_FAILED: {
+        case SET_ORDER_ERROR: {
             return { ...state, isError: true, isLoading: false};
         }
         case CLOSE_ORDER: {

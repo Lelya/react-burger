@@ -1,0 +1,5 @@
+.blockItem{
+    display: flex;
+    align-items: center;
+    background-color: #131316;
+}

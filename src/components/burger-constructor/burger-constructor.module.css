@@ -29,11 +29,6 @@
     margin: 0;
 }
 
-.blockItem{
-    display: flex;
-    align-items: center;
-}
-
 .totalSum {
     display: flex;
     align-items: center;

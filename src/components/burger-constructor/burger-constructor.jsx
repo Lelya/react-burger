@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {arrayOf} from 'prop-types';
-import { ConstructorElement, CurrencyIcon, DragIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
 import burgerConstructorStyle from './burger-constructor.module.css';
 import * as BurgerConstants from "../../constants/burger-constants";
@@ -10,10 +10,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     ADD_BUN_INGREDIENT_TO_CONSTRUCTOR,
     ADD_INGREDIENT_TO_CONSTRUCTOR,
-    CLOSE_ORDER, DELETE_INGREDIENT_TO_CONSTRUCTOR,
+    CLOSE_ORDER,
     postOrder
 } from "../../services/actions";
-import { useDrop } from 'react-dnd';
+import {useDrop} from 'react-dnd';
+import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
 
 BurgerConstructor.propTypes = {
     data: arrayOf(BurgerPropTypes)
@@ -110,7 +111,7 @@ export default function BurgerConstructor ()  {
         ) : (
             <>
                 <div className={"ml-8"}>
-                    {bunData.length > 0 &&
+                    { bunData.length > 0 &&
                         <ConstructorElement
                             type="top"
                             isLocked
@@ -123,28 +124,14 @@ export default function BurgerConstructor ()  {
                 <div className={`${burgerConstructorStyle.sauceAndMainData} mt-1`}>
                     { sauceAndMainData.length > 0 &&
                         <ul>
-                            {sauceAndMainData.map(item => (
-                                <li key={item.uniqId} className={`${burgerConstructorStyle.blockItem} p-1`}>
-                                    <span className={"mr-1"}><DragIcon type="primary"/></span>
-                                    <ConstructorElement
-                                        text={item.name}
-                                        price={item.price}
-                                        thumbnail={item.image}
-                                        handleClose={() => {
-                                            debugger;
-                                            dispatch({
-                                                type: DELETE_INGREDIENT_TO_CONSTRUCTOR,
-                                                id: item.uniqId,
-                                            })
-                                        }}
-                                    />
-                                </li>
+                            { sauceAndMainData.map((item, index) => (
+                                <BurgerConstructorItem key={item.uniqId} ingredient={item} index={index}/>
                             ))}
                         </ul>
                     }
                 </div>
                 <div className={"ml-8 pt-1"}>
-                    {bunData.length > 0 &&
+                    { bunData.length > 0 &&
                         <ConstructorElement
                             type="bottom"
                             isLocked
@@ -154,7 +141,7 @@ export default function BurgerConstructor ()  {
                         />
                     }
                 </div>
-                {bunData.length > 0 && sauceAndMainData.length > 0 &&
+                { bunData.length > 0 && sauceAndMainData.length > 0 &&
                     <div className={`${burgerConstructorStyle.totalSum} mb-10 pt-10 pr-8`}>
                         <p className="text text_type_digits-medium pr-10">{totalPrice}<CurrencyIcon type="primary"/></p>
                         <Button type="primary" size="large" htmlType={"button"}
@@ -163,7 +150,7 @@ export default function BurgerConstructor ()  {
                         </Button>
                     </div>
                 }
-                {isOpenModal && !error && order !== 0 ? (
+                { isOpenModal && !error && order !== 0 ? (
                     <OrderDetails
                         handlerClose={() => {
                             dispatch({

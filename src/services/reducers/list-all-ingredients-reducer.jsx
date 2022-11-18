@@ -1,4 +1,4 @@
-import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from '../actions';
+import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_ERROR } from '../actions';
 
 const initialState = {
     items: [],
@@ -13,7 +13,7 @@ export const listAllIngredientsReducer = (state = initialState, action) => {
         case GET_INGREDIENTS_SUCCESS: {
             return {...state, isLoading: false, items: action.items, isError: false};
         }
-        case GET_INGREDIENTS_FAILED: {
+        case GET_INGREDIENTS_ERROR: {
             return {...state, isLoading: false, isError: true};
         }
         default: {
