@@ -4,12 +4,12 @@ export function getData (url) {
     return fetch(NORMA_URL+url).then(response => response.json())
 }
 
-export function postOrderInfo (url, idsOrder) {
+export function postRequest (url, data) {
     return fetch(NORMA_URL+url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(idsOrder),
+        body: JSON.stringify(data),
     }).then(response => response.json())
 }

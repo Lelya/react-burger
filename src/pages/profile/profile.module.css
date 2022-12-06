@@ -1,0 +1,16 @@
+.wrapper_profile{
+    position: relative;
+    width: 100%;
+    top: 7rem;
+}
+.wrapper_profile_box {
+    max-width: 1250px;
+    margin: 0 auto;
+    display: flex;
+}
+.profile_tab {
+    width: 300px;
+}
+.profile_logout{
+    cursor: pointer;
+}

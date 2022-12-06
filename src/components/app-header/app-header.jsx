@@ -1,6 +1,7 @@
 import React from 'react';
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyle from './app-header.module.css';
+import {Link} from "react-router-dom";
 
 export default function AppHeader () {
     return (
@@ -8,10 +9,12 @@ export default function AppHeader () {
             <nav className={headerStyle.navigation}>
                 <ul>
                     <li>
-                        <button className={`${headerStyle.navButton}`}>
-                            <BurgerIcon type={"primary"} />
-                            <span className={'text text_type_main-default'}>Конструктор</span>
-                        </button>
+                        <Link to="/">
+                            <button className={`${headerStyle.navButton}`}>
+                                <BurgerIcon type={"primary"} />
+                                <span className={'text text_type_main-default'}>Конструктор</span>
+                            </button>
+                        </Link>
                     </li>
                     <li>
                         <button className={`${headerStyle.navButton} `}>
@@ -21,10 +24,12 @@ export default function AppHeader () {
                     </li>
                     <li className={headerStyle.logo}><Logo /></li>
                     <li>
-                        <button className={`${headerStyle.navButton} `}>
-                            <ProfileIcon type={"secondary"} />
-                            <span className={'text text_type_main-default text_color_inactive'}>Личный кабинет</span>
-                        </button>
+                        <Link to="/login">
+                            <button className={`${headerStyle.navButton} `}>
+                                <ProfileIcon type={"secondary"} />
+                                <span className={'text text_type_main-default text_color_inactive'}>Личный кабинет</span>
+                            </button>
+                        </Link>
                     </li>
                 </ul>
             </nav>
