@@ -27,3 +27,24 @@
 .text_error {
     color: #e20d0d;
 }
+.ingredient_wrapper{
+    position: relative;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 100px;
+    width: 600px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.ingredient_wrapper_modal{
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 100px;
+    width: 600px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}

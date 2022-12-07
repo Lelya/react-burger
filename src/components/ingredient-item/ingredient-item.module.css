@@ -16,3 +16,8 @@
 .price span {
     padding-right: 9px;
 }
+
+.link {
+    text-decoration: none;
+    color: #fff;
+}

@@ -5,18 +5,26 @@ import AppHeader from '../app-header/app-header';
 import './App.css'
 import {Main} from "../../pages/main/main";
 import {Login} from "../../pages/login/login";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getIngredients} from "../../services/actions";
 import {Register} from "../../pages/register/register";
 import {ForgotPassword} from "../../pages/forgot-password/forgot-password";
 import {ResetPassword} from "../../pages/reset-password/reset-password";
 import {Profile} from "../../pages/profile/profile";
 import {ProtectedRouter} from "../protected-router/protected-router";
+import IngredientCard from "../../pages/ingredient-card/ingredient-card";
+import Modal from "../modal/modal";
 
 export default function App() {
-    // const location = useLocation<ILocation>();
     const history = useHistory();
+    const location = useLocation();
     const dispatch = useDispatch();
+    let background = location.state && location.state.background;
+
+    const closeModal = () => {
+        history.goBack();
+        background = null;
+    };
 
     useEffect(() => {
         dispatch(getIngredients());
@@ -25,7 +33,7 @@ export default function App() {
     return (
         <div className={appStyle.rootDiv}>
             <AppHeader />
-            <Switch>
+            <Switch location={background || location}>
                 <Route exact path="/">
                     <Main />
                 </Route>
@@ -44,7 +52,17 @@ export default function App() {
                 <ProtectedRouter onlyAuth={true} path="/profile" exact>
                     <Profile />
                 </ProtectedRouter>
+                <Route exact path="/ingredients/:id">
+                    <IngredientCard />
+                </Route>
             </Switch>
+            { background &&
+                <Route exact path='/ingredients/:id'>
+                    <Modal handleClose={closeModal}>
+                        <IngredientCard background/>
+                    </Modal>
+                </Route>
+            }
         </div>
   );
 }
