@@ -1,23 +1,26 @@
 import React from 'react';
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyle from './app-header.module.css';
-import {Link, Redirect} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {NavLink, useRouteMatch} from "react-router-dom";
 
 export default function AppHeader () {
-    const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
-    const linkUrl = userLoggedIn ? '/profile' : '/login';
+    const isConstructor = useRouteMatch({ path: '/', exact: true });
+    const isProfile = useRouteMatch({ path: '/profile', exact: true });
+
     return (
         <header className={headerStyle.header}>
             <nav className={headerStyle.navigation}>
                 <ul>
-                    <li>
-                        <Link to="/">
-                            <button className={`${headerStyle.navButton}`}>
-                                <BurgerIcon type={"primary"} />
-                                <span className={'text text_type_main-default'}>Конструктор</span>
-                            </button>
-                        </Link>
+                    <li className={headerStyle.navButton}>
+                        <BurgerIcon type={isConstructor ? 'primary' : 'secondary'} />
+                        <NavLink
+                            to="/"
+                            exact
+                            className={headerStyle.navButton_link}
+                            activeClassName={headerStyle.navButton_active}
+                        >
+                            <p className="text text_type_main-default">Конструктор</p>
+                        </NavLink>
                     </li>
                     <li>
                         <button className={`${headerStyle.navButton} `}>
@@ -26,13 +29,16 @@ export default function AppHeader () {
                         </button>
                     </li>
                     <li className={headerStyle.logo}><Logo /></li>
-                    <li>
-                        <Link to={linkUrl}>
-                            <button className={`${headerStyle.navButton} `}>
-                                <ProfileIcon type={"secondary"} />
-                                <span className={'text text_type_main-default text_color_inactive'}>Личный кабинет</span>
-                            </button>
-                        </Link>
+                    <li className={headerStyle.navButton}>
+                        <ProfileIcon type={isProfile ? 'primary' : 'secondary'} />
+                        <NavLink
+                            to="/profile"
+                            exact
+                            className={headerStyle.navButton_link}
+                            activeClassName={headerStyle.navButton_active}
+                        >
+                            <p className="text text_type_main-default">Личный кабинет</p>
+                        </NavLink>
                     </li>
                 </ul>
             </nav>

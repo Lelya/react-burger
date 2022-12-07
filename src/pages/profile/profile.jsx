@@ -11,7 +11,7 @@ export function Profile() {
     const emailUser = useSelector(store => store.userInfo.email);
     const nameUser = useSelector(store => store.userInfo.name);
     const errorUser = useSelector(store => store.userInfo.getUserError);
-    const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
+    const userLoaded = useSelector(store => store.userInfo.userLoaded);
     const updateUserInfoError = useSelector(store => store.userInfo.updateUserInfoError);
     const passwordUser = '12345';
     const [hasChanged, setChanged] = useState(false);
@@ -37,17 +37,13 @@ export function Profile() {
         setChanged(false);
     }
 
-    useEffect(() => {
-        dispatch(getUserData());
-    }, [dispatch]);
-
-    if (!userLoggedIn) {
+    if (!userLoaded) {
         return <Redirect to={'/'} />;
     }
 
     return (
         <>
-            {errorUser ? (
+            {!userLoaded ? (
                 <div className={`${styles.text_error} mt-10`}>
                     <span className="text text_type_main-default">Авторизуйтесь в системе</span>
                 </div>

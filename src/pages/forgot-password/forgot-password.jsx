@@ -51,7 +51,7 @@ export function ForgotPassword() {
         <>
             <div className={styles.wrapper_form}>
                 <div className={styles.block}>
-                    <form onSubmit={(e) => handleReset(e)}>
+                    <form onSubmit={(e) => handleReset(e,value)}>
                          <EmailInput
                              name={'email'}
                              onChange={onChange}

@@ -27,6 +27,7 @@ const userInitialState = {
     email: null,
     name: null,
     userLoggedIn: false,
+    userLoaded: false,
     loginError: false,
     logoutError: false,
     registerError: false,
@@ -54,7 +55,8 @@ export const userReducer  = (state = userInitialState, action) => {
                 email: action.user.email,
                 name: action.user.name,
                 userLoggedIn: true,
-                loginError: false
+                loginError: false,
+                userLoaded: true
             }
         }
         case USER_LOGIN_ERROR: {
@@ -102,7 +104,8 @@ export const userReducer  = (state = userInitialState, action) => {
             return { ...state,
                 email: action.user.email,
                 name: action.user.name,
-                userLoggedIn: true
+                userLoggedIn: true,
+                userLoaded: true
             };
         }
         case REGISTER_ERROR: {
@@ -143,6 +146,7 @@ export const userReducer  = (state = userInitialState, action) => {
                 name: action.user.name,
                 userLoggedIn: true,
                 getUserError: false,
+                userLoaded: true
             };
         }
         case GET_USER_ERROR: {

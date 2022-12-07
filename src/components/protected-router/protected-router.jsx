@@ -1,12 +1,21 @@
 import {Route, Redirect, useLocation} from 'react-router-dom';
-import { useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {getUserData} from "../../services/actions";
+import {useEffect} from "react";
 
 export const ProtectedRouter = ({children, onlyAuth,...rest}) => {
+
     const location = useLocation();
+    const dispatch = useDispatch();
     const authChecked = useSelector(store => store.userInfo.userLoggedIn)
     const nextPage = location.state?.from || '/';
 
-    if (onlyAuth) {
+    useEffect(() => {
+        dispatch(getUserData());
+    }, [dispatch]);
+
+
+    if (onlyAuth ) {
         return (
             <Route {...rest}
                 render={({location}) =>
