@@ -1,21 +1,31 @@
 import React, {useState} from 'react';
 import styles from '../pages.module.css';
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, useHistory} from "react-router-dom";
+import {Link, Redirect, useHistory} from "react-router-dom";
 import {postRequest} from "../../services/api";
 import {RASSWORD_RESET_URL} from "../../constants/burger-constants";
+import {useDispatch, useSelector} from "react-redux";
+import {RESET_PASSWORD, RESET_PASSWORD_ERROR} from "../../services/actions";
 
 export function ResetPassword() {
     const [values, setValue] = useState({
         password: "",
         token: ""
     })
-    const [error, setError] = useState({
-        message: "",
-        value: false
-    })
+    const [errorMessage, setErrorMessage] = useState("");
     const history = useHistory();
+    const dispatch = useDispatch();
+    const errorResetPassword = useSelector(store => store.userInfo.resetPasswordError);
+    const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
+    const forgotPasswordVisited = useSelector(store => store.userInfo.forgotPasswordVisited);
 
+    if (userLoggedIn) {
+        return <Redirect to={'/'} />;
+    }
+
+    if (!forgotPasswordVisited) {
+        return <Redirect to={'/forgot-password'} />;
+    }
     const handleChange = (e) => {
         setValue({
             ...values,
@@ -29,19 +39,22 @@ export function ResetPassword() {
             .then(result => {
                 if (result.success) {
                     alert('Пароль обновлен!');
+                    dispatch({
+                        type: RESET_PASSWORD,
+                    });
                     history.replace({ pathname: '/login' });
                 } else {
-                    setError({
-                        message: result.message,
-                        value: result.success,
-                    })
+                    dispatch({
+                        type: RESET_PASSWORD_ERROR,
+                    });
+                    setErrorMessage(result.message)
                 }
             })
             .catch(error => {
-                setError({
-                    message: error,
-                    value: true,
-                })
+                dispatch({
+                    type: RESET_PASSWORD_ERROR,
+                });
+                setErrorMessage(error);
             })
     }
 
@@ -68,9 +81,9 @@ export function ResetPassword() {
                             size={'default'}
                             extraClass="mb-2 pb-6"
                         />
-                        {!error.value && (
+                        {errorResetPassword && (
                             <div className={`${styles.text_error} mb-2`}>
-                                <span className="text text_type_main-default">{error.message}</span>
+                                <span className="text text_type_main-default">{errorMessage}</span>
                             </div>
                         )}
                         <div className="pb-20">

@@ -19,9 +19,6 @@ export function Register() {
     const errorRegister = useSelector(store => store.userInfo.registerError);
 
     const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
-    const userEmail = useSelector(store => store.userInfo.email);
-    const userName = useSelector(store => store.userInfo.name);
-
 
     if (userLoggedIn) {
         return <Redirect to={'/'} />;
@@ -48,6 +45,9 @@ export function Register() {
                     })
                     history.replace({ pathname: '/login' });
                 } else {
+                    dispatch({
+                        type: REGISTER_ERROR,
+                    })
                     setErrorMessage(result.message)
                 }
             })

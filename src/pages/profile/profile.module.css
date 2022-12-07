@@ -14,3 +14,7 @@
 .profile_logout{
     cursor: pointer;
 }
+.text_error {
+    text-align: center;
+    color: #e20d0d;
+}

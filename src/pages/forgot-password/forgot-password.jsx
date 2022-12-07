@@ -1,18 +1,24 @@
 import React, {useState} from 'react';
 import styles from '../pages.module.css';
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, useHistory} from "react-router-dom";
+import {Link, Redirect, useHistory} from "react-router-dom";
 import {FORGOT_PASSWORD_URL} from "../../constants/burger-constants";
 import {postRequest} from "../../services/api";
+import {FORGOT_PASSWORD_ERROR, FORGOT_PASSWORD_VISITED} from "../../services/actions";
+import {useDispatch, useSelector} from "react-redux";
 
 export function ForgotPassword() {
 
     const [value, setValue] = useState('');
-    const [error, setError] = useState({
-        message: "",
-        value: false
-    })
+    const [errorMessage, setErrorMessage] = useState("");
     const history = useHistory();
+    const dispatch = useDispatch();
+    const errorForgotPassword = useSelector(store => store.userInfo.forgotPasswordError);
+    const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
+
+    if (userLoggedIn) {
+        return <Redirect to={'/'} />;
+    }
 
     const onChange = (e) => {
         setValue(e.target.value)
@@ -22,19 +28,22 @@ export function ForgotPassword() {
         postRequest(FORGOT_PASSWORD_URL, {email: value})
             .then(result => {
                 if (result.success) {
+                    dispatch({
+                        type: FORGOT_PASSWORD_VISITED,
+                    });
                     history.replace({ pathname: '/reset-password' });
                 } else {
-                    setError({
-                        message: result.message,
-                        value: result.success,
-                    })
+                    dispatch({
+                        type: FORGOT_PASSWORD_ERROR,
+                    });
+                    setErrorMessage(result.message);
                 }
             })
             .catch(error => {
-                setError({
-                    message: error,
-                    value: true,
-                })
+                dispatch({
+                    type: FORGOT_PASSWORD_ERROR,
+                });
+                setErrorMessage(error)
             })
     }
 
@@ -51,9 +60,9 @@ export function ForgotPassword() {
                              isIcon={true}
                              extraClass="mb-2 pb-6"
                          />
-                        {!error.value && (
+                        {errorForgotPassword && (
                             <div className={styles.text_error}>
-                                <span className="text text_type_main-medium">Ошибка</span>
+                                <span className="text text_type_main-medium">{errorMessage}</span>
                             </div>
                         )}
                         <div className="pb-20">

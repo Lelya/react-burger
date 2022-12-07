@@ -1,5 +1,10 @@
-import {getData, postRequest} from "../api";
-import {GET_INGREDIENTS_URL, LOGOUT_URL, NORMA_URL, SET_INGREDIENTS_URL} from "../../constants/burger-constants";
+import {getData, postRequest, postRequestAuth} from "../api";
+import {
+    AUTH_USER_URL,
+    GET_INGREDIENTS_URL,
+    LOGOUT_URL,
+    SET_INGREDIENTS_URL
+} from "../../constants/burger-constants";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -29,6 +34,20 @@ export const USER_LOGOUT_ERROR = 'USER_LOGOUT_ERROR';
 export const REGISTER_REQUEST = 'REGISTER_REQUEST';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_ERROR = 'REGISTER_ERROR';
+export const FORGOT_PASSWORD_ERROR = 'FORGOT_PASSWORD_ERROR';
+export const FORGOT_PASSWORD_VISITED = 'FORGOT_PASSWORD_VISITED';
+export const RESET_PASSWORD_ERROR = 'RESET_PASSWORD_ERROR';
+export const RESET_PASSWORD = 'RESET_PASSWORD';
+export const GET_USER_REQUEST = 'GET_USER_REQUEST';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_USER_ERROR = 'GET_USER_ERROR';
+export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
+export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
+export const REFRESH_TOKEN_ERROR = 'REFRESH_TOKEN_ERROR';
+
+export const UPDATE_USER_INFO_REQUEST = 'UPDATE_USER_INFO_REQUEST';
+export const UPDATE_USER_INFO_SUCCESS = 'UPDATE_USER_INFO_SUCCESS';
+export const UPDATE_USER_INFO_ERROR = 'UPDATE_USER_INFO_ERROR';
 
 export function getIngredients() {
     return function(dispatch) {
@@ -78,7 +97,6 @@ export function postOrder(ingredientIds) {
 
 export function logoutUser () {
     return function(dispatch) {
-        debugger;
         dispatch({
             type: USER_LOGOUT_REQUEST,
         })
@@ -93,9 +111,94 @@ export function logoutUser () {
                 }
             })
             .catch((error) => {
-                console.log('logoutUser', error);
                 dispatch({
                     type: USER_LOGOUT_ERROR,
+                })
+            })
+    }
+}
+
+export function getUserData () {
+    const token = 'Bearer ' + localStorage.getItem('accessToken');
+    return function(dispatch) {
+        dispatch({
+            type: GET_USER_REQUEST,
+        })
+        getData(AUTH_USER_URL, {
+            headers: {
+                'Authorization': token || '',
+            },
+        })
+            .then(result => {
+                if (result && result.success) {
+                    dispatch({
+                        type: GET_USER_SUCCESS,
+                        user: result.user,
+                    })
+                } else {
+                    dispatch({
+                        type: GET_USER_ERROR,
+                    })
+                }
+            })
+            .catch((error) => {
+                if(localStorage.getItem('accessToken')) {
+                    dispatch(refreshToken());
+                }
+                dispatch({
+                    type: GET_USER_ERROR,
+                })
+            })
+    }
+}
+export function refreshToken () {
+    return function(dispatch) {
+        dispatch({
+            type: REFRESH_TOKEN_REQUEST
+        })
+        postRequest(LOGOUT_URL,{ token: localStorage.getItem('refreshToken')})
+            .then(res => {
+                if (res && res.success) {
+                    const accessToken = res.accessToken.split('Bearer ')[1];
+                    const refreshToken = res.refreshToken;
+                    localStorage.setItem('refreshToken', refreshToken);
+                    localStorage.setItem('accessToken', accessToken);
+                    dispatch({
+                        type: REFRESH_TOKEN_SUCCESS,
+                    })
+                    dispatch(getUserData());
+                }
+            })
+            .catch((error) => {
+                dispatch({
+                    type: REFRESH_TOKEN_ERROR
+                })
+            })
+    }
+}
+
+export function updateUserData (email, name) {
+    const token = 'Bearer ' + localStorage.getItem('accessToken');
+    const data = {
+        email,
+        name
+    }
+    return function(dispatch) {
+        dispatch({
+            type: UPDATE_USER_INFO_REQUEST,
+        })
+        postRequestAuth(AUTH_USER_URL, data, token)
+            .then(res => {
+                if (res && res.success) {
+                    dispatch({
+                        type: UPDATE_USER_INFO_SUCCESS,
+                        user: res.user,
+                    })
+                }
+            })
+            .catch((error) => {
+                dispatch({
+                    type: UPDATE_USER_INFO_ERROR
                 })
             })
     }

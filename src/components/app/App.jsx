@@ -11,6 +11,7 @@ import {Register} from "../../pages/register/register";
 import {ForgotPassword} from "../../pages/forgot-password/forgot-password";
 import {ResetPassword} from "../../pages/reset-password/reset-password";
 import {Profile} from "../../pages/profile/profile";
+import {ProtectedRouter} from "../protected-router/protected-router";
 
 export default function App() {
     // const location = useLocation<ILocation>();
@@ -28,21 +29,21 @@ export default function App() {
                 <Route exact path="/">
                     <Main />
                 </Route>
-                <Route path="/login">
+                <ProtectedRouter onlyAuth={false} path='/login' exact>
                     <Login />
-                </Route>
-                <Route path="/register">
+                </ProtectedRouter>
+                <ProtectedRouter onlyAuth={false} path='/register' exact>
                     <Register />
-                </Route>
-                <Route path="/forgot-password">
+                </ProtectedRouter>
+                <ProtectedRouter onlyAuth={false} path='/forgot-password' exact>
                     <ForgotPassword />
-                </Route>
-                <Route path="/reset-password">
+                </ProtectedRouter>
+                <ProtectedRouter onlyAuth={false} path='/reset-password' exact>
                     <ResetPassword />
-                </Route>
-                <Route path="/profile">
+                </ProtectedRouter>
+                <ProtectedRouter onlyAuth={true} path="/profile" exact>
                     <Profile />
-                </Route>
+                </ProtectedRouter>
             </Switch>
         </div>
   );

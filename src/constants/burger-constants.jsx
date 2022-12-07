@@ -13,3 +13,4 @@ export const LOGIN_URL = '/auth/login';
 export const LOGOUT_URL = '/auth/logout';
 export const RASSWORD_RESET_URL = '/password-reset/reset';
 export const TOKEN_URL = '/auth/token';
+export const AUTH_USER_URL = '/auth/user';

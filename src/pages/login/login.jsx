@@ -49,6 +49,9 @@ export function Login() {
                 }
             })
             .catch(error => {
+                dispatch({
+                    type: USER_LOGIN_ERROR
+                })
                 setErrorMessage(error)
             })
     }
@@ -73,7 +76,7 @@ export function Login() {
                              onChange={handleChange}
                              extraClass="mb-2 pb-6"
                          />
-                        {!errorLogin && (
+                        {errorLogin && (
                             <div className={`${styles.text_error} mb-2`}>
                                 <span className="text text_type_main-default">{errorMessage}</span>
                             </div>
