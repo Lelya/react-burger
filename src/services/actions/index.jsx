@@ -1,4 +1,4 @@
-import {getData, postRequest, postRequestAuth} from "../api";
+import {getData, patchRequestAuth, postRequest, postRequestAuth} from "../api";
 import {
     AUTH_USER_URL,
     GET_INGREDIENTS_URL,
@@ -73,11 +73,12 @@ export function getIngredients() {
 }
 
 export function postOrder(ingredientIds) {
+    const token = 'Bearer ' + localStorage.getItem('accessToken');
     return function(dispatch) {
         dispatch({
             type: SET_ORDER_REQUEST,
         });
-        postRequest(SET_INGREDIENTS_URL, {ingredients: ingredientIds})
+        postRequestAuth(SET_INGREDIENTS_URL, {ingredients: ingredientIds}, token)
             .then(result => {
                 if (result.success) {
                     dispatch({
@@ -187,7 +188,7 @@ export function updateUserData (email, name) {
         dispatch({
             type: UPDATE_USER_INFO_REQUEST,
         })
-        postRequestAuth(AUTH_USER_URL, data, token)
+        patchRequestAuth(AUTH_USER_URL, data, token)
             .then(res => {
                 if (res && res.success) {
                     dispatch({

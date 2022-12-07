@@ -16,6 +16,17 @@ export function postRequest (url, data) {
 
 export function postRequestAuth (url, data, token) {
     return fetch(NORMA_URL+url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': token || '',
+        },
+        body: JSON.stringify(data),
+    }).then(response => response.json())
+}
+
+export function patchRequestAuth (url, data, token) {
+    return fetch(NORMA_URL+url, {
         method: "PATCH",
         headers: {
             'Content-Type': 'application/json',
