@@ -7,7 +7,7 @@ export const ProtectedRouter = ({children, onlyAuth,...rest}) => {
 
     const location = useLocation();
     const dispatch = useDispatch();
-    const authChecked = useSelector(store => store.userInfo.userLoggedIn)
+    const authChecked = useSelector(store => store.userInfo.userLoggedIn);
     const nextPage = location.state?.from || '/';
 
     useEffect(() => {

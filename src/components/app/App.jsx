@@ -14,6 +14,7 @@ import {Profile} from "../../pages/profile/profile";
 import {ProtectedRouter} from "../protected-router/protected-router";
 import IngredientCard from "../../pages/ingredient-card/ingredient-card";
 import Modal from "../modal/modal";
+import Error404 from "../../pages/error-404/error-404";
 
 export default function App() {
     const history = useHistory();
@@ -54,6 +55,9 @@ export default function App() {
                 </ProtectedRouter>
                 <Route exact path="/ingredients/:id">
                     <IngredientCard />
+                </Route>
+                <Route>
+                    <Error404 />
                 </Route>
             </Switch>
             { background &&

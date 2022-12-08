@@ -8,6 +8,15 @@
     margin: 0 auto;
     display: flex;
 }
+.profile_link {
+    color: #8585AD;
+    text-decoration: none;
+    display: block;
+}
+.profile_link_active {
+    color: #F2F2F3;
+    text-decoration: none;
+}
 .profile_tab {
     width: 300px;
 }

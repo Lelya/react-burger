@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import styles from './profile.module.css';
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
-import {logoutUser, getUserData, updateUserData} from "../../services/actions";
-import {Redirect} from "react-router-dom";
+import {logoutUser, updateUserData} from "../../services/actions";
+import {NavLink, Redirect} from "react-router-dom";
 
 export function Profile() {
 
@@ -51,8 +51,23 @@ export function Profile() {
                 <div className={styles.wrapper_profile}>
                     <div className={styles.wrapper_profile_box}>
                         <div className={`${styles.profile_tab} mr-4`}>
-                            <h2 className="text text_type_main-medium pb-6">Профиль</h2>
-                            <h2 className="text text_type_main-medium text_color_inactive pb-6">История заказов</h2>
+                            <NavLink
+                                to="/profile"
+                                exact
+                                className={`${styles.profile_link}  pb-6`}
+                                activeClassName={styles.profile_link_active}
+                            >
+                                <span className="text text_type_main-medium">Профиль</span>
+                            </NavLink>
+                            <NavLink
+                                to="/profile/orders"
+                                exact
+                                className={`${styles.profile_link}  pb-6`}
+                                activeClassName={styles.profile_link_active}
+                            >
+                                <span className="text text_type_main-medium  pb-6">История заказов</span>
+                            </NavLink>
+
                             <h2
                                 onClick={() => dispatch(logoutUser())}
                                 className={`${styles.profile_logout} text text_type_main-medium text_color_inactive pb-20`}
