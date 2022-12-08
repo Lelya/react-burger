@@ -5,7 +5,7 @@ import AppHeader from '../app-header/app-header';
 import './App.css'
 import {Main} from "../../pages/main/main";
 import {Login} from "../../pages/login/login";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {getIngredients} from "../../services/actions";
 import {Register} from "../../pages/register/register";
 import {ForgotPassword} from "../../pages/forgot-password/forgot-password";
