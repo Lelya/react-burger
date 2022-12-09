@@ -9,7 +9,7 @@ import ErrorModal from "../error-modal/error-modal";
 import {useDispatch, useSelector} from "react-redux";
 import {
     ADD_BUN_INGREDIENT_TO_CONSTRUCTOR,
-    ADD_INGREDIENT_TO_CONSTRUCTOR,
+    ADD_INGREDIENT_TO_CONSTRUCTOR, CLEAR_CONSTRUCTOR,
     CLOSE_ORDER,
     postOrder
 } from "../../services/actions";
@@ -34,6 +34,7 @@ export default function BurgerConstructor ()  {
 
     const [isOpenModal, setIsOpenModal] = useState(false);
 
+    const isLoading  = useSelector(store => store.orderInfo.isLoading);
     const bunData = useSelector(store => store.listConstructorIngredients.bun);
     const sauceAndMainData = useSelector(store => store.listConstructorIngredients.items);
 
@@ -124,13 +125,18 @@ export default function BurgerConstructor ()  {
                         />
                     }
                 </div>
-                { bunData.length > 0 && sauceAndMainData.length > 0 &&
+                { bunData.length > 0 && sauceAndMainData.length > 0 && !isLoading &&
                     <div className={`${burgerConstructorStyle.totalSum} mb-10 pt-10 pr-8`}>
-                        <p className="text text_type_digits-medium pr-10">{totalPrice}<CurrencyIcon type="primary"/></p>
+                        <p className="text text_type_main-default pr-10">{totalPrice}<CurrencyIcon type="primary"/></p>
                         <Button type="primary" size="large" htmlType={"button"}
                                 onClick={setOrder}>
                             Оформить заказ
                         </Button>
+                    </div>
+                }
+                { isLoading &&
+                    <div className={`${burgerConstructorStyle.totalSum} mb-10 pt-10 pr-8`}>
+                        <h3 className="text text_type_main-default"> Подождите, идет оформление заказа </h3>
                     </div>
                 }
                 { isOpenModal && !error && order !== 0 ? (
@@ -140,6 +146,9 @@ export default function BurgerConstructor ()  {
                                 type: CLOSE_ORDER,
                             });
                             setIsOpenModal(false);
+                            dispatch({
+                                type: CLEAR_CONSTRUCTOR
+                            });
                         }}
                         isOpenModal={isOpenModal}/>
                 ) : (

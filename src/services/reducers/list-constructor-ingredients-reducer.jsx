@@ -1,6 +1,6 @@
 import {
     ADD_BUN_INGREDIENT_TO_CONSTRUCTOR,
-    ADD_INGREDIENT_TO_CONSTRUCTOR,
+    ADD_INGREDIENT_TO_CONSTRUCTOR, CLEAR_CONSTRUCTOR,
     DELETE_INGREDIENT_TO_CONSTRUCTOR,
     MOVE_INGREDIENT_IN_CONSTRUCTOR
 } from "../actions";
@@ -36,6 +36,9 @@ export const listConstructorIngredientsReducer = (state = constructorInitialStat
                     ],
                 })
             }
+        }
+        case CLEAR_CONSTRUCTOR: {
+            return { items: [], bun: []  }
         }
         default: {
             return state;

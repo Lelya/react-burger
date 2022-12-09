@@ -28,7 +28,11 @@ export default function AppHeader () {
                             <span className={'text text_type_main-default text_color_inactive'}>Лента заказов</span>
                         </button>
                     </li>
-                    <li className={headerStyle.logo}><Logo /></li>
+                    <li className={headerStyle.logo}>
+                        <NavLink to="/" exact>
+                            <Logo />
+                        </NavLink>
+                    </li>
                     <li className={headerStyle.navButton}>
                         <ProfileIcon type={isProfile ? 'primary' : 'secondary'} />
                         <NavLink

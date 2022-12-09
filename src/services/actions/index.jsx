@@ -1,8 +1,8 @@
 import {getData, patchRequestAuth, postRequest, postRequestAuth} from "../api";
 import {
-    AUTH_USER_URL,
-    GET_INGREDIENTS_URL,
-    LOGOUT_URL,
+    AUTH_USER_URL, FORGOT_PASSWORD_URL,
+    GET_INGREDIENTS_URL, LOGIN_URL,
+    LOGOUT_URL, RASSWORD_RESET_URL, REGISTER_URL,
     SET_INGREDIENTS_URL
 } from "../../constants/burger-constants";
 
@@ -22,6 +22,7 @@ export const ADD_INGREDIENT_TO_CONSTRUCTOR = 'ADD_INGREDIENT_TO_CONSTRUCTOR';
 export const ADD_BUN_INGREDIENT_TO_CONSTRUCTOR = 'ADD_BUN_INGREDIENT_TO_CONSTRUCTOR';
 export const DELETE_INGREDIENT_TO_CONSTRUCTOR = 'DELETE_INGREDIENT_TO_CONSTRUCTOR';
 export const MOVE_INGREDIENT_IN_CONSTRUCTOR = 'MOVE_INGREDIENT_IN_CONSTRUCTOR';
+export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
@@ -85,6 +86,9 @@ export function postOrder(ingredientIds) {
                         type: SET_ORDER_SUCCESS,
                         orderNumber: result.order.number
                     })
+                    // dispatch({
+                    //     type: CLEAR_CONSTRUCTOR
+                    // });
                 }
             })
             .catch(error => {
@@ -200,6 +204,112 @@ export function updateUserData (email, name) {
             .catch((error) => {
                 dispatch({
                     type: UPDATE_USER_INFO_ERROR
+                })
+            })
+    }
+}
+
+export function logIn(values) {
+    return function(dispatch) {
+        dispatch({
+            type: USER_LOGIN_REQUEST
+        })
+        postRequest(LOGIN_URL, values )
+            .then(result => {
+                if (result.success) {
+                    const accessToken = result.accessToken.split('Bearer ')[1];
+                    const refreshToken = result.refreshToken;
+                    localStorage.setItem('refreshToken', refreshToken);
+                    localStorage.setItem('accessToken', accessToken);
+                    dispatch({
+                        type: USER_LOGIN_SUCCESS,
+                        user: result.user,
+                    })
+                } else {
+                    dispatch({
+                        type: USER_LOGIN_ERROR
+                    })
+                }
+            })
+            .catch(error => {
+                dispatch({
+                    type: USER_LOGIN_ERROR
+                })
+            })
+    }
+}
+
+export function forgotPassword(value) {
+    return function(dispatch) {
+        dispatch({
+            type: USER_LOGIN_REQUEST
+        })
+        postRequest(FORGOT_PASSWORD_URL, {email: value})
+            .then(result => {
+                if (result.success) {
+                    dispatch({
+                        type: FORGOT_PASSWORD_VISITED,
+                    });
+                } else {
+                    dispatch({
+                        type: FORGOT_PASSWORD_ERROR,
+                    });
+                }
+            })
+            .catch(error => {
+                dispatch({
+                    type: FORGOT_PASSWORD_ERROR,
+                });
+            })
+    }
+}
+
+export function resetPassword(values) {
+    return function(dispatch) {
+        dispatch({
+            type: RESET_PASSWORD
+        })
+        postRequest(RASSWORD_RESET_URL, values )
+            .then(result => {
+                if (result.success) {
+                    alert('Пароль обновлен!');
+                } else {
+                    dispatch({
+                        type: RESET_PASSWORD_ERROR,
+                    });
+                }
+            })
+            .catch(error => {
+                dispatch({
+                    type: RESET_PASSWORD_ERROR,
+                });
+            })
+    }
+}
+
+export function register(values) {
+    debugger;
+    return function(dispatch) {
+        dispatch({
+            type: REGISTER_REQUEST
+        })
+        postRequest(REGISTER_URL, values )
+            .then(result => {
+                if (result.success) {
+                    alert('Регистрация прошла успешно!');
+                    dispatch({
+                        type: REGISTER_SUCCESS,
+                        user: result.user,
+                    })
+                } else {
+                    dispatch({
+                        type: REGISTER_ERROR,
+                    })
+                }
+            })
+            .catch(error => {
+                dispatch({
+                    type: REGISTER_ERROR,
                 })
             })
     }

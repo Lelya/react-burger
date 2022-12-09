@@ -11,8 +11,8 @@ export const ProtectedRouter = ({children, onlyAuth,...rest}) => {
     const nextPage = location.state?.from || '/';
 
     useEffect(() => {
-        dispatch(getUserData());
-    }, [dispatch]);
+        if (onlyAuth && authChecked) dispatch(getUserData());
+    }, [dispatch, onlyAuth]);
 
 
     if (onlyAuth ) {

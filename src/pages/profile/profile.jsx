@@ -16,6 +16,7 @@ export function Profile() {
     const passwordUser = '12345';
     const [hasChanged, setChanged] = useState(false);
     const [messageSuccess, setMessageSuccess] = useState("");
+    //хук useForm не могу тут использовать, из-за другого handleChange
     const [values, setValue] = useState({
         name: nameUser,
         email: emailUser,
@@ -78,7 +79,7 @@ export function Profile() {
                                 В этом разделе вы можете изменить свои персональные данные
                             </p>
                         </div>
-                        <div className={styles.profile_info}>
+                        <div>
                             <Input
                                 type={'text'}
                                 placeholder={'Имя'}

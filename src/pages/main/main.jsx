@@ -1,5 +1,5 @@
 import React from 'react';
-import appStyle from "../../components/app/App.module.css";
+import appStyle from "../../components/app/app.module.css";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";

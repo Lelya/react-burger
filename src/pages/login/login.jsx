@@ -1,59 +1,22 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from '../pages.module.css';
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, useHistory} from "react-router-dom";
-import {postRequest} from "../../services/api";
-import {LOGIN_URL} from "../../constants/burger-constants";
+import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {USER_LOGIN_ERROR, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS} from "../../services/actions";
+import {logIn} from "../../services/actions";
+import {useForm} from "../../hooks/useForm";
 
 export function Login() {
-    const [values, setValue] = useState({
+    const { values, handleChange } = useForm({
         email: "",
         password: "",
-    })
-    const [errorMessage, setErrorMessage] = useState("");
-    const history = useHistory();
+    });
     const dispatch = useDispatch();
     const errorLogin = useSelector(store => store.userInfo.loginError);
 
-    const handleChange = (e) => {
-        setValue({
-            ...values,
-            [e.target.name] : e.target.value,
-        })
-    }
-
     const handleLogin = (e) => {
         e.preventDefault();
-        dispatch({
-            type: USER_LOGIN_REQUEST
-        })
-        postRequest(LOGIN_URL, values )
-            .then(result => {
-                if (result.success) {
-                    const accessToken = result.accessToken.split('Bearer ')[1];
-                    const refreshToken = result.refreshToken;
-                    localStorage.setItem('refreshToken', refreshToken);
-                    localStorage.setItem('accessToken', accessToken);
-                    dispatch({
-                        type: USER_LOGIN_SUCCESS,
-                        user: result.user,
-                    })
-                    history.replace({ pathname: '/' });
-                } else {
-                    dispatch({
-                        type: USER_LOGIN_ERROR
-                    })
-                    setErrorMessage(result.message)
-                }
-            })
-            .catch(error => {
-                dispatch({
-                    type: USER_LOGIN_ERROR
-                })
-                setErrorMessage(error)
-            })
+        dispatch(logIn(values));
     }
 
     return (
@@ -61,7 +24,7 @@ export function Login() {
             <div className={styles.wrapper_form}>
                 <div className={styles.block}>
                     <h2 className="text text_type_main-medium pb-6">Вход</h2>
-                    <form onSubmit={(e) => handleLogin(e)}>
+                    <form onSubmit={handleLogin}>
                          <EmailInput
                              name={'email'}
                              placeholder="Логин"
@@ -78,7 +41,7 @@ export function Login() {
                          />
                         {errorLogin && (
                             <div className={`${styles.text_error} mb-2`}>
-                                <span className="text text_type_main-default">{errorMessage}</span>
+                                <span className="text text_type_main-default">Ошибка авторизации</span>
                             </div>
                         )}
                         <div className="pb-20">

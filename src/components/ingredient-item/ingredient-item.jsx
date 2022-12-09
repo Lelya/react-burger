@@ -2,12 +2,13 @@ import React, {useEffect, useState} from 'react';
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientItemStyle from './ingredient-item.module.css';
 import {useDispatch, useSelector} from 'react-redux';
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import {OPEN_CURRENT_ITEM_DETAILS, CLOSE_CURRENT_ITEM_DETAILS} from "../../services/actions";
+import {CLOSE_CURRENT_ITEM_DETAILS} from "../../services/actions";
 import {useDrag} from "react-dnd";
 import {INGREDIENTS_BUN} from "../../constants/burger-constants";
 import {BurgerPropTypes} from "../../prop-types/burger-prop-types";
 import {Link, useLocation} from "react-router-dom";
+import IngredientInfo from "../../pages/ingredient-info/ingredient-info";
+import Modal from "../modal/modal";
 
 IngredientItem.propTypes = {
     ingredient: BurgerPropTypes
@@ -22,7 +23,6 @@ export default function IngredientItem ({ingredient})  {
     const bunData = useSelector(store => store.listConstructorIngredients.bun);
     const sauceAndMainData = useSelector(store => store.listConstructorIngredients.items);
     const location = useLocation();
-    let background = location.state && location.state.background;
 
     const id = ingredient._id;
 
@@ -83,14 +83,16 @@ export default function IngredientItem ({ingredient})  {
                  </Link>
             )}
             {isOpenModal &&
-                <IngredientDetails
+                <Modal
                     handlerClose={() => {
                         dispatch({
                             type: CLOSE_CURRENT_ITEM_DETAILS,
                         });
                         setIsOpenModal(false)
                     }}
-                    isOpenModal={isOpenModal} />
+                    isOpen={isOpenModal}>
+                    <IngredientInfo ingredient={ingredient} />
+                </Modal>
             }
         </>
     )

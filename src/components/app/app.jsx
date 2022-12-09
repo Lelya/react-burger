@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
 import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
-import appStyle from './App.module.css';
+import appStyle from './app.module.css';
 import AppHeader from '../app-header/app-header';
-import './App.css'
 import {Main} from "../../pages/main/main";
 import {Login} from "../../pages/login/login";
 import {useDispatch} from "react-redux";
@@ -17,6 +16,7 @@ import Modal from "../modal/modal";
 import Error404 from "../../pages/error-404/error-404";
 
 export default function App() {
+
     const history = useHistory();
     const location = useLocation();
     const dispatch = useDispatch();
@@ -32,6 +32,7 @@ export default function App() {
     },[dispatch]);
 
     return (
+        <div className={appStyle.root}>
         <div className={appStyle.rootDiv}>
             <AppHeader />
             <Switch location={background || location}>
@@ -67,6 +68,7 @@ export default function App() {
                     </Modal>
                 </Route>
             }
+        </div>
         </div>
   );
 }

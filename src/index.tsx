@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import App from "./components/app/App";
+import App from "./components/app/app";
 import {store} from "./services/store/store";
 // @ts-ignore
 import {BrowserRouter} from "react-router-dom";
