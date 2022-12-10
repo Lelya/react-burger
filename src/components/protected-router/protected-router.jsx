@@ -6,14 +6,8 @@ import {useEffect} from "react";
 export const ProtectedRouter = ({children, onlyAuth,...rest}) => {
 
     const location = useLocation();
-    const dispatch = useDispatch();
     const authChecked = useSelector(store => store.userInfo.userLoggedIn);
     const nextPage = location.state?.from || '/';
-
-    useEffect(() => {
-        if (onlyAuth && authChecked) dispatch(getUserData());
-    }, [dispatch, onlyAuth]);
-
 
     if (onlyAuth ) {
         return (

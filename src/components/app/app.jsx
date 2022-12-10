@@ -5,7 +5,7 @@ import AppHeader from '../app-header/app-header';
 import {Main} from "../../pages/main/main";
 import {Login} from "../../pages/login/login";
 import {useDispatch} from "react-redux";
-import {getIngredients} from "../../services/actions";
+import {getIngredients, getUserData} from "../../services/actions";
 import {Register} from "../../pages/register/register";
 import {ForgotPassword} from "../../pages/forgot-password/forgot-password";
 import {ResetPassword} from "../../pages/reset-password/reset-password";
@@ -29,6 +29,7 @@ export default function App() {
 
     useEffect(() => {
         dispatch(getIngredients());
+        dispatch(getUserData());
     },[dispatch]);
 
     return (

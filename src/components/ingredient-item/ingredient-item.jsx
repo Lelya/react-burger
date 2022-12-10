@@ -39,9 +39,7 @@ export default function IngredientItem ({ingredient})  {
             setCounter(bunData.filter((elem) => elem._id === item._id).length * 2);
         } else {
             const countItems = sauceAndMainData.filter((elem) => elem._id === item._id).length;
-            if (countItems > 0) {
-                setCounter(countItems);
-            }
+            setCounter(countItems);
         }
     };
 

@@ -86,9 +86,6 @@ export function postOrder(ingredientIds) {
                         type: SET_ORDER_SUCCESS,
                         orderNumber: result.order.number
                     })
-                    // dispatch({
-                    //     type: CLEAR_CONSTRUCTOR
-                    // });
                 }
             })
             .catch(error => {
@@ -147,12 +144,17 @@ export function getUserData () {
                 }
             })
             .catch((error) => {
-                if(localStorage.getItem('accessToken')) {
-                    dispatch(refreshToken());
+                if (error.message === 'jwt expired') {
+                    const getUserDataAsync = async () => {
+                        await refreshToken(localStorage.getItem('refreshToken'))
+                        dispatch(getUserData())
+                    }
+                    getUserDataAsync()
+                } else {
+                    dispatch({
+                        type: GET_USER_ERROR
+                    })
                 }
-                dispatch({
-                    type: GET_USER_ERROR,
-                })
             })
     }
 }
