@@ -1,0 +1,29 @@
+.wrapper_profile{
+    position: relative;
+    width: 100%;
+    top: 7rem;
+}
+.wrapper_profile_box {
+    max-width: 1250px;
+    margin: 0 auto;
+    display: flex;
+}
+.profile_link {
+    color: #8585AD;
+    text-decoration: none;
+    display: block;
+}
+.profile_link_active {
+    color: #F2F2F3;
+    text-decoration: none;
+}
+.profile_tab {
+    width: 300px;
+}
+.profile_logout{
+    cursor: pointer;
+}
+.text_error {
+    text-align: center;
+    color: #e20d0d;
+}

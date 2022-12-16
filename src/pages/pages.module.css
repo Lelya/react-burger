@@ -1,0 +1,53 @@
+.wrapper_form {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: auto;
+    z-index: 1;
+}
+
+.block {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.login_bottom {
+    display: block;
+}
+.login_bottom a {
+    color: #4C4CFF;
+    text-decoration: none;
+    margin-left: 8px;
+}
+.text_error {
+    color: #e20d0d;
+}
+.ingredient_wrapper{
+    position: relative;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 100px;
+    width: 600px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.ingredient_wrapper_modal{
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 100px;
+    width: 600px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.text_center{
+    text-align: center;
+}

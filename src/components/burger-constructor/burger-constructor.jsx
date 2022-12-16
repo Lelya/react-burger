@@ -9,7 +9,7 @@ import ErrorModal from "../error-modal/error-modal";
 import {useDispatch, useSelector} from "react-redux";
 import {
     ADD_BUN_INGREDIENT_TO_CONSTRUCTOR,
-    ADD_INGREDIENT_TO_CONSTRUCTOR,
+    ADD_INGREDIENT_TO_CONSTRUCTOR, CLEAR_CONSTRUCTOR,
     CLOSE_ORDER,
     postOrder
 } from "../../services/actions";
@@ -17,6 +17,7 @@ import {useDrop} from 'react-dnd';
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
 import BurgerConstructorEmpty from "../burger-constructor-empty/burger-constructor-empty";
 import { v4 as uuidv4 } from 'uuid';
+import {useHistory} from "react-router-dom";
 
 BurgerConstructor.propTypes = {
     data: arrayOf(BurgerPropTypes)
@@ -24,13 +25,16 @@ BurgerConstructor.propTypes = {
 
 export default function BurgerConstructor ()  {
 
+    const history = useHistory();
     const dispatch = useDispatch();
     const ingredients = useSelector(store => store.listAllIngredients.items);
     const order = useSelector(store => store.orderInfo.orderId);
     const error = useSelector(store => store.orderInfo.isError);
+    const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
 
     const [isOpenModal, setIsOpenModal] = useState(false);
 
+    const isLoading  = useSelector(store => store.orderInfo.isLoading);
     const bunData = useSelector(store => store.listConstructorIngredients.bun);
     const sauceAndMainData = useSelector(store => store.listConstructorIngredients.items);
 
@@ -71,12 +75,17 @@ export default function BurgerConstructor ()  {
     })
 
     const setOrder = () => {
-        let ingredientIds = [];
-        ingredientIds.push(bunData[0]._id);
-        ingredientIds = ingredientIds.concat(sauceAndMainData.map(item => item._id));
-        ingredientIds.push(bunData[0]._id);
-        dispatch(postOrder(ingredientIds));
-        setIsOpenModal(true);
+        if (userLoggedIn) {
+            let ingredientIds = [];
+            ingredientIds.push(bunData[0]._id);
+            ingredientIds = ingredientIds.concat(sauceAndMainData.map(item => item._id));
+            ingredientIds.push(bunData[0]._id);
+            dispatch(postOrder(ingredientIds));
+            setIsOpenModal(true);
+        } else {
+            history.replace('/login');
+        }
+
      };
 
     return (
@@ -116,13 +125,18 @@ export default function BurgerConstructor ()  {
                         />
                     }
                 </div>
-                { bunData.length > 0 && sauceAndMainData.length > 0 &&
+                { bunData.length > 0 && sauceAndMainData.length > 0 && !isLoading &&
                     <div className={`${burgerConstructorStyle.totalSum} mb-10 pt-10 pr-8`}>
-                        <p className="text text_type_digits-medium pr-10">{totalPrice}<CurrencyIcon type="primary"/></p>
+                        <p className="text text_type_main-default pr-10">{totalPrice}<CurrencyIcon type="primary"/></p>
                         <Button type="primary" size="large" htmlType={"button"}
                                 onClick={setOrder}>
                             Оформить заказ
                         </Button>
+                    </div>
+                }
+                { isLoading &&
+                    <div className={`${burgerConstructorStyle.totalSum} mb-10 pt-10 pr-8`}>
+                        <h3 className="text text_type_main-default"> Подождите, идет оформление заказа </h3>
                     </div>
                 }
                 { isOpenModal && !error && order !== 0 ? (
@@ -132,6 +146,9 @@ export default function BurgerConstructor ()  {
                                 type: CLOSE_ORDER,
                             });
                             setIsOpenModal(false);
+                            dispatch({
+                                type: CLEAR_CONSTRUCTOR
+                            });
                         }}
                         isOpenModal={isOpenModal}/>
                 ) : (

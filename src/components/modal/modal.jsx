@@ -10,7 +10,7 @@ Modal.propTypes = {
     isOpen: PropTypes.bool,
     children: PropTypes.any
 };
-export default function Modal ({handleClose, isOpen, children})  {
+export default function Modal ({handleClose, isOpen = true, children})  {
 
     useEffect(() => {
         const onCloseModalPressEsc = (e) => {
