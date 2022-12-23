@@ -7,7 +7,6 @@ import {IModal} from "../../utils/types";
 
 const Modal: React.FC<IModal> = ({handlerClose, test, isOpen = true, children}) => {
 
-    debugger;
     useEffect(() => {
         const onCloseModalPressEsc = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {

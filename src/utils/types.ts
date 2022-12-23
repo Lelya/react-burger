@@ -22,7 +22,7 @@ export type TIngredientData = {
     proteins: number,
     fat: number,
     carbohydrates: number,
-    __v: number
+    uniqId?: number
 }
 
 export type TFormUser = {

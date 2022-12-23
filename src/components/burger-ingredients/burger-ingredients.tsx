@@ -22,9 +22,9 @@ export default function BurgerIngredients ()  {
 
     const [current, setCurrent] = useState(BurgerConstants.INGREDIENTS_BUN);
 
-    const bunRef =  useRef<HTMLDivElement | null>(null);
-    const sauceRef = useRef();
-    const mainRef = useRef();
+    const bunRef =  useRef<HTMLUListElement>(null);
+    const sauceRef = useRef<HTMLUListElement>(null);
+    const mainRef = useRef<HTMLUListElement>(null);
 
     useEffect(() => {
         const options = {
