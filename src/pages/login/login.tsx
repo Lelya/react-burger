@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {FormEvent} from 'react';
 import styles from '../pages.module.css';
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {logIn} from "../../services/actions";
+import {logIn} from "../../services/actions/user-actions";
 import {useForm} from "../../hooks/useForm";
 
 export function Login() {
@@ -12,10 +12,12 @@ export function Login() {
         password: "",
     });
     const dispatch = useDispatch();
+    // @ts-ignore
     const errorLogin = useSelector(store => store.userInfo.loginError);
 
-    const handleLogin = (e) => {
+    const handleLogin = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
+        // @ts-ignore
         dispatch(logIn(values));
     }
 
@@ -29,13 +31,13 @@ export function Login() {
                              name={'email'}
                              placeholder="Логин"
                              isIcon={true}
-                             value={values.email}
+                             value={values.email || ""}
                              onChange={handleChange}
                              extraClass="mb-2 pb-6"
                          />
                          <PasswordInput
                              name={'password'}
-                             value={values.password}
+                             value={values.password || ""}
                              onChange={handleChange}
                              extraClass="mb-2 pb-6"
                          />

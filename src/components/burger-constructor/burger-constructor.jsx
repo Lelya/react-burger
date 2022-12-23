@@ -7,17 +7,17 @@ import * as BurgerConstants from "../../constants/burger-constants";
 import OrderDetails from "../order-details/order-details";
 import ErrorModal from "../error-modal/error-modal";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    ADD_BUN_INGREDIENT_TO_CONSTRUCTOR,
-    ADD_INGREDIENT_TO_CONSTRUCTOR, CLEAR_CONSTRUCTOR,
-    CLOSE_ORDER,
-    postOrder
-} from "../../services/actions";
+import {postOrder} from "../../services/actions/order-actions";
 import {useDrop} from 'react-dnd';
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
 import BurgerConstructorEmpty from "../burger-constructor-empty/burger-constructor-empty";
 import { v4 as uuidv4 } from 'uuid';
 import {useHistory} from "react-router-dom";
+import {
+    ADD_BUN_INGREDIENT_TO_CONSTRUCTOR,
+    ADD_INGREDIENT_TO_CONSTRUCTOR,
+    CLEAR_CONSTRUCTOR, CLOSE_ORDER
+} from "../../services/actions";
 
 BurgerConstructor.propTypes = {
     data: arrayOf(BurgerPropTypes)

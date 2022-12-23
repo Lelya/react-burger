@@ -5,40 +5,42 @@ import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_CURRENT_ITEM_DETAILS} from "../../services/actions";
 import {useDrag} from "react-dnd";
 import {INGREDIENTS_BUN} from "../../constants/burger-constants";
-import {BurgerPropTypes} from "../../prop-types/burger-prop-types";
 import {Link, useLocation} from "react-router-dom";
 import IngredientInfo from "../../pages/ingredient-info/ingredient-info";
 import Modal from "../modal/modal";
+import {THistoryFrom, TIngredientData} from "../../utils/types";
 
-IngredientItem.propTypes = {
-    ingredient: BurgerPropTypes
-};
+interface IPropsIngredientItem {
+    ingredient: TIngredientData
+}
 
-export default function IngredientItem ({ingredient})  {
+const IngredientItem: React.FC<IPropsIngredientItem> = ({ingredient}) => {
 
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [counter, setCounter] = useState(0);
 
     const dispatch = useDispatch();
+    // @ts-ignore
     const bunData = useSelector(store => store.listConstructorIngredients.bun);
+    // @ts-ignore
     const sauceAndMainData = useSelector(store => store.listConstructorIngredients.items);
-    const location = useLocation();
+    const location = useLocation<THistoryFrom>();
 
     const id = ingredient._id;
 
     const [{ isDrag }, dragRef] = useDrag({
         type: 'ingredient',
         item: { id },
-        collect: (monitor) => ({
-            opacity: monitor.isDragging() ? 0.5 : 1
-        }),
-    });
+        collect: monitor => ({
+            isDrag: monitor.isDragging() ? 0.5 : 1,
+        })
+    })
 
-    const calculateCounter = (item) => {
+    const calculateCounter = (item: TIngredientData) => {
         if (item.type === INGREDIENTS_BUN) {
-            setCounter(bunData.filter((elem) => elem._id === item._id).length * 2);
+            setCounter(bunData.filter((elem: TIngredientData) => elem._id === item._id).length * 2);
         } else {
-            const countItems = sauceAndMainData.filter((elem) => elem._id === item._id).length;
+            const countItems = sauceAndMainData.filter((elem: TIngredientData) => elem._id === item._id).length;
             setCounter(countItems);
         }
     };
@@ -47,9 +49,17 @@ export default function IngredientItem ({ingredient})  {
         calculateCounter(ingredient);
     }, );
 
+    const handlerCloseModal = (): void => {
+        debugger;
+        dispatch({
+            type: CLOSE_CURRENT_ITEM_DETAILS,
+        });
+        setIsOpenModal(false)
+    };
+
     return (
         <>
-            {!isDrag && (
+            {isDrag && (
                 <Link
                     to={{
                         pathname: `/ingredients/${ingredient._id}`,
@@ -58,15 +68,15 @@ export default function IngredientItem ({ingredient})  {
                     className={ingredientItemStyle.link}
                 >
                     <li className={`${ingredientItemStyle.wrapper} mb-8`} key={ingredient._id}
-                       /* убрано из-за добавления роутинга
-                        onClick={() => {
-                            dispatch({
-                                type: OPEN_CURRENT_ITEM_DETAILS,
-                                item: ingredient,
-                            });
-                            setIsOpenModal(true);
-                        }}
-                        */
+                        /* убрано из-за добавления роутинга
+                         onClick={() => {
+                             dispatch({
+                                 type: OPEN_CURRENT_ITEM_DETAILS,
+                                 item: ingredient,
+                             });
+                             setIsOpenModal(true);
+                         }}
+                         */
                         ref={dragRef}
                     >
                         { counter > 0 &&
@@ -78,20 +88,18 @@ export default function IngredientItem ({ingredient})  {
                         <p className={`${ingredientItemStyle.price} mb-4 text text_type_digits-default`}><span>{ingredient.price}</span> <CurrencyIcon type="primary" /></p>
                         <p className={`text text_type_main-default`}>{ingredient.name}</p>
                     </li>
-                 </Link>
+                </Link>
             )}
             {isOpenModal &&
                 <Modal
-                    handlerClose={() => {
-                        dispatch({
-                            type: CLOSE_CURRENT_ITEM_DETAILS,
-                        });
-                        setIsOpenModal(false)
-                    }}
-                    isOpen={isOpenModal}>
+                    handlerClose={handlerCloseModal}
+                    isOpen={isOpenModal}
+                    test={"false"}>
                     <IngredientInfo ingredient={ingredient} />
                 </Modal>
             }
         </>
     )
 }
+
+export default IngredientItem;

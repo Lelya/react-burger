@@ -4,8 +4,8 @@ import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burg
 import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
 import burgerConstructorStyle from './burger-constructor-item.module.css';
 import {useDispatch} from "react-redux";
-import {DELETE_INGREDIENT_TO_CONSTRUCTOR, MOVE_INGREDIENT_IN_CONSTRUCTOR} from "../../services/actions";
 import {useDrag, useDrop} from 'react-dnd';
+ import {DELETE_INGREDIENT_TO_CONSTRUCTOR, MOVE_INGREDIENT_IN_CONSTRUCTOR} from "../../services/actions";
 
 BurgerConstructorItem.propTypes = {
     data: arrayOf(BurgerPropTypes)

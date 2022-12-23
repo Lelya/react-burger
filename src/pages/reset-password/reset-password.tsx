@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {ChangeEvent, FormEvent} from 'react';
 import styles from '../pages.module.css';
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "../../hooks/useForm";
-import {resetPassword} from "../../services/actions";
+import {resetPassword} from "../../services/actions/user-actions";
 
 export function ResetPassword() {
     const { values, handleChange } = useForm({
@@ -12,8 +12,12 @@ export function ResetPassword() {
         token: ""
     });
     const dispatch = useDispatch();
+    // @ts-ignore
     const errorResetPassword = useSelector(store => store.userInfo.resetPasswordError);
+    // @ts-ignore
     const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
+    debugger;
+    // @ts-ignore
     const forgotPasswordVisited = useSelector(store => store.userInfo.forgotPasswordVisited);
 
     if (userLoggedIn) {
@@ -24,8 +28,9 @@ export function ResetPassword() {
         return <Redirect to={'/forgot-password'} />;
     }
 
-    const handleResetPassword = (e) => {
+    const handleResetPassword = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
+        // @ts-ignore
         dispatch(resetPassword(values));
     }
 
@@ -38,7 +43,7 @@ export function ResetPassword() {
                         <PasswordInput
                             name={'password'}
                             placeholder="Введите новый пароль"
-                            value={values.password}
+                            value={values.password || ""}
                             onChange={handleChange}
                             extraClass="mb-2 pb-6"
                         />
@@ -46,7 +51,7 @@ export function ResetPassword() {
                             type={'text'}
                             placeholder={'Введите код из письма'}
                             name={'token'}
-                            value={values.token}
+                            value={values.token || ""}
                             onChange={handleChange}
                             error={false}
                             size={'default'}

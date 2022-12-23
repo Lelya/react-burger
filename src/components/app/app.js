@@ -5,7 +5,7 @@ import AppHeader from '../app-header/app-header';
 import {Main} from "../../pages/main/main";
 import {Login} from "../../pages/login/login";
 import {useDispatch} from "react-redux";
-import {getIngredients, getUserData} from "../../services/actions";
+import {getIngredients} from "../../services/actions/order-actions";
 import {Register} from "../../pages/register/register";
 import {ForgotPassword} from "../../pages/forgot-password/forgot-password";
 import {ResetPassword} from "../../pages/reset-password/reset-password";
@@ -14,6 +14,7 @@ import {ProtectedRouter} from "../protected-router/protected-router";
 import IngredientCard from "../../pages/ingredient-card/ingredient-card";
 import Modal from "../modal/modal";
 import Error404 from "../../pages/error-404/error-404";
+import {getUserData} from "../../services/actions/user-actions";
 
 export default function App() {
 
