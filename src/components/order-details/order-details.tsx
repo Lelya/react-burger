@@ -12,7 +12,7 @@ const OrderDetails: React.FC<IOrderDetails> = ({handlerClose, isOpenModal }) => 
     return (
         <>
             {order !== '' &&
-                <Modal handlerClose={handlerClose} isOpen={isOpenModal} test={"123"}>
+                <Modal handlerClose={handlerClose} isOpen={isOpenModal}>
                     <p className="text text_type_digits-large pt-30 pr-25 pl-25">{order}</p>
                     <p className="text text_type_main-medium pt-8">
                     Идентификатор заказа

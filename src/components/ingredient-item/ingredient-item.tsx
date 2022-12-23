@@ -6,7 +6,7 @@ import {CLOSE_CURRENT_ITEM_DETAILS} from "../../services/actions";
 import {useDrag} from "react-dnd";
 import {INGREDIENTS_BUN} from "../../constants/burger-constants";
 import {Link, useLocation} from "react-router-dom";
-import IngredientInfo from "../../pages/ingredient-info/ingredient-info";
+import IngredientInfo from "../ingredient-info/ingredient-info";
 import Modal from "../modal/modal";
 import {THistoryFrom, TIngredientData} from "../../utils/types";
 
@@ -93,8 +93,7 @@ const IngredientItem: React.FC<IPropsIngredientItem> = ({ingredient}) => {
             {isOpenModal &&
                 <Modal
                     handlerClose={handlerCloseModal}
-                    isOpen={isOpenModal}
-                    test={"false"}>
+                    isOpen={isOpenModal}>
                     <IngredientInfo ingredient={ingredient} />
                 </Modal>
             }

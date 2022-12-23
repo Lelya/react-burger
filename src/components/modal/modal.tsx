@@ -5,7 +5,7 @@ import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import {IModal} from "../../utils/types";
 
-const Modal: React.FC<IModal> = ({handlerClose, test, isOpen = true, children}) => {
+const Modal: React.FC<IModal> = ({handlerClose, isOpen = true, children}) => {
 
     useEffect(() => {
         const onCloseModalPressEsc = (e: KeyboardEvent) => {

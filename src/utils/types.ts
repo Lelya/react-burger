@@ -5,9 +5,16 @@ export type THistoryFrom = {
     from: string;
 }
 
+export type TModalBackground = {
+    background: H.Location | null;
+}
+
 export interface IProtectedRouteProps {
     children: JSX.Element,
     onlyAuth: boolean
+    rest?: string;
+    path: string;
+    exact?: boolean;
 }
 
 export type TIngredientData = {
@@ -44,6 +51,5 @@ export interface IModalOverlay {
 export interface IModal {
     handlerClose: () => void;
     isOpen: boolean;
-    test: string;
     children: React.ReactNode;
 }

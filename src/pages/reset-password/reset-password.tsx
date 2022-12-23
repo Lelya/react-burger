@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FormEvent} from 'react';
+import React, {FormEvent} from 'react';
 import styles from '../pages.module.css';
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect} from "react-router-dom";
