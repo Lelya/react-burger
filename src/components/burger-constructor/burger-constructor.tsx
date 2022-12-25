@@ -1,54 +1,56 @@
 import React, {useMemo, useState} from 'react';
-import {arrayOf} from 'prop-types';
 import { ConstructorElement, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
 import burgerConstructorStyle from './burger-constructor.module.css';
 import * as BurgerConstants from "../../constants/burger-constants";
 import OrderDetails from "../order-details/order-details";
 import ErrorModal from "../error-modal/error-modal";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    ADD_BUN_INGREDIENT_TO_CONSTRUCTOR,
-    ADD_INGREDIENT_TO_CONSTRUCTOR, CLEAR_CONSTRUCTOR,
-    CLOSE_ORDER,
-    postOrder
-} from "../../services/actions";
+import {postOrder} from "../../services/actions/order-actions";
 import {useDrop} from 'react-dnd';
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
 import BurgerConstructorEmpty from "../burger-constructor-empty/burger-constructor-empty";
 import { v4 as uuidv4 } from 'uuid';
 import {useHistory} from "react-router-dom";
+import {
+    ADD_BUN_INGREDIENT_TO_CONSTRUCTOR,
+    ADD_INGREDIENT_TO_CONSTRUCTOR,
+    CLEAR_CONSTRUCTOR, CLOSE_ORDER
+} from "../../services/actions";
+import {TIngredientData} from "../../utils/types";
 
-BurgerConstructor.propTypes = {
-    data: arrayOf(BurgerPropTypes)
-}
-
-export default function BurgerConstructor ()  {
+const BurgerConstructor: React.FC = () => {
 
     const history = useHistory();
     const dispatch = useDispatch();
+    // @ts-ignore
     const ingredients = useSelector(store => store.listAllIngredients.items);
+    // @ts-ignore
     const order = useSelector(store => store.orderInfo.orderId);
+    // @ts-ignore
     const error = useSelector(store => store.orderInfo.isError);
+    // @ts-ignore
     const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
 
     const [isOpenModal, setIsOpenModal] = useState(false);
 
+    // @ts-ignore
     const isLoading  = useSelector(store => store.orderInfo.isLoading);
+    // @ts-ignore
     const bunData = useSelector(store => store.listConstructorIngredients.bun);
+    // @ts-ignore
     const sauceAndMainData = useSelector(store => store.listConstructorIngredients.items);
 
     const totalPrice = useMemo(() => {
             if (bunData.length ) {
-                return sauceAndMainData.reduce((l, el) => el.price + l, bunData[0].price * 2);
+                return sauceAndMainData.reduce((l: number, el: TIngredientData) => el.price + l, bunData[0].price * 2);
             }
         },
         [bunData, sauceAndMainData]
     );
 
-    const moveIngredient = (item) => {
+    const moveIngredient = (item: any) => {
         const uniqId = {uniqId: uuidv4()};
-        let ingredient = ingredients.filter((elem) => elem._id === item.id)[0];
+        let ingredient = ingredients.filter((elem: TIngredientData) => elem._id === item.id)[0];
         ingredient = Object.assign(uniqId, ingredient);
 
         if (ingredient.type === BurgerConstants.INGREDIENTS_BUN) {
@@ -62,6 +64,7 @@ export default function BurgerConstructor ()  {
                 item: ingredient
             });
         }
+
     }
 
     const [, dropTarget] = useDrop({
@@ -70,7 +73,7 @@ export default function BurgerConstructor ()  {
             isHover: monitor.isOver()
         }),
         drop(item) {
-             moveIngredient(item);
+            moveIngredient(item);
         },
     })
 
@@ -78,8 +81,9 @@ export default function BurgerConstructor ()  {
         if (userLoggedIn) {
             let ingredientIds = [];
             ingredientIds.push(bunData[0]._id);
-            ingredientIds = ingredientIds.concat(sauceAndMainData.map(item => item._id));
+            ingredientIds = ingredientIds.concat(sauceAndMainData.map((item: { _id: string; }) => item._id));
             ingredientIds.push(bunData[0]._id);
+            // @ts-ignore
             dispatch(postOrder(ingredientIds));
             setIsOpenModal(true);
         } else {
@@ -108,7 +112,7 @@ export default function BurgerConstructor ()  {
                 <div className={`${burgerConstructorStyle.sauceAndMainData} mt-1`}>
                     { sauceAndMainData.length > 0 &&
                         <ul>
-                            { sauceAndMainData.map((item, index) => (
+                            { sauceAndMainData.map((item: TIngredientData, index: number) => (
                                 <BurgerConstructorItem key={item.uniqId} ingredient={item} index={index}/>
                             ))}
                         </ul>
@@ -166,3 +170,5 @@ export default function BurgerConstructor ()  {
         </section>
     )
 }
+
+export default BurgerConstructor;

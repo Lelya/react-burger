@@ -1,11 +1,11 @@
 import {Route, Redirect, useLocation} from 'react-router-dom';
-import {useDispatch, useSelector} from "react-redux";
-import {getUserData} from "../../services/actions";
-import {useEffect} from "react";
+import {useSelector} from "react-redux";
+import { THistoryFrom, IProtectedRouteProps } from '../../utils/types';
 
-export const ProtectedRouter = ({children, onlyAuth,...rest}) => {
+export const ProtectedRouter = ({children, onlyAuth = false,...rest}: IProtectedRouteProps) => {
 
-    const location = useLocation();
+    const location = useLocation<THistoryFrom>();
+    // @ts-ignore
     const authChecked = useSelector(store => store.userInfo.userLoggedIn);
     const nextPage = location.state?.from || '/';
 

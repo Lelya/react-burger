@@ -1,8 +1,16 @@
 import React from "react";
 import burgerIngredientsBlockTypeStyle from './burger-ingredient-block-type.module.css';
 import IngredientItem from "../ingredient-item/ingredient-item";
+import {TIngredientData} from "../../utils/types";
 
-export default function BurgerIngredientBlockType ({nameBlock, idBlock, blockRef, items})  {
+interface IPropsBurgerIngredientBlockType {
+    nameBlock: string;
+    idBlock: string,
+    blockRef: React.RefObject<HTMLUListElement>,
+    items: Array<TIngredientData>,
+}
+
+const BurgerIngredientBlockType: React.FC<IPropsBurgerIngredientBlockType> = ({nameBlock, idBlock, blockRef, items}) => {
 
     return (
         <>
@@ -15,3 +23,5 @@ export default function BurgerIngredientBlockType ({nameBlock, idBlock, blockRef
         </>
     )
 }
+
+export default BurgerIngredientBlockType

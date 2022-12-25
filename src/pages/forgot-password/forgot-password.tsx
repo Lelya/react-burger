@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, {FormEvent, useState} from 'react';
 import styles from '../pages.module.css';
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect} from "react-router-dom";
-import {forgotPassword} from "../../services/actions";
+import {forgotPassword} from "../../services/actions/user-actions";
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "../../hooks/useForm";
 
@@ -13,15 +13,18 @@ export function ForgotPassword() {
     });
     const [errorMessage] = useState("");
     const dispatch = useDispatch();
+    // @ts-ignore
     const errorForgotPassword = useSelector(store => store.userInfo.forgotPasswordError);
+    // @ts-ignore
     const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
 
     if (userLoggedIn) {
         return <Redirect to={'/'} />;
     }
 
-    const handleForgotPassword = (e) => {
+    const handleForgotPassword = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
+        // @ts-ignore
         dispatch(forgotPassword(values.email));
     }
 
@@ -33,7 +36,7 @@ export function ForgotPassword() {
                          <EmailInput
                              name={'email'}
                              onChange={handleChange}
-                             value={values.email}
+                             value={values.email || ""}
                              placeholder="Укажите e-mail"
                              isIcon={true}
                              extraClass="mb-2 pb-6"

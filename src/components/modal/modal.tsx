@@ -3,19 +3,14 @@ import ReactDOM from "react-dom"
 import modalStyle from './modal.module.css';
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import PropTypes from "prop-types";
+import {IModal} from "../../utils/types";
 
-Modal.propTypes = {
-    handlerClose: PropTypes.func,
-    isOpen: PropTypes.bool,
-    children: PropTypes.any
-};
-export default function Modal ({handleClose, isOpen = true, children})  {
+const Modal: React.FC<IModal> = ({handlerClose, isOpen = true, children}) => {
 
     useEffect(() => {
-        const onCloseModalPressEsc = (e) => {
+        const onCloseModalPressEsc = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
-                handleClose()
+                handlerClose()
             }
         }
 
@@ -23,22 +18,26 @@ export default function Modal ({handleClose, isOpen = true, children})  {
         return () => {
             document.removeEventListener('keyup', onCloseModalPressEsc)
         }
-    }, [handleClose])
+    }, [handlerClose])
 
     if (!isOpen) {
         return null;
     }
 
+    const reactModals = document.getElementById("react-modals")!;
+
     return ReactDOM.createPortal(
         <>
-            <ModalOverlay handleClose={handleClose}/>
+            <ModalOverlay handlerClose={handlerClose}/>
             <div className={modalStyle.modal}>
-                <button className={`${modalStyle.button} pt-15 pr-10`} type={"button"} onClick={handleClose} >
+                <button className={`${modalStyle.button} pt-15 pr-10`} type={"button"} onClick={handlerClose} >
                     <CloseIcon type="primary"/>
                 </button>
                 {children}
             </div>
         </>,
-        document.getElementById("react-modals")
+        reactModals
     );
 }
+
+export default Modal;

@@ -6,6 +6,7 @@ import {arrayOf} from "prop-types";
 import * as BurgerConstants from '../../constants/burger-constants';
 import { useSelector} from 'react-redux';
 import BurgerIngredientBlockType from "../burger-ingredient-block-type/burger-ingredient-block-type";
+import {TIngredientData} from "../../utils/types";
 
 BurgerIngredients.propTypes = {
     data: arrayOf(BurgerPropTypes)
@@ -13,16 +14,17 @@ BurgerIngredients.propTypes = {
 
 export default function BurgerIngredients ()  {
 
+    // @ts-ignore
     const ingredients = useSelector(store => store.listAllIngredients.items);
-    const bunData = useMemo(() => ingredients.filter((elem) => elem.type === BurgerConstants.INGREDIENTS_BUN),[ingredients]);
-    const sauceData = useMemo(() => ingredients.filter((elem) => elem.type === BurgerConstants.INGREDIENTS_SAUCE),[ingredients]);
-    const mainData = useMemo(() => ingredients.filter((elem) => elem.type === BurgerConstants.INGREDIENTS_MAIN),[ingredients]);
+    const bunData = useMemo(() => ingredients.filter((elem: TIngredientData) => elem.type === BurgerConstants.INGREDIENTS_BUN),[ingredients]);
+    const sauceData = useMemo(() => ingredients.filter((elem: TIngredientData) => elem.type === BurgerConstants.INGREDIENTS_SAUCE),[ingredients]);
+    const mainData = useMemo(() => ingredients.filter((elem: TIngredientData) => elem.type === BurgerConstants.INGREDIENTS_MAIN),[ingredients]);
 
     const [current, setCurrent] = useState(BurgerConstants.INGREDIENTS_BUN);
 
-    const bunRef = useRef();
-    const sauceRef = useRef();
-    const mainRef = useRef();
+    const bunRef =  useRef<HTMLUListElement>(null);
+    const sauceRef = useRef<HTMLUListElement>(null);
+    const mainRef = useRef<HTMLUListElement>(null);
 
     useEffect(() => {
         const options = {
@@ -36,10 +38,9 @@ export default function BurgerIngredients ()  {
                 }
             });
         }, options);
-
-        observer.observe(bunRef.current);
-        observer.observe(sauceRef.current);
-        observer.observe(mainRef.current);
+        if (bunRef.current) observer.observe(bunRef?.current);
+        if (sauceRef.current) observer.observe(sauceRef?.current);
+        if (mainRef.current) observer.observe(mainRef?.current);
     }, [mainRef, sauceRef, bunRef]);
 
     return (

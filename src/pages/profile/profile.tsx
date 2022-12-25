@@ -1,17 +1,22 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import styles from './profile.module.css';
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
-import {logoutUser, updateUserData} from "../../services/actions";
+import {logoutUser, updateUserData} from "../../services/actions/user-actions";
 import {NavLink, Redirect} from "react-router-dom";
 
 export function Profile() {
 
     const dispatch = useDispatch();
+    // @ts-ignore
     const emailUser = useSelector(store => store.userInfo.email);
+    // @ts-ignore
     const nameUser = useSelector(store => store.userInfo.name);
+    // @ts-ignore
     const errorUser = useSelector(store => store.userInfo.getUserError);
+    // @ts-ignore
     const userLoaded = useSelector(store => store.userInfo.userLoaded);
+    // @ts-ignore
     const updateUserInfoError = useSelector(store => store.userInfo.updateUserInfoError);
     const passwordUser = '12345';
     const [hasChanged, setChanged] = useState(false);
@@ -23,7 +28,7 @@ export function Profile() {
         password: passwordUser,
     })
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
         setChanged(true);
         setMessageSuccess("");
         setValue({
@@ -32,11 +37,18 @@ export function Profile() {
         })
     }
 
-    const handleSave = (e) => {
+    const handleSave = (e: React.FormEvent<HTMLFormElement>): void => {
+        e.preventDefault();
+        // @ts-ignore
         dispatch(updateUserData(values.email, values.name));
         setMessageSuccess(!updateUserInfoError ? "Данные изменены" : "Произошла ошибка");
         setChanged(false);
     }
+
+    const logoutHandler = () => {
+        // @ts-ignore
+        dispatch(logoutUser())
+    };
 
     if (!userLoaded) {
         return <Redirect to={'/'} />;
@@ -70,7 +82,7 @@ export function Profile() {
                             </NavLink>
 
                             <h2
-                                onClick={() => dispatch(logoutUser())}
+                                onClick={logoutHandler}
                                 className={`${styles.profile_logout} text text_type_main-medium text_color_inactive pb-20`}
                             >
                                 Выход
@@ -80,45 +92,48 @@ export function Profile() {
                             </p>
                         </div>
                         <div>
-                            <Input
-                                type={'text'}
-                                placeholder={'Имя'}
-                                icon={'EditIcon'}
-                                name={'name'}
-                                error={false}
-                                size={'default'}
-                                extraClass="mb-2 pb-6"
-                                value={values.name}
-                                onChange={handleChange}
-                            />
-                            <EmailInput
-                                name={'email'}
-                                icon={'EditIcon'}
-                                placeholder="Логин"
-                                isIcon={true}
-                                extraClass="mb-2 pb-6"
-                                value={values.email}
-                                onChange={handleChange}
-                            />
-                            <PasswordInput
-                                name={'password'}
-                                value={values.password}
-                                extraClass="mb-2 pb-6"
-                                onChange={handleChange}
-                            />
-                            { messageSuccess !== "" &&
-                                <span className="text text_type_main-default m-3">{messageSuccess}</span>
-                            }
-                            { hasChanged &&
-                                <>
-                                    <Button htmlType="button" size="medium" onClick={() => handleSave()}>Сохранить</Button>
-                                </>
-                            }
-                            {errorUser && (
-                                <div className={`${styles.text_error} mb-2`}>
-                                    <span className="text text_type_main-default">Авторизуйтесь в системе</span>
-                                </div>
-                            )}
+                            <form onSubmit={handleSave} >
+                                <Input
+                                    type={'text'}
+                                    placeholder={'Имя'}
+                                    icon={'EditIcon'}
+                                    name={'name'}
+                                    error={false}
+                                    size={'default'}
+                                    extraClass="mb-2 pb-6"
+                                    value={values.name}
+                                    onChange={handleChange}
+                                />
+                                <EmailInput
+                                    name={'email'}
+                                    placeholder="Логин"
+                                    isIcon={true}
+                                    extraClass="mb-2 pb-6"
+                                    value={values.email}
+                                    onChange={handleChange}
+                                />
+                                <PasswordInput
+                                    name={'password'}
+                                    value={values.password}
+                                    extraClass="mb-2 pb-6"
+                                    onChange={handleChange}
+                                />
+                                { messageSuccess !== "" &&
+                                    <span className="text text_type_main-default m-3">{messageSuccess}</span>
+                                }
+                                { hasChanged &&
+                                    <>
+                                        <Button type="primary" size="medium" htmlType="submit">
+                                            Сохранить
+                                        </Button>
+                                    </>
+                                }
+                                {errorUser && (
+                                    <div className={`${styles.text_error} mb-2`}>
+                                        <span className="text text_type_main-default">Авторизуйтесь в системе</span>
+                                    </div>
+                                )}
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import { OPEN_CURRENT_ITEM_DETAILS, CLOSE_CURRENT_ITEM_DETAILS } from '../actions';
+import {CLOSE_CURRENT_ITEM_DETAILS, OPEN_CURRENT_ITEM_DETAILS} from "../actions";
 
 const ingredientItemInitialState = {
     currentItem: {},

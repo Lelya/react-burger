@@ -1,23 +1,18 @@
 import React from 'react';
 import Modal from "../modal/modal";
 import orderIcon from "../../images/orderIcon.png";
-import PropTypes from "prop-types";
-import IngredientItem from "../ingredient-item/ingredient-item";
 import {useSelector} from "react-redux";
+import {IOrderDetails} from "../../utils/types";
 
-IngredientItem.propTypes = {
-    handlerClose: PropTypes.func,
-    isOpenModal: PropTypes.bool
-};
+const OrderDetails: React.FC<IOrderDetails> = ({handlerClose, isOpenModal }) => {
 
-export default function OrderDetails (props)  {
-
+    // @ts-ignore
     const order = useSelector(store => store.orderInfo.orderId);
 
     return (
         <>
             {order !== '' &&
-                <Modal handleClose={props.handlerClose} isOpen={props.isOpenModal}>
+                <Modal handlerClose={handlerClose} isOpen={isOpenModal}>
                     <p className="text text_type_digits-large pt-30 pr-25 pl-25">{order}</p>
                     <p className="text text_type_main-medium pt-8">
                     Идентификатор заказа
@@ -34,3 +29,5 @@ export default function OrderDetails (props)  {
         </>
     );
 }
+
+export default OrderDetails;

@@ -3,7 +3,7 @@ import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-devel
 import headerStyle from './app-header.module.css';
 import {NavLink, useRouteMatch} from "react-router-dom";
 
-export default function AppHeader () {
+const AppHeader = () => {
     const isConstructor = useRouteMatch({ path: '/', exact: true });
     const isProfile = useRouteMatch({ path: '/profile', exact: true });
 
@@ -49,3 +49,5 @@ export default function AppHeader () {
         </header>
     )
 }
+
+export default AppHeader;

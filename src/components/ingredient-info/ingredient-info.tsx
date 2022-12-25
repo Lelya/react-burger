@@ -1,14 +1,14 @@
 import React from 'react';
 
-import {BurgerPropTypes} from "../../prop-types/burger-prop-types";
-import styles from "../pages.module.css";
+import styles from "../../pages/pages.module.css";
 import stylesInfo from "./ingredient-info.module.css";
+import {TIngredientData} from "../../utils/types";
 
-IngredientInfo.propTypes = {
-    ingredient: BurgerPropTypes
-};
+export interface TIngredientInfo {
+    ingredient: TIngredientData;
+}
 
-export default function IngredientInfo ({ingredient})  {
+const IngredientInfo: React.FC<TIngredientInfo> = ({ingredient}) => {
     return (
         <>
             <p className={`${styles.text_center} text text_type_main-large pt-15 pr-10 pl-10`} >Детали ингредиента</p>
@@ -41,3 +41,5 @@ export default function IngredientInfo ({ingredient})  {
         </>
     )
 }
+
+export default IngredientInfo;

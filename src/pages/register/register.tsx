@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {FormEvent} from 'react';
 import styles from '../pages.module.css';
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {register} from "../../services/actions";
+import {register} from "../../services/actions/user-actions";
 import {useForm} from "../../hooks/useForm";
 
 export function Register() {
@@ -13,16 +13,19 @@ export function Register() {
         name: ""
     });
     const dispatch = useDispatch();
+    // @ts-ignore
     const errorRegister = useSelector(store => store.userInfo.registerError);
 
+    // @ts-ignore
     const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
 
     if (userLoggedIn) {
         return <Redirect to={'/'} />;
     }
 
-    const handleRegister = (e) => {
+    const handleRegister = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
+        // @ts-ignore
         dispatch(register(values));
     }
 
@@ -39,7 +42,7 @@ export function Register() {
                             name={'name'}
                             error={false}
                             size={'default'}
-                            value={values.name}
+                            value={values.name || ""}
                             onChange={handleChange}
                             extraClass="mb-2 pb-6"
                         />
@@ -47,13 +50,13 @@ export function Register() {
                              name={'email'}
                              placeholder="Логин"
                              isIcon={true}
-                             value={values.email}
+                             value={values.email || ""}
                              onChange={handleChange}
                              extraClass="mb-2 pb-6"
                          />
                          <PasswordInput
                              name={'password'}
-                             value={values.password}
+                             value={values.password || ""}
                              onChange={handleChange}
                              extraClass="mb-2 pb-6"
                          />

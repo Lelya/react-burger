@@ -23,6 +23,7 @@ import {
     USER_LOGOUT_SUCCESS
 } from "../actions";
 
+
 const userInitialState = {
     email: null,
     name: null,
