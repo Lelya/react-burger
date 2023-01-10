@@ -22,6 +22,7 @@ import {
     USER_LOGOUT_REQUEST,
     USER_LOGOUT_SUCCESS
 } from "../actions";
+import {TUserActions} from "../actions/user-actions";
 
 
 const userInitialState = {
@@ -39,7 +40,7 @@ const userInitialState = {
     updateUserInfoError: false,
 };
 
-export const userReducer  = (state = userInitialState, action) => {
+export const userReducer  = (state = userInitialState, action: TUserActions) => {
     switch (action.type) {
         case USER_LOGIN_REQUEST: {
             return {

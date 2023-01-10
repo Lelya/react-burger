@@ -5,16 +5,17 @@ import AppHeader from '../app-header/app-header';
 import {Main} from "../../pages/main/main";
 import {Login} from "../../pages/login/login";
 import {useDispatch} from "react-redux";
-import {getIngredients} from "../../services/actions/order-actions";
+import {getIngredientsThunk} from "../../services/actions/order-actions";
 import {Register} from "../../pages/register/register";
 import {ForgotPassword} from "../../pages/forgot-password/forgot-password";
 import {ResetPassword} from "../../pages/reset-password/reset-password";
 import {Profile} from "../../pages/profile/profile";
+import {Feed} from "../../pages/feed/feed";
 import {ProtectedRouter} from "../protected-router/protected-router";
 import IngredientCard from "../ingredient-card/ingredient-card";
 import Modal from "../modal/modal";
 import Error404 from "../../pages/error-404/error-404";
-import {getUserData} from "../../services/actions/user-actions";
+import {getUserDataThunk} from "../../services/actions/user-actions";
 import {TModalBackground} from "../../utils/types";
 
 const App: React.FC = () => {
@@ -30,10 +31,8 @@ const App: React.FC = () => {
     };
 
     useEffect(() => {
-        // @ts-ignore
-        dispatch(getIngredients());
-        // @ts-ignore
-        dispatch(getUserData());
+        dispatch(getIngredientsThunk());
+        dispatch(getUserDataThunk());
     },[dispatch]);
 
 
@@ -62,6 +61,9 @@ const App: React.FC = () => {
                     </ProtectedRouter>
                     <Route exact path="/ingredients/:id">
                         <IngredientCard/>
+                    </Route>
+                    <Route exact path="/feed">
+                        <Feed />
                     </Route>
                     <Route>
                         <Error404 />

@@ -1,11 +1,12 @@
 import {CLOSE_CURRENT_ITEM_DETAILS, OPEN_CURRENT_ITEM_DETAILS} from "../actions";
+import {TCurrentIngredientActions} from "../actions/ingredient-actions";
 
 const ingredientItemInitialState = {
     currentItem: {},
     isOpen: false,
 }
 
-export const ingredientItemReducer = (state = ingredientItemInitialState, action) => {
+export const ingredientItemReducer = (state = ingredientItemInitialState, action: TCurrentIngredientActions) => {
     switch (action.type) {
         case OPEN_CURRENT_ITEM_DETAILS: {
             return {

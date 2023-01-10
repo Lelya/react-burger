@@ -1,11 +1,12 @@
 import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_ERROR } from '../actions';
+import {TIngredientsActions} from "../actions/order-actions";
 
 const initialState = {
     items: [],
     isLoading: false,
     isError: false,
 };
-export const listAllIngredientsReducer = (state = initialState, action) => {
+export const listAllIngredientsReducer = (state = initialState, action: TIngredientsActions) => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {...state, isLoading: true};

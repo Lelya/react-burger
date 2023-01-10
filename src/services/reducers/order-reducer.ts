@@ -1,4 +1,5 @@
 import { SET_ORDER_REQUEST, SET_ORDER_SUCCESS, SET_ORDER_ERROR, CLOSE_ORDER} from '../actions';
+import {TSetOrderActions} from "../actions/order-actions";
 
 const orderInitialState = {
     orderId: '',
@@ -7,7 +8,7 @@ const orderInitialState = {
     isOpen: false
 };
 
-export const orderReducer  = (state = orderInitialState, action) => {
+export const orderReducer  = (state = orderInitialState, action: TSetOrderActions) => {
     switch (action.type) {
         case SET_ORDER_REQUEST: {
             return {

@@ -1,5 +1,11 @@
 import H from "history";
 import React from "react";
+import {store} from "../services/store/store";
+import { ThunkAction } from 'redux-thunk';
+import { Action, ActionCreator } from 'redux';
+import {TIngredientsActions, TSetOrderActions} from "../services/actions/order-actions";
+import {TUserActions} from "../services/actions/user-actions";
+import {TCurrentIngredientActions, TIngredientActions} from "../services/actions/ingredient-actions";
 
 export type THistoryFrom = {
     from: string;
@@ -53,3 +59,14 @@ export interface IModal {
     isOpen: boolean;
     children: React.ReactNode;
 }
+
+export type RootState = ReturnType<typeof store.getState>;
+type TApplicationActions = TIngredientsActions |
+    TSetOrderActions |
+    TUserActions |
+    TIngredientActions |
+    TCurrentIngredientActions;
+export type AppDispatch = typeof store.dispatch;
+export type AppThunk<ReturnType = void> = ActionCreator<
+    ThunkAction<ReturnType, Action, RootState, TApplicationActions>
+>;

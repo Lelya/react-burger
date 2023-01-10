@@ -5,7 +5,7 @@ import * as BurgerConstants from "../../constants/burger-constants";
 import OrderDetails from "../order-details/order-details";
 import ErrorModal from "../error-modal/error-modal";
 import {useDispatch, useSelector} from "react-redux";
-import {postOrder} from "../../services/actions/order-actions";
+import {closeOrderAction, postOrderThunk} from "../../services/actions/order-actions";
 import {useDrop} from 'react-dnd';
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
 import BurgerConstructorEmpty from "../burger-constructor-empty/burger-constructor-empty";
@@ -84,7 +84,7 @@ const BurgerConstructor: React.FC = () => {
             ingredientIds = ingredientIds.concat(sauceAndMainData.map((item: { _id: string; }) => item._id));
             ingredientIds.push(bunData[0]._id);
             // @ts-ignore
-            dispatch(postOrder(ingredientIds));
+            dispatch(postOrderThunk(ingredientIds));
             setIsOpenModal(true);
         } else {
             history.replace('/login');
@@ -146,9 +146,7 @@ const BurgerConstructor: React.FC = () => {
                 { isOpenModal && !error && order !== 0 ? (
                     <OrderDetails
                         handlerClose={() => {
-                            dispatch({
-                                type: CLOSE_ORDER,
-                            });
+                            dispatch(closeOrderAction());
                             setIsOpenModal(false);
                             dispatch({
                                 type: CLEAR_CONSTRUCTOR
@@ -158,9 +156,7 @@ const BurgerConstructor: React.FC = () => {
                 ) : (
                     <ErrorModal
                         handlerClose={() => {
-                            dispatch({
-                                type: CLOSE_ORDER,
-                            });
+                            dispatch(closeOrderAction());
                             setIsOpenModal(false);
                         }}
                         error="Проблемы при оформлении заказа" isOpenModal={isOpenModal}/>
