@@ -103,7 +103,7 @@ export const userLoginSuccessAction = (
     user
 })
 
-export const logInThunk = (values: any) : AppThunk => (dispatch: AppDispatch) => {
+export const logInThunk = (values: TFormUser) : AppThunk => (dispatch: AppDispatch) => {
     dispatch(userLoginAction());
     postRequest(LOGIN_URL, values )
         .then(res => {
@@ -350,7 +350,7 @@ export const registerSuccessAction = (
     user
 });
 
-export const registerThunk = (values: { email: string ; password: string; name: string; token: string | null | undefined; }) : AppThunk => (dispatch: AppDispatch) => {
+export const registerThunk = (values: { email: string ; password: string; name: string}) : AppThunk => (dispatch: AppDispatch) => {
     dispatch(registerAction());
     postRequest(REGISTER_URL, values )
         .then(res => {
