@@ -10,5 +10,6 @@ export const rootReducer = combineReducers({
     listConstructorIngredients: listConstructorIngredientsReducer,
     ingredientItem: ingredientItemReducer,
     orderInfo: orderReducer,
-    userInfo: userReducer
+    userInfo: userReducer,
+    // orderList: orderListReducer,
 });

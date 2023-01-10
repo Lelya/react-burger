@@ -5,13 +5,14 @@ import {
     MOVE_INGREDIENT_IN_CONSTRUCTOR
 } from "../actions";
 import update from 'immutability-helper';
+import {TIngredientActions} from "../actions/ingredient-actions";
 
 const constructorInitialState = {
     items: [],
     bun: []
 }
 
-export const listConstructorIngredientsReducer = (state = constructorInitialState, action ) => {
+export const listConstructorIngredientsReducer = (state = constructorInitialState, action: TIngredientActions ) => {
     switch (action.type) {
         case ADD_INGREDIENT_TO_CONSTRUCTOR: {
             return {...state, items: [...state.items, action.item]  }
@@ -20,6 +21,7 @@ export const listConstructorIngredientsReducer = (state = constructorInitialStat
             return {...state, bun: [action.bun]  }
         }
         case DELETE_INGREDIENT_TO_CONSTRUCTOR: {
+            // @ts-ignore
             const newItems = state.items.filter(elem => elem.uniqId !== action.id);
             return {
                 ...state,

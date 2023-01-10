@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import styles from './profile.module.css';
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
-import {logoutUser, updateUserData} from "../../services/actions/user-actions";
+import {logoutUserThunk, updateUserDataThunk} from "../../services/actions/user-actions";
 import {NavLink, Redirect} from "react-router-dom";
 
 export function Profile() {
@@ -39,15 +39,13 @@ export function Profile() {
 
     const handleSave = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        // @ts-ignore
-        dispatch(updateUserData(values.email, values.name));
+        dispatch(updateUserDataThunk(values.email, values.name));
         setMessageSuccess(!updateUserInfoError ? "Данные изменены" : "Произошла ошибка");
         setChanged(false);
     }
 
     const logoutHandler = () => {
-        // @ts-ignore
-        dispatch(logoutUser())
+        dispatch(logoutUserThunk())
     };
 
     if (!userLoaded) {

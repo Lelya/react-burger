@@ -3,7 +3,7 @@ import styles from '../pages.module.css';
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {logIn} from "../../services/actions/user-actions";
+import {logInThunk} from "../../services/actions/user-actions";
 import {useForm} from "../../hooks/useForm";
 
 export function Login() {
@@ -17,8 +17,7 @@ export function Login() {
 
     const handleLogin = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        // @ts-ignore
-        dispatch(logIn(values));
+        dispatch(logInThunk(values));
     }
 
     return (

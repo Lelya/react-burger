@@ -4,7 +4,7 @@ import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger
 import {Link, Redirect} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "../../hooks/useForm";
-import {resetPassword} from "../../services/actions/user-actions";
+import {resetPasswordThunk} from "../../services/actions/user-actions";
 
 export function ResetPassword() {
     const { values, handleChange } = useForm({
@@ -31,7 +31,7 @@ export function ResetPassword() {
     const handleResetPassword = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         // @ts-ignore
-        dispatch(resetPassword(values));
+        dispatch(resetPasswordThunk(values));
     }
 
     return (

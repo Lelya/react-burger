@@ -2,7 +2,7 @@ import React, {FormEvent, useState} from 'react';
 import styles from '../pages.module.css';
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect} from "react-router-dom";
-import {forgotPassword} from "../../services/actions/user-actions";
+import {forgotPasswordThunk} from "../../services/actions/user-actions";
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "../../hooks/useForm";
 
@@ -24,8 +24,7 @@ export function ForgotPassword() {
 
     const handleForgotPassword = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        // @ts-ignore
-        dispatch(forgotPassword(values.email));
+        dispatch(forgotPasswordThunk(values.email));
     }
 
     return (
