@@ -56,7 +56,7 @@ export const  userLogoutSuccessAction = (): IUserLogoutSuccessAction => ({
     type: USER_LOGOUT_SUCCESS
 });
 
-export const logoutUserThunk: AppThunk = () => (dispatch: AppDispatch) => {
+export const logoutUserThunk = () : AppThunk => (dispatch: AppDispatch) => {
     dispatch(userLogoutAction());
     postRequest(LOGOUT_URL,{ token: localStorage.getItem('refreshToken')})
         .then(res => {
@@ -103,7 +103,7 @@ export const userLoginSuccessAction = (
     user
 })
 
-export const logInThunk: AppThunk = (values: any) => (dispatch: AppDispatch) => {
+export const logInThunk = (values: any) : AppThunk => (dispatch: AppDispatch) => {
     dispatch(userLoginAction());
     postRequest(LOGIN_URL, values )
         .then(res => {
@@ -147,7 +147,7 @@ export const getUserDataSuccessAction = (
     type: GET_USER_SUCCESS,
     user
 });
-export const getUserDataThunk: AppThunk = () => (dispatch: AppDispatch) => {
+export const getUserDataThunk = () : AppThunk => (dispatch: AppDispatch) => {
     dispatch(getUserDataAction());
     const token = 'Bearer ' + localStorage.getItem('accessToken');
     getData(AUTH_USER_URL, {
@@ -198,7 +198,7 @@ export const refreshTokenSuccessAction = (): IRefreshTokenSuccessAction => ({
     type: REFRESH_TOKEN_SUCCESS
 });
 
-export const refreshTokenThunk: AppThunk = () => (dispatch: AppDispatch) =>  {
+export const refreshTokenThunk = () : AppThunk => (dispatch: AppDispatch) =>  {
     dispatch(refreshTokenAction());
     postRequest(LOGOUT_URL,{ token: localStorage.getItem('refreshToken')})
         .then(res => {
@@ -243,7 +243,7 @@ export const updateUserDataSuccessAction = (
     type: UPDATE_USER_INFO_SUCCESS,
     user
 });
-export const updateUserDataThunk: AppThunk = (email: string, name: string) => (dispatch: AppDispatch) => {
+export const updateUserDataThunk = (email: string, name: string) : AppThunk => (dispatch: AppDispatch) => {
     const token = 'Bearer ' + localStorage.getItem('accessToken');
     const data = {
         email,
@@ -278,7 +278,7 @@ export const  forgotPasswordSuccessAction = (): IForgotPasswordSuccessAction => 
     type: FORGOT_PASSWORD_VISITED
 });
 
-export const forgotPasswordThunk: AppThunk = (value: string) => (dispatch: AppDispatch) => {
+export const forgotPasswordThunk = (value: string | undefined) : AppThunk => (dispatch: AppDispatch) => {
     dispatch(userLoginAction());
     postRequest(FORGOT_PASSWORD_URL, {email: value})
         .then(res => {
@@ -308,7 +308,7 @@ export const  resetPasswordFailedAction = (): IResetPasswordFailedAction => ({
     type: RESET_PASSWORD_ERROR
 });
 
-export const resetPasswordThunk: AppThunk = () => (dispatch: AppDispatch) => {
+export const resetPasswordThunk = () : AppThunk => (dispatch: AppDispatch) => {
     dispatch(resetPasswordAction());
     postRequest(RASSWORD_RESET_URL, {} )
         .then(res => {
@@ -350,7 +350,7 @@ export const registerSuccessAction = (
     user
 });
 
-export const registerThunk: AppThunk = (values: { email: string | undefined; password?: string | undefined; name?: string | undefined; token: string | null | undefined; }) => (dispatch: AppDispatch) => {
+export const registerThunk = (values: { email: string ; password: string; name: string; token: string | null | undefined; }) : AppThunk => (dispatch: AppDispatch) => {
     dispatch(registerAction());
     postRequest(REGISTER_URL, values )
         .then(res => {

@@ -7,12 +7,6 @@ import {
     OPEN_CURRENT_ITEM_DETAILS
 } from "./index";
 import {TIngredientData} from "../../utils/types";
-import {
-    ICloseOrderAction,
-    ISetOrderFailedAction,
-    ISetOrderRequestAction,
-    ISetOrderSuccessAction
-} from "./order-actions";
 
 export interface IOpenCurrentItemAction {
     readonly type: typeof OPEN_CURRENT_ITEM_DETAILS;
@@ -61,16 +55,13 @@ export const addBunToConstructorItemAction = (
 
 export interface IDeleteIngredientToConstructorItemAction {
     readonly type: typeof DELETE_INGREDIENT_TO_CONSTRUCTOR;
-    item: TIngredientData,
     readonly id: number
 }
 
 export const deleteIngredientToConstructorItemAction = (
-    item: TIngredientData,
     id: number
 ): IDeleteIngredientToConstructorItemAction => ({
     type: DELETE_INGREDIENT_TO_CONSTRUCTOR,
-    item,
     id
 });
 

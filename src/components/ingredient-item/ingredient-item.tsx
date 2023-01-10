@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react';
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientItemStyle from './ingredient-item.module.css';
 import {useDispatch, useSelector} from 'react-redux';
-import {CLOSE_CURRENT_ITEM_DETAILS} from "../../services/actions";
 import {useDrag} from "react-dnd";
 import {INGREDIENTS_BUN} from "../../constants/burger-constants";
 import {Link, useLocation} from "react-router-dom";
 import IngredientInfo from "../ingredient-info/ingredient-info";
 import Modal from "../modal/modal";
 import {THistoryFrom, TIngredientData} from "../../utils/types";
+import {closeCurrentItemAction} from "../../services/actions/ingredient-actions";
 
 interface IPropsIngredientItem {
     ingredient: TIngredientData
@@ -51,9 +51,7 @@ const IngredientItem: React.FC<IPropsIngredientItem> = ({ingredient}) => {
 
     const handlerCloseModal = (): void => {
         debugger;
-        dispatch({
-            type: CLOSE_CURRENT_ITEM_DETAILS,
-        });
+        dispatch(closeCurrentItemAction());
         setIsOpenModal(false)
     };
 

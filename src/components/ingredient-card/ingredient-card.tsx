@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import IngredientInfo from '../ingredient-info/ingredient-info';
 import styles from '../../pages/pages.module.css';
-import {IModal, TIngredientData} from "../../utils/types";
+import {TIngredientData} from "../../utils/types";
 
 export interface ICardIngredient {
     background?: boolean;

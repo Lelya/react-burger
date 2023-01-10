@@ -11,12 +11,11 @@ import BurgerConstructorItem from "../burger-constructor-item/burger-constructor
 import BurgerConstructorEmpty from "../burger-constructor-empty/burger-constructor-empty";
 import { v4 as uuidv4 } from 'uuid';
 import {useHistory} from "react-router-dom";
-import {
-    ADD_BUN_INGREDIENT_TO_CONSTRUCTOR,
-    ADD_INGREDIENT_TO_CONSTRUCTOR,
-    CLEAR_CONSTRUCTOR, CLOSE_ORDER
-} from "../../services/actions";
 import {TIngredientData} from "../../utils/types";
+import {
+    addBunToConstructorItemAction,
+    addIngredientToConstructorItemAction, clearConstructorItemAction
+} from "../../services/actions/ingredient-actions";
 
 const BurgerConstructor: React.FC = () => {
 
@@ -54,15 +53,9 @@ const BurgerConstructor: React.FC = () => {
         ingredient = Object.assign(uniqId, ingredient);
 
         if (ingredient.type === BurgerConstants.INGREDIENTS_BUN) {
-            dispatch({
-                type: ADD_BUN_INGREDIENT_TO_CONSTRUCTOR,
-                bun: ingredient
-            });
+            dispatch(addBunToConstructorItemAction(ingredient));
         } else {
-            dispatch({
-                type: ADD_INGREDIENT_TO_CONSTRUCTOR,
-                item: ingredient
-            });
+            dispatch(addIngredientToConstructorItemAction(ingredient));
         }
 
     }
@@ -148,9 +141,7 @@ const BurgerConstructor: React.FC = () => {
                         handlerClose={() => {
                             dispatch(closeOrderAction());
                             setIsOpenModal(false);
-                            dispatch({
-                                type: CLEAR_CONSTRUCTOR
-                            });
+                            dispatch(clearConstructorItemAction());
                         }}
                         isOpenModal={isOpenModal}/>
                 ) : (

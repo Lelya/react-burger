@@ -3,9 +3,12 @@ import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burg
 import burgerConstructorStyle from './burger-constructor-item.module.css';
 import {useDispatch} from "react-redux";
 import {useDrag, useDrop} from 'react-dnd';
- import {DELETE_INGREDIENT_TO_CONSTRUCTOR, MOVE_INGREDIENT_IN_CONSTRUCTOR} from "../../services/actions";
  import {TIngredientData} from "../../utils/types";
  import { Identifier } from 'dnd-core';
+ import {
+    deleteIngredientToConstructorItemAction,
+     moveIngredientInConstructorItemAction
+ } from "../../services/actions/ingredient-actions";
 
 interface IPropsBurgerConstructorItem {
      ingredient: TIngredientData;
@@ -41,11 +44,7 @@ const BurgerConstructorItem : React.FC<IPropsBurgerConstructorItem> = ({ingredie
     });
 
     const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
-        dispatch({
-            type: MOVE_INGREDIENT_IN_CONSTRUCTOR,
-            dragIndex: dragIndex,
-            hoverIndex: hoverIndex
-        });
+        dispatch(moveIngredientInConstructorItemAction(dragIndex, hoverIndex));
     }, [dispatch])
 
     const [{ handlerId }, drop] = useDrop<DragObject, undefined, CollectedProps>({
@@ -92,10 +91,9 @@ const BurgerConstructorItem : React.FC<IPropsBurgerConstructorItem> = ({ingredie
                 price={ingredient.price}
                 thumbnail={ingredient.image}
                 handleClose={() => {
-                    dispatch({
-                        type: DELETE_INGREDIENT_TO_CONSTRUCTOR,
-                        id: ingredient.uniqId,
-                    })
+                    if (ingredient.uniqId !== undefined) {
+                        dispatch(deleteIngredientToConstructorItemAction(ingredient.uniqId))
+                    }
                 }}
             />
         </li>

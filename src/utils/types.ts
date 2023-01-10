@@ -1,11 +1,16 @@
 import H from "history";
 import React from "react";
-import {store} from "../services/store/store";
 import { ThunkAction } from 'redux-thunk';
-import { Action, ActionCreator } from 'redux';
 import {TIngredientsActions, TSetOrderActions} from "../services/actions/order-actions";
 import {TUserActions} from "../services/actions/user-actions";
 import {TCurrentIngredientActions, TIngredientActions} from "../services/actions/ingredient-actions";
+import { rootReducer } from "../services/reducers";
+import type {} from "redux-thunk/extend-redux";
+import {
+    TypedUseSelectorHook,
+    useDispatch as dispatchHook,
+    useSelector as selectorHook,
+} from "react-redux";
 
 export type THistoryFrom = {
     from: string;
@@ -60,13 +65,17 @@ export interface IModal {
     children: React.ReactNode;
 }
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
+
 type TApplicationActions = TIngredientsActions |
     TSetOrderActions |
     TUserActions |
     TIngredientActions |
     TCurrentIngredientActions;
-export type AppDispatch = typeof store.dispatch;
-export type AppThunk<ReturnType = void> = ActionCreator<
-    ThunkAction<ReturnType, Action, RootState, TApplicationActions>
->;
+
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, TApplicationActions>;
+
+export type AppDispatch<ReturnType = void> = (action: TApplicationActions | AppThunk<ReturnType>) => ReturnType;
+
+export const useDispatch: () => AppDispatch = dispatchHook;
+export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
