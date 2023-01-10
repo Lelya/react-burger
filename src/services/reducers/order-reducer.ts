@@ -1,7 +1,14 @@
 import { SET_ORDER_REQUEST, SET_ORDER_SUCCESS, SET_ORDER_ERROR, CLOSE_ORDER} from '../actions';
 import {TSetOrderActions} from "../actions/order-actions";
 
-const orderInitialState = {
+type TOrderState = {
+    orderId: string | number,
+    isLoading: boolean,
+    isError: boolean,
+    isOpen: boolean
+};
+
+const orderInitialState: TOrderState = {
     orderId: '',
     isLoading: false,
     isError: false,

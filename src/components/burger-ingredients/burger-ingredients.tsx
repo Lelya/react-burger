@@ -4,9 +4,9 @@ import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
 import burgerIngredientsStyle from './burger-ingredients.module.css';
 import {arrayOf} from "prop-types";
 import * as BurgerConstants from '../../constants/burger-constants';
-import { useSelector} from 'react-redux';
 import BurgerIngredientBlockType from "../burger-ingredient-block-type/burger-ingredient-block-type";
 import {TIngredientData} from "../../utils/types";
+import {useSelector} from "../../utils/types";
 
 BurgerIngredients.propTypes = {
     data: arrayOf(BurgerPropTypes)
@@ -14,7 +14,6 @@ BurgerIngredients.propTypes = {
 
 export default function BurgerIngredients ()  {
 
-    // @ts-ignore
     const ingredients = useSelector(store => store.listAllIngredients.items);
     const bunData = useMemo(() => ingredients.filter((elem: TIngredientData) => elem.type === BurgerConstants.INGREDIENTS_BUN),[ingredients]);
     const sauceData = useMemo(() => ingredients.filter((elem: TIngredientData) => elem.type === BurgerConstants.INGREDIENTS_SAUCE),[ingredients]);

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientItemStyle from './ingredient-item.module.css';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from "../../utils/types";
 import {useDrag} from "react-dnd";
 import {INGREDIENTS_BUN} from "../../constants/burger-constants";
 import {Link, useLocation} from "react-router-dom";
@@ -20,9 +20,7 @@ const IngredientItem: React.FC<IPropsIngredientItem> = ({ingredient}) => {
     const [counter, setCounter] = useState(0);
 
     const dispatch = useDispatch();
-    // @ts-ignore
     const bunData = useSelector(store => store.listConstructorIngredients.bun);
-    // @ts-ignore
     const sauceAndMainData = useSelector(store => store.listConstructorIngredients.items);
     const location = useLocation<THistoryFrom>();
 

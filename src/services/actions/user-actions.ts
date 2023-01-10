@@ -350,7 +350,7 @@ export const registerSuccessAction = (
     user
 });
 
-export const registerThunk = (values: { email: string ; password: string; name: string}) : AppThunk => (dispatch: AppDispatch) => {
+export const registerThunk = (values: TFormUser) : AppThunk => (dispatch: AppDispatch) => {
     dispatch(registerAction());
     postRequest(REGISTER_URL, values )
         .then(res => {

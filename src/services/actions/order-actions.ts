@@ -95,7 +95,7 @@ export const setOrderSuccessAction = (
     orderNumber
 });
 
-export const postOrderThunk: AppThunk = (ingredientIds: any) => (dispatch: AppDispatch) => {
+export const postOrderThunk = (ingredientIds: Array<string>) : AppThunk => (dispatch: AppDispatch) => {
     dispatch(setOrderAction());
     const token = 'Bearer ' + localStorage.getItem('accessToken');
     postRequestAuth(SET_INGREDIENTS_URL, {ingredients: ingredientIds}, token)

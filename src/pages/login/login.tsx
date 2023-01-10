@@ -2,7 +2,7 @@ import React, {FormEvent} from 'react';
 import styles from '../pages.module.css';
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../utils/types";
 import {logInThunk} from "../../services/actions/user-actions";
 import {useForm} from "../../hooks/useForm";
 
@@ -12,7 +12,6 @@ export function Login() {
         password: "",
     });
     const dispatch = useDispatch();
-    // @ts-ignore
     const errorLogin = useSelector(store => store.userInfo.loginError);
 
     const handleLogin = (e: FormEvent<HTMLFormElement>): void => {

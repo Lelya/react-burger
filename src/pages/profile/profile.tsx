@@ -1,22 +1,17 @@
 import React, {ChangeEvent, useState} from 'react';
 import styles from './profile.module.css';
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../utils/types";
 import {logoutUserThunk, updateUserDataThunk} from "../../services/actions/user-actions";
 import {NavLink, Redirect} from "react-router-dom";
 
 export function Profile() {
 
     const dispatch = useDispatch();
-    // @ts-ignore
     const emailUser = useSelector(store => store.userInfo.email);
-    // @ts-ignore
     const nameUser = useSelector(store => store.userInfo.name);
-    // @ts-ignore
     const errorUser = useSelector(store => store.userInfo.getUserError);
-    // @ts-ignore
     const userLoaded = useSelector(store => store.userInfo.userLoaded);
-    // @ts-ignore
     const updateUserInfoError = useSelector(store => store.userInfo.updateUserInfoError);
     const passwordUser = '12345';
     const [hasChanged, setChanged] = useState(false);

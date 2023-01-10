@@ -4,7 +4,7 @@ import burgerConstructorStyle from './burger-constructor.module.css';
 import * as BurgerConstants from "../../constants/burger-constants";
 import OrderDetails from "../order-details/order-details";
 import ErrorModal from "../error-modal/error-modal";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../utils/types";
 import {closeOrderAction, postOrderThunk} from "../../services/actions/order-actions";
 import {useDrop} from 'react-dnd';
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
@@ -21,26 +21,19 @@ const BurgerConstructor: React.FC = () => {
 
     const history = useHistory();
     const dispatch = useDispatch();
-    // @ts-ignore
     const ingredients = useSelector(store => store.listAllIngredients.items);
-    // @ts-ignore
     const order = useSelector(store => store.orderInfo.orderId);
-    // @ts-ignore
     const error = useSelector(store => store.orderInfo.isError);
-    // @ts-ignore
     const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
 
     const [isOpenModal, setIsOpenModal] = useState(false);
 
-    // @ts-ignore
     const isLoading  = useSelector(store => store.orderInfo.isLoading);
-    // @ts-ignore
     const bunData = useSelector(store => store.listConstructorIngredients.bun);
-    // @ts-ignore
     const sauceAndMainData = useSelector(store => store.listConstructorIngredients.items);
 
     const totalPrice = useMemo(() => {
-            if (bunData.length ) {
+            if (bunData.length > 0 && bunData[0]) {
                 return sauceAndMainData.reduce((l: number, el: TIngredientData) => el.price + l, bunData[0].price * 2);
             }
         },
@@ -72,11 +65,10 @@ const BurgerConstructor: React.FC = () => {
 
     const setOrder = () => {
         if (userLoggedIn) {
-            let ingredientIds = [];
+            let ingredientIds: Array<string> = [];
             ingredientIds.push(bunData[0]._id);
             ingredientIds = ingredientIds.concat(sauceAndMainData.map((item: { _id: string; }) => item._id));
             ingredientIds.push(bunData[0]._id);
-            // @ts-ignore
             dispatch(postOrderThunk(ingredientIds));
             setIsOpenModal(true);
         } else {

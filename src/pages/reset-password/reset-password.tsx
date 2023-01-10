@@ -2,7 +2,7 @@ import React, {FormEvent} from 'react';
 import styles from '../pages.module.css';
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../utils/types";
 import {useForm} from "../../hooks/useForm";
 import {resetPasswordThunk} from "../../services/actions/user-actions";
 
@@ -12,12 +12,8 @@ export function ResetPassword() {
         token: ""
     });
     const dispatch = useDispatch();
-    // @ts-ignore
     const errorResetPassword = useSelector(store => store.userInfo.resetPasswordError);
-    // @ts-ignore
     const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
-    debugger;
-    // @ts-ignore
     const forgotPasswordVisited = useSelector(store => store.userInfo.forgotPasswordVisited);
 
     if (userLoggedIn) {
@@ -30,8 +26,7 @@ export function ResetPassword() {
 
     const handleResetPassword = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        // @ts-ignore
-        dispatch(resetPasswordThunk(values));
+        dispatch(resetPasswordThunk());
     }
 
     return (

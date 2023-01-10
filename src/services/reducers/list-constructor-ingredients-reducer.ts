@@ -6,8 +6,14 @@ import {
 } from "../actions";
 import update from 'immutability-helper';
 import {TIngredientActions} from "../actions/ingredient-actions";
+import {TIngredientData} from "../../utils/types";
 
-const constructorInitialState = {
+type TConstructorInitialState = {
+    items: ReadonlyArray<TIngredientData>,
+    bun: ReadonlyArray<TIngredientData>
+}
+
+const constructorInitialState: TConstructorInitialState = {
     items: [],
     bun: []
 }
@@ -21,7 +27,6 @@ export const listConstructorIngredientsReducer = (state = constructorInitialStat
             return {...state, bun: [action.bun]  }
         }
         case DELETE_INGREDIENT_TO_CONSTRUCTOR: {
-            // @ts-ignore
             const newItems = state.items.filter(elem => elem.uniqId !== action.id);
             return {
                 ...state,

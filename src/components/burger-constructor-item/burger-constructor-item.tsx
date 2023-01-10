@@ -1,7 +1,7 @@
  import React, {useCallback, useRef} from 'react';
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructorStyle from './burger-constructor-item.module.css';
-import {useDispatch} from "react-redux";
+ import {useDispatch} from "../../utils/types";
 import {useDrag, useDrop} from 'react-dnd';
  import {TIngredientData} from "../../utils/types";
  import { Identifier } from 'dnd-core';

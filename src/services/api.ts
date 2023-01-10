@@ -1,5 +1,4 @@
 import {NORMA_URL} from "../constants/burger-constants";
-import {TIngredientData} from "../utils/types";
 
 export function request(url: string | URL, options: RequestInit | undefined) {
     return fetch(url, options).then(checkResponse)
@@ -26,7 +25,7 @@ export function postRequest (url: string, data: { token?: string | null; email?:
     })
 }
 
-export function postRequestAuth (url: string, data: { ingredients: TIngredientData }, token: string) {
+export function postRequestAuth (url: string, data: { ingredients: Array<string> }, token: string) {
     return request(NORMA_URL+url, {
         method: "POST",
         headers: {
@@ -37,7 +36,7 @@ export function postRequestAuth (url: string, data: { ingredients: TIngredientDa
     })
 }
 
-export function patchRequestAuth (url: string, data: { email: string; name: string; }, token: string) {
+export function patchRequestAuth(url: string, data: { name: string | null | undefined; email: string | null | undefined }, token: string) {
     return request(NORMA_URL+url, {
         method: "PATCH",
         headers: {
