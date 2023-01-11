@@ -26,7 +26,7 @@ export const orderListReducer  = (state = orderListInitialState, action: TOrderL
             return {...state, isLoading: true};
         }
         case GET_ORDER_LIST_SUCCESS: {
-            return {...state, isLoading: false, orders: action.orders, isError: false};
+            return {...state, isLoading: false, orders: action.orders, total: action.total, totalToday: action.totalToday, isError: false};
         }
         case GET_ORDER_LIST_ERROR: {
             return {...state, isLoading: false, isError: true};

@@ -51,7 +51,7 @@ export function Profile() {
         <>
             {!userLoaded ? (
                 <div className={`${styles.text_error} mt-10`}>
-                    <span className="text text_type_main-default">Авторизуйтесь в системе</span>
+                    {/*<span className="text text_type_main-default">Авторизуйтесь в системе</span>*/}
                 </div>
             ) : (
                 <div className={styles.wrapper_profile}>

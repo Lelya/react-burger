@@ -12,7 +12,9 @@ export interface IOrderListFailedAction {
 }
 export interface IOrderListSuccessAction {
     readonly type: typeof GET_ORDER_LIST_SUCCESS;
-    orders: ReadonlyArray<TOrder>
+    orders: ReadonlyArray<TOrder>,
+    total: number,
+    totalToday: number
 }
 
 export type TOrderListActions = IOrderListRequestAction |
@@ -28,10 +30,14 @@ export const orderListFailedAction = (): IOrderListFailedAction => ({
 });
 
 export const orderListSuccessAction = (
-    orders: ReadonlyArray<TOrder>
+    orders: ReadonlyArray<TOrder>,
+    total: number,
+    totalToday: number
 ): IOrderListSuccessAction => ({
     type: GET_ORDER_LIST_SUCCESS,
-    orders
+    orders,
+    total,
+    totalToday
 });
 
 export const getOrderListThunk = (): AppThunk => (dispatch: AppDispatch) => {
@@ -39,7 +45,7 @@ export const getOrderListThunk = (): AppThunk => (dispatch: AppDispatch) => {
     getData(GET_ORDER_LIST_URL,{})
         .then(res => {
             if (res && res.success) {
-                dispatch(orderListSuccessAction(res.orders));
+                dispatch(orderListSuccessAction(res.orders, res.total, res.totalToday));
             } else {
                 dispatch(orderListFailedAction());
             }
