@@ -1,0 +1,43 @@
+.ingredientImageBorder {
+    width: 64px;
+    height: 64px;
+    background-image: linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%);
+    border: 2px solid transparent;
+    border-radius: 100px;
+}
+.ingredientImageContainer {
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    position: relative;
+    background: #131316;
+    border-radius: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ingredientImage {
+    /*background-size: cover;*/
+    height: 60px;
+}
+
+.ingredientImageLast {
+    composes: ingredientImage;
+    opacity: 0.6;
+}
+
+.ingredientCounter {
+    composes: text text_type_main-default text_color_primary  from '~@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    width: 64px;
+    height: 64px;
+    z-index: 18;
+    color: #F2F2F3;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}

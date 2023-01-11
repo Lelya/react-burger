@@ -11,6 +11,7 @@ import {
     useDispatch as dispatchHook,
     useSelector as selectorHook,
 } from "react-redux";
+import {TOrderListActions} from "../services/actions/order-list-actions";
 
 export type THistoryFrom = {
     from: string;
@@ -40,7 +41,8 @@ export type TIngredientData = {
     proteins: number,
     fat: number,
     carbohydrates: number,
-    uniqId?: number
+    uniqId?: number,
+    count: number
 }
 
 export type TFormUser = {
@@ -64,6 +66,30 @@ export interface IModal {
     isOpen: boolean;
     children: React.ReactNode;
 }
+export type TOrderItem = {
+    id: string;
+    index?: number;
+    ingredient: TIngredientData;
+}
+
+export type TOrder = {
+    id?: string;
+    _id?: string;
+    number?: number;
+    status?: string;
+    name?: string;
+    items?: Array<TOrderItem>;
+    ingredients?: string[];
+    createdAt?: string;
+    updatedAt: string | number | Date;
+}
+
+export const statusList: Map<string,string> = new Map([
+    ['created', 'создан'],
+    ['pending', 'готовится'],
+    ['done', 'выполнен'],
+]);
+
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -71,7 +97,8 @@ type TApplicationActions = TIngredientsActions |
     TSetOrderActions |
     TUserActions |
     TIngredientActions |
-    TCurrentIngredientActions;
+    TCurrentIngredientActions |
+    TOrderListActions;
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, TApplicationActions>;
 

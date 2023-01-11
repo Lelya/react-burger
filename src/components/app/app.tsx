@@ -4,7 +4,7 @@ import appStyle from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import {Main} from "../../pages/main/main";
 import {Login} from "../../pages/login/login";
-import {useDispatch} from "react-redux";
+import {useDispatch} from "../../utils/types";
 import {getIngredientsThunk} from "../../services/actions/order-actions";
 import {Register} from "../../pages/register/register";
 import {ForgotPassword} from "../../pages/forgot-password/forgot-password";
@@ -17,6 +17,7 @@ import Modal from "../modal/modal";
 import Error404 from "../../pages/error-404/error-404";
 import {getUserDataThunk} from "../../services/actions/user-actions";
 import {TModalBackground} from "../../utils/types";
+import OrderCard from "../order-card/order-card";
 
 const App: React.FC = () => {
 
@@ -62,6 +63,9 @@ const App: React.FC = () => {
                     <Route exact path="/ingredients/:id">
                         <IngredientCard/>
                     </Route>
+                    <Route exact path="/feed/:id">
+                        <OrderCard/>
+                    </Route>
                     <Route exact path="/feed">
                         <Feed />
                     </Route>
@@ -73,6 +77,13 @@ const App: React.FC = () => {
                     <Route exact path='/ingredients/:id'>
                         <Modal handlerClose={closeModal} isOpen>
                             <IngredientCard background={true}/>
+                        </Modal>
+                    </Route>
+                }
+                { background &&
+                    <Route exact path='/feed/:id'>
+                        <Modal handlerClose={closeModal} isOpen>
+                            <OrderCard background={true}/>
                         </Modal>
                     </Route>
                 }

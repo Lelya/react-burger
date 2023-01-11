@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientItemStyle from './ingredient-item.module.css';
+import styles from "../../pages/pages.module.css";
 import {useDispatch, useSelector} from "../../utils/types";
 import {useDrag} from "react-dnd";
 import {INGREDIENTS_BUN} from "../../constants/burger-constants";
@@ -81,7 +82,7 @@ const IngredientItem: React.FC<IPropsIngredientItem> = ({ingredient}) => {
                             </div>
                         }
                         <img className={`mb-4`} src={ingredient.image}  alt={ingredient.image}/>
-                        <p className={`${ingredientItemStyle.price} mb-4 text text_type_digits-default`}><span>{ingredient.price}</span> <CurrencyIcon type="primary" /></p>
+                        <p className={`${styles.price} mb-4 text text_type_digits-default`}><span>{ingredient.price}</span> <CurrencyIcon type="primary" /></p>
                         <p className={`text text_type_main-default`}>{ingredient.name}</p>
                     </li>
                 </Link>

@@ -1,34 +1,35 @@
-import { SET_ORDER_REQUEST, SET_ORDER_SUCCESS, SET_ORDER_ERROR, CLOSE_ORDER} from '../actions';
-import {TSetOrderActions} from "../actions/order-actions";
+import {
+    GET_ORDER_LIST_REQUEST, GET_ORDER_LIST_SUCCESS, GET_ORDER_LIST_ERROR
+} from '../actions';
+import {TOrder} from "../../utils/types";
+import {TOrderListActions} from "../actions/order-list-actions";
 
+type TOrderListInitialState = {
+    orders: ReadonlyArray<TOrder>,
+    total: number,
+    totalToday: number,
+    isLoading: boolean,
+    isError: boolean,
+}
 
-const orderListInitialState = {
+const orderListInitialState: TOrderListInitialState = {
     orders: [],
     total: 0,
     totalToday: 0,
-    ordersLoading: false,
-    ordersFailed: false,
+    isLoading: false,
+    isError: false,
 }
 
-export const orderListReducer  = (state = orderListInitialState, action: TSetOrderActions) => {
+export const orderListReducer  = (state = orderListInitialState, action: TOrderListActions) => {
     switch (action.type) {
-        case SET_ORDER_REQUEST: {
-            return {
-                ...state,
-                orderId: '',
-                isLoading: true,
-            };
+        case GET_ORDER_LIST_REQUEST: {
+            return {...state, isLoading: true};
         }
-        case SET_ORDER_SUCCESS: {
-            return {
-                ...state,
-                isError: false, orderId: action.orderNumber, isLoading: false, isOpen: true};
+        case GET_ORDER_LIST_SUCCESS: {
+            return {...state, isLoading: false, orders: action.orders, isError: false};
         }
-        case SET_ORDER_ERROR: {
-            return { ...state, isError: true, isLoading: false};
-        }
-        case CLOSE_ORDER: {
-            return { ...state,  orderId: '', isOpen: false};
+        case GET_ORDER_LIST_ERROR: {
+            return {...state, isLoading: false, isError: true};
         }
         default: {
             return state;

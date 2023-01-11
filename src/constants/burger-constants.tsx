@@ -14,3 +14,4 @@ export const LOGOUT_URL = '/auth/logout';
 export const RASSWORD_RESET_URL = '/password-reset/reset';
 export const TOKEN_URL = '/auth/token';
 export const AUTH_USER_URL = '/auth/user';
+export const GET_ORDER_LIST_URL = '/orders/all';

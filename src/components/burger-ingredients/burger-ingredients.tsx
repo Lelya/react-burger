@@ -1,16 +1,10 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
 import burgerIngredientsStyle from './burger-ingredients.module.css';
-import {arrayOf} from "prop-types";
 import * as BurgerConstants from '../../constants/burger-constants';
 import BurgerIngredientBlockType from "../burger-ingredient-block-type/burger-ingredient-block-type";
 import {TIngredientData} from "../../utils/types";
 import {useSelector} from "../../utils/types";
-
-BurgerIngredients.propTypes = {
-    data: arrayOf(BurgerPropTypes)
-}
 
 export default function BurgerIngredients ()  {
 

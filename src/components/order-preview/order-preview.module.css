@@ -1,0 +1,11 @@
+.link {
+    text-decoration: none;
+    color: #fff;
+}
+.orderIngredients {
+    display: flex;
+}
+
+.ingredientBox {
+    width: 48px;
+}

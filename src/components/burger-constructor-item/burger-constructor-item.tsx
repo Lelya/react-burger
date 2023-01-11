@@ -27,7 +27,7 @@ const BurgerConstructorItem : React.FC<IPropsBurgerConstructorItem> = ({ingredie
 
     //Для ревьювера -
     //использовала пример для сортировки https://medium.com/litslink/react-dnd-in-examples-ce509b25839d,
-    // адаптировав под хранилище Redux и подключив библиотеку immutability-helper
+    //адаптировав под хранилище Redux и подключив библиотеку immutability-helper
 
     const dispatch = useDispatch();
     const ref = useRef<HTMLLIElement>(null);

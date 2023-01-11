@@ -42,7 +42,7 @@ export const getIngredientsSuccessAction = (
 });
 
 
-export const getIngredientsThunk= (): AppThunk => (dispatch: AppDispatch) => {
+export const getIngredientsThunk = (): AppThunk => (dispatch: AppDispatch) => {
     dispatch(getIngredientsAction());
     getData(GET_INGREDIENTS_URL,{})
         .then(res => {

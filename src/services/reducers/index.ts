@@ -4,6 +4,7 @@ import { listConstructorIngredientsReducer } from './list-constructor-ingredient
 import {ingredientItemReducer} from "./ingredient-item-reducer";
 import {orderReducer} from "./order-reducer";
 import {userReducer} from "./user-reducer";
+import {orderListReducer} from "./order-list-reducer";
 
 export const rootReducer = combineReducers({
     listAllIngredients: listAllIngredientsReducer,
@@ -11,5 +12,5 @@ export const rootReducer = combineReducers({
     ingredientItem: ingredientItemReducer,
     orderInfo: orderReducer,
     userInfo: userReducer,
-    // orderList: orderListReducer,
+    orderList: orderListReducer,
 });
