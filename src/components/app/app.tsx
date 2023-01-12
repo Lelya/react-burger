@@ -94,6 +94,13 @@ const App: React.FC = () => {
                         </Modal>
                     </Route>
                 }
+                { background &&
+                    <Route exact path='/profile/feed/:id'>
+                        <Modal handlerClose={closeModal} isOpen>
+                            <OrderCard background={true}/>
+                        </Modal>
+                    </Route>
+                }
             </div>
         </div>
   );
