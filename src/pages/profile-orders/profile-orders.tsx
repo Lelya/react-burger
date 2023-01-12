@@ -25,7 +25,7 @@ export default function ProfileOrders ()  {
                 <div className={`${styles.orderListUserWrapper}`}>
                     <div className={`${styles.orderListUser}`}>
                         {orders.map(order => (
-                            <OrderPreview order={order} visibleStatus={true} key={order._id}/>
+                            <OrderPreview order={order} visibleStatus={true} key={order._id} url={"/profile/feed"}/>
                         ))}
                     </div>
                 </div>

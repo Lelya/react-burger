@@ -11,10 +11,11 @@ import OrderInfo from "../order-info/order-info";
 
 interface IOrderPreviewItem {
     order: TOrder,
-    visibleStatus: boolean
+    visibleStatus: boolean,
+    url: string
 }
 
-const OrderPreview: React.FC<IOrderPreviewItem> = ({order, visibleStatus}) => {
+const OrderPreview: React.FC<IOrderPreviewItem> = ({order, visibleStatus, url}) => {
 
     const dispatch = useDispatch();
     const location = useLocation<THistoryFrom>();
@@ -42,7 +43,7 @@ const OrderPreview: React.FC<IOrderPreviewItem> = ({order, visibleStatus}) => {
         <>
             <Link
                 to={{
-                    pathname: `/feed/${order._id}`,
+                    pathname: `${url}/${order._id}`,
                     state: { background: location },
                 }}
                 className={stylesPreview.link}
@@ -57,7 +58,9 @@ const OrderPreview: React.FC<IOrderPreviewItem> = ({order, visibleStatus}) => {
                     </div>
 
                     <div className={styles.orderName}>{order.name}</div>
-                    <div className={`${styles.textStatus} text text text_type_main-small pb-10`}>{status}</div>
+                    { visibleStatus &&
+                        <div className={`${styles.textStatus} text text text_type_main-small pb-10`}>{status}</div>
+                    }
                     <div className={styles.headerLine}>
                         <div className={stylesPreview.orderIngredients}>
                             {orderIngredients?.map((ingredient, index) => {

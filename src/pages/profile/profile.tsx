@@ -13,7 +13,6 @@ export function Profile() {
     const dispatch = useDispatch();
     const emailUser = useSelector(store => store.userInfo.email);
     const nameUser = useSelector(store => store.userInfo.name);
-    const errorUser = useSelector(store => store.userInfo.getUserError);
     const userLoaded = useSelector(store => store.userInfo.userLoaded);
     const updateUserInfoError = useSelector(store => store.userInfo.updateUserInfoError);
     const passwordUser = '12345';
@@ -89,11 +88,6 @@ export function Profile() {
                                 </Button>
                             </>
                         }
-                        {errorUser && (
-                            <div className={`${styles.text_error} mb-2`}>
-                                <span className="text text_type_main-default">Авторизуйтесь в системе</span>
-                            </div>
-                        )}
                     </form>
                 </div>
             </div>

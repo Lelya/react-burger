@@ -20,7 +20,7 @@ export default function OrderFeed ()  {
             </div>
             <div className={`${styles.ingredients}`}>
                 {orders.map(order => (
-                    <OrderPreview order={order} visibleStatus={false} key={order._id}/>
+                    <OrderPreview order={order} visibleStatus={false} key={order._id} url={"/feed"}/>
                 ))}
             </div>
         </section>
