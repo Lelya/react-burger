@@ -29,8 +29,8 @@ export default function InfoFeed ()  {
     const total = useSelector(store => store.orderList.total);
     const totalToday = useSelector(store => store.orderList.totalToday);
 
+    const ordersDone = useMemo(() => orders.filter(order => order.status === 'done'), [orders]);
     const ordersPending = useMemo(() => orders.filter(order => order.status === 'pending'), [orders]);
-    const ordersCreated= useMemo(() => orders.filter(order => order.status === 'created'), [orders]);
 
     useEffect(() => {
         dispatch(getOrderListThunk());
@@ -41,8 +41,8 @@ export default function InfoFeed ()  {
         <section className={`${styles.infoFeed} mt-25`}>
             <div className={styles.infoContainer}>
                 <div className={`${styles.infoFeedContainer} pb-15`}>
-                    <OrderStatusList orders={ordersPending} name={'Готовы:'}/>
-                    <OrderStatusList orders={ordersCreated} name={'В работе:'}/>
+                    <OrderStatusList orders={ordersDone} name={'Готовы:'}/>
+                    <OrderStatusList orders={ordersPending} name={'В работе:'}/>
                 </div>
                 <div className="pb-15">
                     <div className="text text_type_main-medium">Выполнено за все время:</div>

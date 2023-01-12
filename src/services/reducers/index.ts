@@ -5,6 +5,7 @@ import {ingredientItemReducer} from "./ingredient-item-reducer";
 import {orderReducer} from "./order-reducer";
 import {userReducer} from "./user-reducer";
 import {orderListReducer} from "./order-list-reducer";
+import {orderListUserReducer} from "./order-list-user-reducer";
 
 export const rootReducer = combineReducers({
     listAllIngredients: listAllIngredientsReducer,
@@ -13,4 +14,5 @@ export const rootReducer = combineReducers({
     orderInfo: orderReducer,
     userInfo: userReducer,
     orderList: orderListReducer,
+    orderListUser: orderListUserReducer,
 });

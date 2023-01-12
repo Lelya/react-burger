@@ -1,7 +1,7 @@
-import React, {useEffect, useMemo} from 'react'
+import React, {useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import styles from '../../pages/pages.module.css';
-import {statusList, TOrder, useDispatch} from "../../utils/types";
+import {TOrder, useDispatch} from "../../utils/types";
 import {useSelector} from "../../utils/types";
 import OrderInfo from "../order-info/order-info";
 import {getOrderListThunk} from "../../services/actions/order-list-actions";

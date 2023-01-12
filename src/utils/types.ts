@@ -11,7 +11,7 @@ import {
     useDispatch as dispatchHook,
     useSelector as selectorHook,
 } from "react-redux";
-import {TOrderListActions} from "../services/actions/order-list-actions";
+import {TOrderListActions, TOrderListUserActions} from "../services/actions/order-list-actions";
 
 export type THistoryFrom = {
     from: string;
@@ -98,7 +98,8 @@ type TApplicationActions = TIngredientsActions |
     TUserActions |
     TIngredientActions |
     TCurrentIngredientActions |
-    TOrderListActions;
+    TOrderListActions |
+    TOrderListUserActions;
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, TApplicationActions>;
 

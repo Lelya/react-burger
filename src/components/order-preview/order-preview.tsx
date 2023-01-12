@@ -10,10 +10,11 @@ import Modal from "../modal/modal";
 import OrderInfo from "../order-info/order-info";
 
 interface IOrderPreviewItem {
-    order: TOrder
+    order: TOrder,
+    visibleStatus: boolean
 }
 
-const OrderPreview: React.FC<IOrderPreviewItem> = ({order}) => {
+const OrderPreview: React.FC<IOrderPreviewItem> = ({order, visibleStatus}) => {
 
     const dispatch = useDispatch();
     const location = useLocation<THistoryFrom>();
@@ -34,9 +35,8 @@ const OrderPreview: React.FC<IOrderPreviewItem> = ({order}) => {
     }, [ingredients, order.ingredients]);
 
     const total = useMemo(() => orderIngredients.map(ingredient => ingredient?.price ?? 0).reduce((a, b) => a + b), [orderIngredients]);
+    const otherIngredients = useMemo(() => orderIngredients.splice(6).reverse(), [orderIngredients]);
     const status = useMemo(() => order.status ? statusList.get(order.status) : 'не определен', [order])
-
-    const otherIngredients = useMemo(() => orderIngredients.splice(6), [orderIngredients]);
 
     return (
         <>
@@ -57,6 +57,7 @@ const OrderPreview: React.FC<IOrderPreviewItem> = ({order}) => {
                     </div>
 
                     <div className={styles.orderName}>{order.name}</div>
+                    <div className={`${styles.textStatus} text text text_type_main-small pb-10`}>{status}</div>
                     <div className={styles.headerLine}>
                         <div className={stylesPreview.orderIngredients}>
                             {orderIngredients?.map((ingredient, index) => {

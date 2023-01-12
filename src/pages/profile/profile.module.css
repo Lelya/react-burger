@@ -1,3 +1,8 @@
+.wrapper_profile_tab {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
 .wrapper_profile{
     position: relative;
     width: 100%;
@@ -27,3 +32,29 @@
     text-align: center;
     color: #e20d0d;
 }
+.orderListUserWrapper {
+    width: 600px;
+    background: #131316;
+    display: flex;
+    flex-direction: column;
+}
+.orderListUser {
+    height: 100%;
+    overflow-y: scroll;
+    scrollbar-color: #8585AD;
+    scrollbar-base-color: #2F2F37;
+}
+.orderListUser::-webkit-scrollbar {
+    width: 8px;
+    background: #2F2F37;
+}
+
+.orderListUser::-webkit-scrollbar-thumb {
+    background: #8585AD;
+    -webkit-border-radius: 0;
+}
+
+.orderListUser::-webkit-scrollbar-corner {
+    background: #000;
+}
+

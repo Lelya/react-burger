@@ -6,6 +6,7 @@ import {NavLink, useRouteMatch} from "react-router-dom";
 const AppHeader = () => {
     const isConstructor = useRouteMatch({ path: '/', exact: true });
     const isProfile = useRouteMatch({ path: '/profile', exact: true });
+    const isProfileOrder = useRouteMatch({ path: '/profile/orders', exact: true });
     const isFeed = useRouteMatch({ path: '/feed', exact: true });
 
     return (
@@ -42,7 +43,7 @@ const AppHeader = () => {
                         </NavLink>
                     </li>
                     <li className={headerStyle.navButton}>
-                        <ProfileIcon type={isProfile ? 'primary' : 'secondary'} />
+                        <ProfileIcon type={isProfile || isProfileOrder ? 'primary' : 'secondary'} />
                         <NavLink
                             to="/profile"
                             exact

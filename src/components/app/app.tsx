@@ -18,6 +18,7 @@ import Error404 from "../../pages/error-404/error-404";
 import {getUserDataThunk} from "../../services/actions/user-actions";
 import {TModalBackground} from "../../utils/types";
 import OrderCard from "../order-card/order-card";
+import ProfileOrders from "../../pages/profile-orders/profile-orders";
 
 const App: React.FC = () => {
 
@@ -59,6 +60,9 @@ const App: React.FC = () => {
                     </ProtectedRouter>
                     <ProtectedRouter onlyAuth={true} path="/profile" exact>
                         <Profile />
+                    </ProtectedRouter>
+                    <ProtectedRouter onlyAuth={true} path='/profile/orders' exact>
+                        <ProfileOrders />
                     </ProtectedRouter>
                     <Route exact path="/ingredients/:id">
                         <IngredientCard/>

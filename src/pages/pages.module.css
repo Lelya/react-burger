@@ -75,3 +75,7 @@
 .price span {
     padding-right: 9px;
 }
+.textStatus {
+    color: #4dcdcd;
+    text-align: left;
+}

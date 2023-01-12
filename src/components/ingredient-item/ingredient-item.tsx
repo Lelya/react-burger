@@ -49,7 +49,6 @@ const IngredientItem: React.FC<IPropsIngredientItem> = ({ingredient}) => {
     }, );
 
     const handlerCloseModal = (): void => {
-        debugger;
         dispatch(closeCurrentItemAction());
         setIsOpenModal(false)
     };
