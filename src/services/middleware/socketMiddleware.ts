@@ -56,13 +56,13 @@ export const socketMiddleware = (
               };
 
               socket.onclose = event => {
-                console.log('WebSocket closed');
                 socket = null;
               };
             }
           }
         }
         if (action.type === wsClose && socket != null) {
+          console.log('WebSocket closed');
           socket.close();
         }
       next(action);
