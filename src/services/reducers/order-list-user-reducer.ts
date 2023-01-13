@@ -1,40 +1,41 @@
 import {
-    GET_ORDER_LIST_REQUEST,
-    GET_ORDER_LIST_SUCCESS,
-    GET_ORDER_LIST_ERROR,
-    GET_ORDER_LIST_USER_REQUEST,
-    GET_ORDER_LIST_USER_SUCCESS, GET_ORDER_LIST_USER_ERROR
+    WS_CONNECTION_START,
+    WS_CONNECTION_SUCCESS,
+    WS_CONNECTION_ERROR, WS_GET_MESSAGE
 } from '../actions';
 import {TOrder} from "../../utils/types";
-import {TOrderListActions, TOrderListUserActions} from "../actions/order-list-actions";
+import {TWSActions} from "../actions/web-socket";
 
-type TOrderListIUserInitialState = {
+type TOrderListUserActions = {
     orders: ReadonlyArray<TOrder>,
     total: number,
     totalToday: number,
-    isLoading: boolean,
-    isError: boolean,
+    ordersRequest: boolean;
+    ordersFailed: boolean;
 }
 
-const orderListUserInitialState: TOrderListIUserInitialState = {
+const orderListUserInitialState: TOrderListUserActions = {
     orders: [],
     total: 0,
     totalToday: 0,
-    isLoading: false,
-    isError: false,
+    ordersRequest: false,
+    ordersFailed: false,
 }
-
-export const orderListUserReducer  = (state = orderListUserInitialState, action: TOrderListUserActions) => {
+export const orderListUserReducer  = (state = orderListUserInitialState, action: TWSActions) => {
     switch (action.type) {
-        case GET_ORDER_LIST_USER_REQUEST: {
-            return {...state, isLoading: true};
+        case WS_CONNECTION_START: {
+            return { ...state, ordersRequest: true };
         }
-        case GET_ORDER_LIST_USER_SUCCESS: {
-            return {...state, isLoading: false, orders: action.orders, total: action.total, totalToday: action.totalToday, isError: false};
+        case WS_CONNECTION_SUCCESS: {
+            return { ...state, ordersRequest: false, ordersFailed: false};
         }
-        case GET_ORDER_LIST_USER_ERROR: {
-            return {...state, isLoading: false, isError: true};
+        case WS_CONNECTION_ERROR: {
+            return { ...state, ordersFailed: true, ordersRequest: false};
         }
+        case WS_GET_MESSAGE: {
+            return { ...state, ordersFailed: false, orders: action.payload.orders.reverse(), total: action.payload.total, totalToday: action.payload.totalToday};
+        }
+
         default: {
             return state;
         }

@@ -4,7 +4,8 @@ import styles from '../../pages/pages.module.css';
 import {TOrder, useDispatch} from "../../utils/types";
 import {useSelector} from "../../utils/types";
 import OrderInfo from "../order-info/order-info";
-import {getOrderListThunk} from "../../services/actions/order-list-actions";
+import {wSConnectionStart} from "../../services/actions/web-socket";
+import {WSS_ALL_ORDERS_URL} from "../../constants/burger-constants";
 
 export interface ICardOrder{
     background?: boolean;
@@ -20,7 +21,7 @@ const OrderCard: React.FC<ICardOrder> = ({background }) => {
     const order = orders.find((elem: TOrder) => elem._id === id);
 
     useEffect(() => {
-        dispatch(getOrderListThunk());
+        dispatch(wSConnectionStart(WSS_ALL_ORDERS_URL));
     },[dispatch])
 
     return (

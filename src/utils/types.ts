@@ -11,7 +11,7 @@ import {
     useDispatch as dispatchHook,
     useSelector as selectorHook,
 } from "react-redux";
-import {TOrderListActions, TOrderListUserActions} from "../services/actions/order-list-actions";
+import {TWSActions} from "../services/actions/web-socket";
 
 export type THistoryFrom = {
     from: string;
@@ -85,9 +85,9 @@ export type TOrder = {
 }
 
 export const statusList: Map<string,string> = new Map([
-    ['created', 'создан'],
-    ['pending', 'готовится'],
-    ['done', 'выполнен'],
+    ['created', 'Создан'],
+    ['pending', 'Готовится'],
+    ['done', 'Выполнен'],
 ]);
 
 
@@ -98,8 +98,7 @@ type TApplicationActions = TIngredientsActions |
     TUserActions |
     TIngredientActions |
     TCurrentIngredientActions |
-    TOrderListActions |
-    TOrderListUserActions;
+    TWSActions;
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, TApplicationActions>;
 

@@ -3,7 +3,6 @@ import styles from "../../pages/profile/profile.module.css";
 import React from "react";
 import {logoutUserThunk} from "../../services/actions/user-actions";
 import {useDispatch} from "../../utils/types";
-import OrderCard from "../order-card/order-card";
 
 export interface IProfileTab {
     text: string;

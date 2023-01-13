@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
 import styles from "./order-feed.module.css";
-import {getOrderListThunk} from "../../services/actions/order-list-actions";
-import {useDispatch, useSelector} from "../../utils/types";
+import {TOrder, useDispatch, useSelector} from "../../utils/types";
 import OrderPreview from "../order-preview/order-preview";
+import {wSCloseConnection, wSConnectionStart} from "../../services/actions/web-socket";
+import {WSS_ALL_ORDERS_URL} from "../../constants/burger-constants";
 
 export default function OrderFeed ()  {
     const dispatch = useDispatch();
@@ -10,7 +11,10 @@ export default function OrderFeed ()  {
     const orders = useSelector(store => store.orderList.orders);
 
     useEffect(() => {
-        dispatch(getOrderListThunk());
+        dispatch(wSConnectionStart(WSS_ALL_ORDERS_URL));
+        return () => {
+            dispatch(wSCloseConnection());
+        };
     },[dispatch])
 
     return (
@@ -19,7 +23,7 @@ export default function OrderFeed ()  {
                 <p className="text text_type_main-large pb-6">Лента заказов</p>
             </div>
             <div className={`${styles.ingredients}`}>
-                {orders.map(order => (
+                {orders.map((order: TOrder) => (
                     <OrderPreview order={order} visibleStatus={false} key={order._id} url={"/feed"}/>
                 ))}
             </div>

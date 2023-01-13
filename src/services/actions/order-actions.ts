@@ -7,7 +7,7 @@ import {
     SET_ORDER_REQUEST,
     SET_ORDER_SUCCESS
 } from "./index";
-import {GET_INGREDIENTS_URL, ORDER_URL} from "../../constants/burger-constants";
+import {API_ORDERS_URL, API_INGREDIENTS_URL} from "../../constants/burger-constants";
 import {getData, postRequestAuth} from "../api";
 import {AppDispatch, AppThunk, TIngredientData} from "../../utils/types";
 
@@ -44,7 +44,7 @@ export const getIngredientsSuccessAction = (
 
 export const getIngredientsThunk = (): AppThunk => (dispatch: AppDispatch) => {
     dispatch(getIngredientsAction());
-    getData(GET_INGREDIENTS_URL,{})
+    getData(API_INGREDIENTS_URL,{})
         .then(res => {
             if (res && res.success) {
                 dispatch(getIngredientsSuccessAction(res.data));
@@ -98,7 +98,7 @@ export const setOrderSuccessAction = (
 export const postOrderThunk = (ingredientIds: Array<string>) : AppThunk => (dispatch: AppDispatch) => {
     dispatch(setOrderAction());
     const token = 'Bearer ' + localStorage.getItem('accessToken');
-    postRequestAuth(ORDER_URL, {ingredients: ingredientIds}, token)
+    postRequestAuth(API_ORDERS_URL, {ingredients: ingredientIds}, token)
         .then(res => {
             if (res && res.success) {
                 dispatch(setOrderSuccessAction(res.order.number));

@@ -1,7 +1,8 @@
 import React, {FC, useEffect, useMemo} from 'react';
 import styles from "./info-feed.module.css";
 import {TOrder, useDispatch, useSelector} from "../../utils/types";
-import {getOrderListThunk} from "../../services/actions/order-list-actions";
+import {wSCloseConnection, wSConnectionStart} from "../../services/actions/web-socket";
+import {WSS_ALL_ORDERS_URL} from "../../constants/burger-constants";
 
 type TOrderStatusListProps = {
     orders: Array<TOrder>,
@@ -29,13 +30,15 @@ export default function InfoFeed ()  {
     const total = useSelector(store => store.orderList.total);
     const totalToday = useSelector(store => store.orderList.totalToday);
 
-    const ordersDone = useMemo(() => orders.filter(order => order.status === 'done'), [orders]);
-    const ordersPending = useMemo(() => orders.filter(order => order.status === 'pending'), [orders]);
+    const ordersDone = useMemo(() => orders.filter((order: TOrder) => order.status === 'done'), [orders]);
+    const ordersPending = useMemo(() => orders.filter((order: TOrder) => order.status === 'pending'), [orders]);
 
     useEffect(() => {
-        dispatch(getOrderListThunk());
+        dispatch(wSConnectionStart(WSS_ALL_ORDERS_URL));
+        return () => {
+            dispatch(wSCloseConnection());
+        };
     },[dispatch])
-
 
     return (
         <section className={`${styles.infoFeed} mt-25`}>

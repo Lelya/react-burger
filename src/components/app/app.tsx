@@ -71,8 +71,8 @@ const App: React.FC = () => {
                     <Route exact path="/feed/:id">
                         <OrderCard/>
                     </Route>
-                    <ProtectedRouter onlyAuth={true}  path="/profile/feed/:id" exact>
-                        <OrderCard/>
+                    <ProtectedRouter onlyAuth={true}  path="/profile/orders/:id" exact>
+                        <OrderCardUser/>
                     </ProtectedRouter>
                     <Route exact path="/feed">
                         <Feed />
