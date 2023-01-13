@@ -11,7 +11,7 @@ export default function OrderFeed ()  {
     const orders = useSelectorTS(store => store.orderList.orders);
 
     useEffect(() => {
-        dispatch(wSConnectionStart(WSS_ALL_ORDERS_URL));
+        dispatch(wSConnectionStart({url: WSS_ALL_ORDERS_URL, socketId: "listOrder"}));
         return () => {
             dispatch(wSCloseConnection());
         };

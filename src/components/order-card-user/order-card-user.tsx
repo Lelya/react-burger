@@ -4,8 +4,8 @@ import styles from '../../pages/pages.module.css';
 import {TOrder, useDispatch} from "../../utils/types";
 import {useSelectorTS} from "../../utils/types";
 import OrderInfo from "../order-info/order-info";
-import {wSConnectionStart} from "../../services/actions/web-socket";
 import {WSS_USER_ORDERS_URL} from "../../constants/burger-constants";
+import {wSUserConnectionStart} from "../../services/actions/web-socket-user";
 
 export interface ICardOrder{
     background?: boolean;
@@ -16,12 +16,12 @@ const OrderCardUser: React.FC<ICardOrder> = ({background }) => {
     const {id} = useParams();
     const dispatch = useDispatch();
 
-    const orders = useSelectorTS(store => store.orderListUser.ordersUser);
+    const orders = useSelectorTS(store => store.orderListUser.orders);
 
     const order = orders.find((elem: TOrder) => elem._id === id);
 
     useEffect(() => {
-        dispatch(wSConnectionStart(WSS_USER_ORDERS_URL + "?token=" + localStorage.getItem('accessToken')));
+        dispatch(wSUserConnectionStart({url: WSS_USER_ORDERS_URL + "?token=" + localStorage.getItem('accessToken'), socketId: "listUserOrder"}));
     },[dispatch])
 
     return (

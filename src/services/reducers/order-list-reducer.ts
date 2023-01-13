@@ -4,7 +4,7 @@ import {
     WS_CONNECTION_ERROR, WS_GET_MESSAGE
 } from '../actions';
 import {TOrder} from "../../utils/types";
-import {TWSActions} from "../actions/web-socket";
+import {TWSListOrderActions} from "../actions/web-socket";
 
 type TOrderListInitialState = {
     orders: ReadonlyArray<TOrder>,
@@ -22,7 +22,7 @@ const orderListInitialState: TOrderListInitialState = {
     ordersFailed: false,
 }
 
-export const orderListReducer  = (state = orderListInitialState, action: TWSActions) => {
+export const orderListReducer  = (state = orderListInitialState, action: TWSListOrderActions) => {
     switch (action.type) {
         case WS_CONNECTION_START: {
             return { ...state, ordersRequest: true };

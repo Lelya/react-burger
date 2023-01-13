@@ -34,7 +34,7 @@ export default function InfoFeed ()  {
     const ordersPending = useMemo(() => orders.filter((order: TOrder) => order.status === 'pending'), [orders]);
 
     useEffect(() => {
-        dispatch(wSConnectionStart(WSS_ALL_ORDERS_URL));
+        dispatch(wSConnectionStart({url: WSS_ALL_ORDERS_URL, socketId: "listOrder"}));
         return () => {
             dispatch(wSCloseConnection());
         };

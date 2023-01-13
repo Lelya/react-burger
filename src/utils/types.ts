@@ -11,7 +11,9 @@ import {
     useDispatch as dispatchHook,
     useSelector as selectorHook,
 } from "react-redux";
-import {TWSActions} from "../services/actions/web-socket";
+import {TWSListOrderActions} from "../services/actions/web-socket";
+import {TWSListUserOrderActions} from "../services/actions/web-socket-user";
+import {store} from "../services/store/store";
 
 export type THistoryFrom = {
     from: string;
@@ -98,7 +100,8 @@ type TApplicationActions = TIngredientsActions |
     TUserActions |
     TIngredientActions |
     TCurrentIngredientActions |
-    TWSActions;
+    TWSListOrderActions |
+    TWSListUserOrderActions;
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, TApplicationActions>;
 
@@ -106,3 +109,5 @@ export type AppDispatch<ReturnType = void> = (action: TApplicationActions | AppT
 
 export const useDispatch: () => AppDispatch = dispatchHook;
 export const useSelectorTS: TypedUseSelectorHook<RootState> = selectorHook;
+
+export type TStore = ReturnType<typeof store.getState>;

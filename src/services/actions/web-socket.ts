@@ -55,13 +55,21 @@ export const wSGetMessage = (
     payload
 });
 
-
 export const wSCloseConnection = (): IWSCloseConnection => ({
     type: WS_CLOSE_CONNECTION
 });
-export type TWSActions =
+
+export type TWSListOrderActions =
     | IWSConnectionStart
     | IWSConnectionSuccess
     | IWSConnectionError
     | IWSGetMessage
     | IWSCloseConnection;
+
+export const WSActionsListOrder = {
+    wsStart: WS_CONNECTION_START,
+    wsSuccess: WS_CONNECTION_SUCCESS,
+    wsClose: WS_CLOSE_CONNECTION,
+    onError: WS_CONNECTION_ERROR,
+    onMessage: WS_GET_MESSAGE,
+};

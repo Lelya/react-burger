@@ -1,17 +1,28 @@
-import { createStore, compose, applyMiddleware  } from "redux";
 import { rootReducer } from '../reducers';
-import thunk from 'redux-thunk';
-import {socketMiddleware} from "../middleware/socketMiddleware";
+import {socketMiddleware, WSActions} from "../middleware/socketMiddleware";
+import {configureStore} from "@reduxjs/toolkit";
+import {WSActionsListOrder} from "../actions/web-socket";
+import {WSActionsListUserOrder} from "../actions/web-socket-user";
 
-declare global {
-    interface Window { __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose; }
-}
+export const store = configureStore({
+    reducer: rootReducer,
+    devTools: true,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }).concat(
+            socketMiddleware(
+                WSActionsListOrder as WSActions,
+                "listOrder"
+            ),
+            socketMiddleware(
+                WSActionsListUserOrder as WSActions,
+                "listUserOrder"
+            )
+        ),
+});
 
-export const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const enhancer = composeEnhancers(applyMiddleware(thunk), applyMiddleware(socketMiddleware()));
-
-export const store = createStore(rootReducer, enhancer);
+// export const store = createStore(rootReducer, enhancer);
 
 
 

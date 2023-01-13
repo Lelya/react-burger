@@ -1,51 +1,70 @@
 import {MiddlewareAPI} from "@reduxjs/toolkit";
 import { Middleware } from 'redux';
-import {AppDispatch, RootState} from "../../utils/types";
-import {
-  WS_CLOSE_CONNECTION,
-  WS_CONNECTION_START
-} from "../actions";
-import {TWSActions, wSConnectionError, wSConnectionSuccess, wSGetMessage} from "../actions/web-socket";
+import {AppDispatch, TStore} from "../../utils/types";
+import {wSConnectionError, wSConnectionSuccess, wSGetMessage} from "../actions/web-socket";
+import {wSUserConnectionError, wSUserConnectionSuccess, wSUserGetMessage} from "../actions/web-socket-user";
 
-export const socketMiddleware = (): Middleware => {
-  return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
+export type WSActions = {
+  wsStart: string;
+  wsClose: string;
+};
+
+type TWSAction = {
+  type: string;
+  payload: any;
+};
+
+export const socketMiddleware = (
+    actions: WSActions,
+    socketId: string
+): Middleware => {
+  return ((store: MiddlewareAPI<AppDispatch, TStore>) => {
     let socket: WebSocket | null = null;
-
-    return next => (action: TWSActions) => {
+    return (next) => (action: TWSAction) => {
       const { dispatch } = store;
-      const { type, payload } = action;
+      const { wsStart, wsClose } = actions;
 
-      if (type === WS_CONNECTION_START) {
-        socket = new WebSocket(payload);
-      }
+      if (action.type === wsStart && socket === null) {
+          if (socketId === action.payload.socketId) {
+            socket = new WebSocket(action.payload.url);
 
-      if (type === WS_CLOSE_CONNECTION) {
-        if (socket !== null && socket.readyState === 1) {
+            if (socket) {
+              socket.onopen = event => {
+                if (socketId === "listOrder") {
+                  dispatch(wSConnectionSuccess(event));
+                } else {
+                  dispatch(wSUserConnectionSuccess(event));
+                }
+              };
+
+              socket.onerror = event => {
+                if (socketId === "listOrder") {
+                  dispatch(wSConnectionError(event));
+                } else {
+                  dispatch(wSUserConnectionError(event));
+                }
+              };
+
+              socket.onmessage = event => {
+                const {data} = event;
+                const dataObject = JSON.parse(data);
+                if (socketId === "listOrder") {
+                  dispatch(wSGetMessage(dataObject));
+                } else {
+                  dispatch(wSUserGetMessage(dataObject));
+                }
+              };
+
+              socket.onclose = event => {
+                console.log('WebSocket closed');
+                socket = null;
+              };
+            }
+          }
+        }
+        if (action.type === wsClose && socket != null) {
           socket.close();
         }
-      }
-
-      if (socket) {
-        socket.onopen = event => {
-          dispatch(wSConnectionSuccess(event));
-        };
-
-        socket.onerror = event => {
-          dispatch(wSConnectionError(event));
-        };
-
-        socket.onmessage = event => {
-          const { data } = event;
-          const dataObject = JSON.parse(data);
-          dispatch(wSGetMessage(dataObject));
-        };
-
-        socket.onclose = event => {
-          console.log('WebSocket closed');
-        };
-
-      }
-
       next(action);
     };
   }) as Middleware;

@@ -21,7 +21,7 @@ const OrderCard: React.FC<ICardOrder> = ({background }) => {
     const order = orders.find((elem: TOrder) => elem._id === id);
 
     useEffect(() => {
-        dispatch(wSConnectionStart(WSS_ALL_ORDERS_URL));
+        dispatch(wSConnectionStart({url: WSS_ALL_ORDERS_URL, socketId: "listOrder"}));
     },[dispatch])
 
     return (

@@ -5,18 +5,18 @@ import {TOrder, useDispatch, useSelectorTS} from "../../utils/types";
 import OrderPreview from "../../components/order-preview/order-preview";
 import appStyle from "../../components/app/app.module.css";
 import ProfileTab from "../../components/profile-tab/profile-tab";
-import {wSCloseConnection, wSConnectionStart} from "../../services/actions/web-socket";
 import {WSS_USER_ORDERS_URL} from "../../constants/burger-constants";
+import {wSUserCloseConnection, wSUserConnectionStart} from "../../services/actions/web-socket-user";
 
 export default function ProfileOrders ()  {
     const dispatch = useDispatch();
 
-    const orders = useSelectorTS(store => store.orderListUser.ordersUser);
+    const orders = useSelectorTS(store => store.orderListUser.orders);
 
     useEffect(() => {
-        dispatch(wSConnectionStart(WSS_USER_ORDERS_URL + "?token=" + localStorage.getItem('accessToken')));
+        dispatch(wSUserConnectionStart({url: WSS_USER_ORDERS_URL + "?token=" + localStorage.getItem('accessToken'), socketId: "listUserOrder"}));
         return () => {
-            dispatch(wSCloseConnection());
+            dispatch(wSUserCloseConnection());
         };
     },[dispatch])
 
