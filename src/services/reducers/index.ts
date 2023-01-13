@@ -6,7 +6,6 @@ import {orderReducer} from "./order-reducer";
 import {userReducer} from "./user-reducer";
 import {orderListReducer} from "./order-list-reducer";
 import {orderListUserReducer} from "./order-list-user-reducer";
-// import {orderListUserReducer} from "./order-list-user-reducer";
 
 export const rootReducer = combineReducers({
     listAllIngredients: listAllIngredientsReducer,

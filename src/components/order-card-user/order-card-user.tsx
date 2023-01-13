@@ -16,7 +16,7 @@ const OrderCardUser: React.FC<ICardOrder> = ({background }) => {
     const {id} = useParams();
     const dispatch = useDispatch();
 
-    const orders = useSelector(store => store.orderListUser.orders);
+    const orders = useSelector(store => store.orderListUser.ordersUser);
 
     const order = orders.find((elem: TOrder) => elem._id === id);
 

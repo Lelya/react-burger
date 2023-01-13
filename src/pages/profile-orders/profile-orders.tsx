@@ -11,8 +11,7 @@ import {WSS_USER_ORDERS_URL} from "../../constants/burger-constants";
 export default function ProfileOrders ()  {
     const dispatch = useDispatch();
 
-    const orders = useSelector(store => store.orderListUser.orders);
-    console.log(JSON.stringify(orders))
+    const orders = useSelector(store => store.orderListUser.ordersUser);
 
     useEffect(() => {
         dispatch(wSConnectionStart(WSS_USER_ORDERS_URL + "?token=" + localStorage.getItem('accessToken')));

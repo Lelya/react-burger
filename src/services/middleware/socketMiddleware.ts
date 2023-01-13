@@ -20,8 +20,8 @@ export const socketMiddleware = (): Middleware => {
       }
 
       if (type === WS_CLOSE_CONNECTION) {
-        if (socket?.readyState === 1) { //
-          socket?.close();
+        if (socket !== null && socket.readyState === 1) {
+          socket.close();
         }
       }
 
@@ -44,9 +44,6 @@ export const socketMiddleware = (): Middleware => {
           console.log('WebSocket closed');
         };
 
-        // if (type === WS_SEND_MESSAGE) {
-        //   socket.send(JSON.stringify(payload));
-        // }
       }
 
       next(action);

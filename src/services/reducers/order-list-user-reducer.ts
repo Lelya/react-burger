@@ -7,7 +7,7 @@ import {TOrder} from "../../utils/types";
 import {TWSActions} from "../actions/web-socket";
 
 type TOrderListUserActions = {
-    orders: ReadonlyArray<TOrder>,
+    ordersUser: ReadonlyArray<TOrder>,
     total: number,
     totalToday: number,
     ordersRequest: boolean;
@@ -15,7 +15,7 @@ type TOrderListUserActions = {
 }
 
 const orderListUserInitialState: TOrderListUserActions = {
-    orders: [],
+    ordersUser: [],
     total: 0,
     totalToday: 0,
     ordersRequest: false,
