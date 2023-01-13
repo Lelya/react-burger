@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import styles from "./order-feed.module.css";
-import {TOrder, useDispatch, useSelector} from "../../utils/types";
+import {TOrder, useDispatch, useSelectorTS} from "../../utils/types";
 import OrderPreview from "../order-preview/order-preview";
 import {wSCloseConnection, wSConnectionStart} from "../../services/actions/web-socket";
 import {WSS_ALL_ORDERS_URL} from "../../constants/burger-constants";
@@ -8,7 +8,7 @@ import {WSS_ALL_ORDERS_URL} from "../../constants/burger-constants";
 export default function OrderFeed ()  {
     const dispatch = useDispatch();
 
-    const orders = useSelector(store => store.orderList.orders);
+    const orders = useSelectorTS(store => store.orderList.orders);
 
     useEffect(() => {
         dispatch(wSConnectionStart(WSS_ALL_ORDERS_URL));

@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 
 import styles from "../../pages/pages.module.css";
 import stylesInfo from "./order-info.module.css";
-import {statusList, TIngredientData, TOrder, useSelector} from "../../utils/types";
+import {statusList, TIngredientData, TOrder, useSelectorTS} from "../../utils/types";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IngredientLine} from "../ingredient-line/ingredient-line";
 
@@ -11,7 +11,7 @@ export interface TOrderInfo {
 }
 
 const OrderInfo: React.FC<TOrderInfo> = ({order}) => {
-    const ingredients = useSelector(store => store.listAllIngredients.items);
+    const ingredients = useSelectorTS(store => store.listAllIngredients.items);
 
     const orderIngredients = useMemo(() => {
         return order?.ingredients?.map(id => {

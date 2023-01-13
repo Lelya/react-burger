@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState} from 'react';
 import styles from './profile.module.css';
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "../../utils/types";
+import {useDispatch, useSelectorTS} from "../../utils/types";
 import {updateUserDataThunk} from "../../services/actions/user-actions";
 import {Redirect} from "react-router-dom";
 import appStyle from "../../components/app/app.module.css";
@@ -11,10 +11,10 @@ import ProfileTab from "../../components/profile-tab/profile-tab";
 export function Profile() {
 
     const dispatch = useDispatch();
-    const emailUser = useSelector(store => store.userInfo.email);
-    const nameUser = useSelector(store => store.userInfo.name);
-    const userLoaded = useSelector(store => store.userInfo.userLoaded);
-    const updateUserInfoError = useSelector(store => store.userInfo.updateUserInfoError);
+    const emailUser = useSelectorTS(store => store.userInfo.email);
+    const nameUser = useSelectorTS(store => store.userInfo.name);
+    const userLoaded = useSelectorTS(store => store.userInfo.userLoaded);
+    const updateUserInfoError = useSelectorTS(store => store.userInfo.updateUserInfoError);
     const passwordUser = '12345';
     const [hasChanged, setChanged] = useState(false);
     const [messageSuccess, setMessageSuccess] = useState("");

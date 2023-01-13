@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import styles from "../profile/profile.module.css";
 import stylesProfileOrders from "./profile-orders.module.css";
-import {TOrder, useDispatch, useSelector} from "../../utils/types";
+import {TOrder, useDispatch, useSelectorTS} from "../../utils/types";
 import OrderPreview from "../../components/order-preview/order-preview";
 import appStyle from "../../components/app/app.module.css";
 import ProfileTab from "../../components/profile-tab/profile-tab";
@@ -11,7 +11,7 @@ import {WSS_USER_ORDERS_URL} from "../../constants/burger-constants";
 export default function ProfileOrders ()  {
     const dispatch = useDispatch();
 
-    const orders = useSelector(store => store.orderListUser.ordersUser);
+    const orders = useSelectorTS(store => store.orderListUser.ordersUser);
 
     useEffect(() => {
         dispatch(wSConnectionStart(WSS_USER_ORDERS_URL + "?token=" + localStorage.getItem('accessToken')));

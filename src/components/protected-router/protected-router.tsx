@@ -1,11 +1,11 @@
 import {Route, Redirect, useLocation} from 'react-router-dom';
-import {useSelector} from "../../utils/types";
+import {useSelectorTS} from "../../utils/types";
 import { THistoryFrom, IProtectedRouteProps } from '../../utils/types';
 
 export const ProtectedRouter = ({children, onlyAuth = false,...rest}: IProtectedRouteProps) => {
 
     const location = useLocation<THistoryFrom>();
-    const authChecked = useSelector(store => store.userInfo.userLoggedIn);
+    const authChecked = useSelectorTS(store => store.userInfo.userLoggedIn);
     const nextPage = location.state?.from || '/';
 
     if (onlyAuth ) {

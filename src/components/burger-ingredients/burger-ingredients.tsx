@@ -3,12 +3,11 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyle from './burger-ingredients.module.css';
 import * as BurgerConstants from '../../constants/burger-constants';
 import BurgerIngredientBlockType from "../burger-ingredient-block-type/burger-ingredient-block-type";
-import {TIngredientData} from "../../utils/types";
-import {useSelector} from "../../utils/types";
+import {TIngredientData, useSelectorTS} from "../../utils/types";
 
 export default function BurgerIngredients ()  {
 
-    const ingredients = useSelector(store => store.listAllIngredients.items);
+    const ingredients = useSelectorTS(store => store.listAllIngredients.items);
     const bunData = useMemo(() => ingredients.filter((elem: TIngredientData) => elem.type === BurgerConstants.INGREDIENTS_BUN),[ingredients]);
     const sauceData = useMemo(() => ingredients.filter((elem: TIngredientData) => elem.type === BurgerConstants.INGREDIENTS_SAUCE),[ingredients]);
     const mainData = useMemo(() => ingredients.filter((elem: TIngredientData) => elem.type === BurgerConstants.INGREDIENTS_MAIN),[ingredients]);

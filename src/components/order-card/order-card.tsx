@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import styles from '../../pages/pages.module.css';
 import {TOrder, useDispatch} from "../../utils/types";
-import {useSelector} from "../../utils/types";
+import {useSelectorTS} from "../../utils/types";
 import OrderInfo from "../order-info/order-info";
 import {wSConnectionStart} from "../../services/actions/web-socket";
 import {WSS_ALL_ORDERS_URL} from "../../constants/burger-constants";
@@ -16,7 +16,7 @@ const OrderCard: React.FC<ICardOrder> = ({background }) => {
     const {id} = useParams();
     const dispatch = useDispatch();
 
-    const orders = useSelector(store => store.orderList.orders);
+    const orders = useSelectorTS(store => store.orderList.orders);
 
     const order = orders.find((elem: TOrder) => elem._id === id);
 

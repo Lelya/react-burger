@@ -1,6 +1,13 @@
 import React, {useMemo, useState} from 'react';
 import stylesPreview from "./order-preview.module.css";
-import {statusList, THistoryFrom, TIngredientData, TOrder, useDispatch, useSelector} from "../../utils/types";
+import {
+    statusList,
+    THistoryFrom,
+    TIngredientData,
+    TOrder,
+    useDispatch,
+    useSelectorTS
+} from "../../utils/types";
 import {Link, useLocation} from "react-router-dom";
 import {closeCurrentItemAction} from "../../services/actions/ingredient-actions";
 import {IngredientPreview} from "../ingredient-preview/ingredient-preview";
@@ -27,7 +34,7 @@ const OrderPreview: React.FC<IOrderPreviewItem> = ({order, visibleStatus, url}) 
         setIsOpenModal(false)
     };
 
-    const ingredients = useSelector(store => store.listAllIngredients.items);
+    const ingredients = useSelectorTS(store => store.listAllIngredients.items);
 
     const orderIngredients = useMemo(() => {
         return order.ingredients?.map(id => {

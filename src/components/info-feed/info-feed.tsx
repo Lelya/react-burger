@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useMemo} from 'react';
 import styles from "./info-feed.module.css";
-import {TOrder, useDispatch, useSelector} from "../../utils/types";
+import {TOrder, useDispatch, useSelectorTS} from "../../utils/types";
 import {wSCloseConnection, wSConnectionStart} from "../../services/actions/web-socket";
 import {WSS_ALL_ORDERS_URL} from "../../constants/burger-constants";
 
@@ -25,10 +25,10 @@ const OrderStatusList: FC<TOrderStatusListProps> = ({orders, name}) => {
 export default function InfoFeed ()  {
     const dispatch = useDispatch();
 
-    const orders = useSelector(store => store.orderList.orders);
+    const orders = useSelectorTS(store => store.orderList.orders);
 
-    const total = useSelector(store => store.orderList.total);
-    const totalToday = useSelector(store => store.orderList.totalToday);
+    const total = useSelectorTS(store => store.orderList.total);
+    const totalToday = useSelectorTS(store => store.orderList.totalToday);
 
     const ordersDone = useMemo(() => orders.filter((order: TOrder) => order.status === 'done'), [orders]);
     const ordersPending = useMemo(() => orders.filter((order: TOrder) => order.status === 'pending'), [orders]);

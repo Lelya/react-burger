@@ -4,7 +4,7 @@ import burgerConstructorStyle from './burger-constructor.module.css';
 import * as BurgerConstants from "../../constants/burger-constants";
 import OrderDetails from "../order-details/order-details";
 import ErrorModal from "../error-modal/error-modal";
-import {useDispatch, useSelector} from "../../utils/types";
+import {useDispatch, useSelectorTS} from "../../utils/types";
 import {closeOrderAction, postOrderThunk} from "../../services/actions/order-actions";
 import {useDrop} from 'react-dnd';
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
@@ -21,16 +21,16 @@ const BurgerConstructor: React.FC = () => {
 
     const history = useHistory();
     const dispatch = useDispatch();
-    const ingredients = useSelector(store => store.listAllIngredients.items);
-    const order = useSelector(store => store.orderInfo.orderId);
-    const error = useSelector(store => store.orderInfo.isError);
-    const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
+    const ingredients = useSelectorTS(store => store.listAllIngredients.items);
+    const order = useSelectorTS(store => store.orderInfo.orderId);
+    const error = useSelectorTS(store => store.orderInfo.isError);
+    const userLoggedIn = useSelectorTS(store => store.userInfo.userLoggedIn);
 
     const [isOpenModal, setIsOpenModal] = useState(false);
 
-    const isLoading  = useSelector(store => store.orderInfo.isLoading);
-    const bunData = useSelector(store => store.listConstructorIngredients.bun);
-    const sauceAndMainData = useSelector(store => store.listConstructorIngredients.items);
+    const isLoading  = useSelectorTS(store => store.orderInfo.isLoading);
+    const bunData = useSelectorTS(store => store.listConstructorIngredients.bun);
+    const sauceAndMainData = useSelectorTS(store => store.listConstructorIngredients.items);
 
     const totalPrice = useMemo(() => {
             if (bunData.length > 0 && bunData[0]) {

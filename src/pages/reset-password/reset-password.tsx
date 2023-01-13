@@ -2,7 +2,7 @@ import React, {FormEvent} from 'react';
 import styles from '../pages.module.css';
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect} from "react-router-dom";
-import {useDispatch, useSelector} from "../../utils/types";
+import {useDispatch, useSelectorTS} from "../../utils/types";
 import {useForm} from "../../hooks/useForm";
 import {resetPasswordThunk} from "../../services/actions/user-actions";
 
@@ -12,9 +12,9 @@ export function ResetPassword() {
         token: ""
     });
     const dispatch = useDispatch();
-    const errorResetPassword = useSelector(store => store.userInfo.resetPasswordError);
-    const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
-    const forgotPasswordVisited = useSelector(store => store.userInfo.forgotPasswordVisited);
+    const errorResetPassword = useSelectorTS(store => store.userInfo.resetPasswordError);
+    const userLoggedIn = useSelectorTS(store => store.userInfo.userLoggedIn);
+    const forgotPasswordVisited = useSelectorTS(store => store.userInfo.forgotPasswordVisited);
 
     if (userLoggedIn) {
         return <Redirect to={'/'} />;

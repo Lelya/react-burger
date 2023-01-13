@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import IngredientInfo from '../ingredient-info/ingredient-info';
 import styles from '../../pages/pages.module.css';
 import {TIngredientData} from "../../utils/types";
-import {useSelector} from "../../utils/types";
+import {useSelectorTS} from "../../utils/types";
 
 export interface ICardIngredient {
     background?: boolean;
@@ -12,7 +12,7 @@ export interface ICardIngredient {
 const IngredientCard: React.FC<ICardIngredient> = ({background }) => {
     // @ts-ignore
     const {id} = useParams();
-    const ingredients = useSelector(store => store.listAllIngredients.items);
+    const ingredients = useSelectorTS(store => store.listAllIngredients.items);
 
     const ingredientInfo = ingredients.find((elem: TIngredientData) => elem._id === id);
 
