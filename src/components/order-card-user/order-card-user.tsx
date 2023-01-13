@@ -4,23 +4,23 @@ import styles from '../../pages/pages.module.css';
 import {TOrder, useDispatch} from "../../utils/types";
 import {useSelector} from "../../utils/types";
 import OrderInfo from "../order-info/order-info";
-import {getOrderListThunk} from "../../services/actions/order-list-actions";
+import {getOrderListUserThunk} from "../../services/actions/order-list-actions";
 
 export interface ICardOrder{
     background?: boolean;
 }
 
-const OrderCard: React.FC<ICardOrder> = ({background }) => {
+const OrderCardUser: React.FC<ICardOrder> = ({background }) => {
     // @ts-ignore
     const {id} = useParams();
     const dispatch = useDispatch();
 
-    const orders = useSelector(store => store.orderList.orders);
+    const orders = useSelector(store => store.orderListUser.orders);
 
     const order = orders.find((elem: TOrder) => elem._id === id);
 
     useEffect(() => {
-        dispatch(getOrderListThunk());
+        dispatch(getOrderListUserThunk());
     },[dispatch])
 
     return (
@@ -33,4 +33,4 @@ const OrderCard: React.FC<ICardOrder> = ({background }) => {
     )
 }
 
-export default OrderCard;
+export default OrderCardUser;

@@ -19,6 +19,7 @@ import {getUserDataThunk} from "../../services/actions/user-actions";
 import {TModalBackground} from "../../utils/types";
 import OrderCard from "../order-card/order-card";
 import ProfileOrders from "../../pages/profile-orders/profile-orders";
+import OrderCardUser from "../order-card-user/order-card-user";
 
 const App: React.FC = () => {
 
@@ -95,9 +96,9 @@ const App: React.FC = () => {
                     </Route>
                 }
                 { background &&
-                    <Route exact path='/profile/feed/:id'>
+                    <Route exact path='/profile/orders/:id'>
                         <Modal handlerClose={closeModal} isOpen>
-                            <OrderCard background={true}/>
+                            <OrderCardUser background={true}/>
                         </Modal>
                     </Route>
                 }

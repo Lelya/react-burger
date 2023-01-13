@@ -11,7 +11,6 @@ export interface TOrderInfo {
 }
 
 const OrderInfo: React.FC<TOrderInfo> = ({order}) => {
-
     const ingredients = useSelector(store => store.listAllIngredients.items);
 
     const orderIngredients = useMemo(() => {
