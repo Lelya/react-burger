@@ -3,7 +3,7 @@ import { Middleware } from 'redux';
 import {TStore, TWSSocketInfo} from "../../utils/types";
 import {store} from "../store/store";
 
-type AppDispatch = typeof store.dispatch;
+type AppSocketDispatch = typeof store.dispatch;
 
 export type WSActions = {
   wsStart: string;
@@ -22,7 +22,7 @@ export const socketMiddleware = (
     actions: WSActions,
     socketId: string
 ): Middleware => {
-  return ((store: MiddlewareAPI<AppDispatch, TStore>) => {
+  return ((store: MiddlewareAPI<AppSocketDispatch, TStore>) => {
     let socket: WebSocket | null = null;
     return (next) => (action: TWSAction) => {
       const { dispatch } = store;
