@@ -27,38 +27,6 @@ interface IWSUserCloseConnection {
     payload?: any;
 }
 
-export const wSUserConnectionStart = (
-    payload: any
-): IWSUserConnectionStart => ({
-    type: WS_USER_CONNECTION_START,
-    payload
-});
-
-export const wSUserConnectionSuccess = (
-    payload: any
-): IWSUserConnectionSuccess => ({
-    type: WS_USER_CONNECTION_SUCCESS,
-    payload
-});
-
-export const wSUserConnectionError = (
-    payload: any
-): IWSUserConnectionError => ({
-    type: WS_USER_CONNECTION_ERROR,
-    payload
-});
-
-export const wSUserGetMessage = (
-    payload: any
-): IWSUserGetMessage => ({
-    type: WS_USER_GET_MESSAGE,
-    payload
-});
-
-export const wSUserCloseConnection = (): IWSUserCloseConnection => ({
-    type: WS_USER_CLOSE_CONNECTION
-});
-
 export type TWSListUserOrderActions =
     | IWSUserConnectionStart
     | IWSUserConnectionSuccess

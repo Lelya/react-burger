@@ -1,12 +1,16 @@
 import {MiddlewareAPI} from "@reduxjs/toolkit";
 import { Middleware } from 'redux';
-import {AppDispatch, TStore} from "../../utils/types";
-import {wSConnectionError, wSConnectionSuccess, wSGetMessage} from "../actions/web-socket";
-import {wSUserConnectionError, wSUserConnectionSuccess, wSUserGetMessage} from "../actions/web-socket-user";
+import {TStore} from "../../utils/types";
+import {store} from "../store/store";
+
+type AppDispatch = typeof store.dispatch;
 
 export type WSActions = {
   wsStart: string;
   wsClose: string;
+  wsSuccess: string;
+  onError: string;
+  onMessage: string;
 };
 
 type TWSAction = {
@@ -22,49 +26,63 @@ export const socketMiddleware = (
     let socket: WebSocket | null = null;
     return (next) => (action: TWSAction) => {
       const { dispatch } = store;
-      const { wsStart, wsClose } = actions;
+      const { wsStart, wsSuccess, wsClose, onError, onMessage } = actions;
 
-      if (action.type === wsStart && socket === null) {
-          if (socketId === action.payload.socketId) {
-            socket = new WebSocket(action.payload.url);
+      if (action.type === wsStart && socket === null && socketId === action.payload.socketId) {
+        socket = new WebSocket(action.payload.url);
 
-            if (socket) {
-              socket.onopen = event => {
-                if (socketId === "listOrder") {
-                  dispatch(wSConnectionSuccess(event));
-                } else {
-                  dispatch(wSUserConnectionSuccess(event));
-                }
-              };
+        if (socket) {
+          socket.onopen = () => {
+            dispatch({ type: wsSuccess });
+          };
 
-              socket.onerror = event => {
-                if (socketId === "listOrder") {
-                  dispatch(wSConnectionError(event));
-                } else {
-                  dispatch(wSUserConnectionError(event));
-                }
-              };
+          socket.onmessage = (event) => {
+            dispatch({ type: onMessage, payload: JSON.parse(event.data) });
+          };
 
-              socket.onmessage = event => {
-                const {data} = event;
-                const dataObject = JSON.parse(data);
-                if (socketId === "listOrder") {
-                  dispatch(wSGetMessage(dataObject));
-                } else {
-                  dispatch(wSUserGetMessage(dataObject));
-                }
-              };
+          socket.onerror = () => {
+            dispatch({ type: onError });
+          };
 
-              socket.onclose = event => {
-                socket = null;
-              };
-            }
-          }
+          socket.onclose = () => {
+            socket = null;
+          };
         }
-        if (action.type === wsClose && socket != null) {
-          console.log('WebSocket closed');
-          socket.close();
-        }
+      } else if (action.type === wsClose && socket !== null && socketId === action.payload.socketId && socket?.readyState === 1) {
+        console.log('WebSocket closed');
+        socket.close();
+      }
+      //
+      //
+      // if (action.type === wsStart && socket === null) {
+      //     if (socketId === action.payload.socketId) {
+      //       socket = new WebSocket(action.payload.url);
+      //
+      //       if (socket) {
+      //         socket.onopen = event => {
+      //             dispatch({ type: wsSuccess });
+      //         };
+      //
+      //         socket.onerror = event => {
+      //             dispatch({ type: onError });
+      //         };
+      //
+      //         socket.onmessage = event => {
+      //           const {data} = event;
+      //           const dataObject = JSON.parse(data);
+      //           dispatch({ type: onMessage, payload: dataObject });
+      //         };
+      //
+      //         socket.onclose = event => {
+      //           socket = null;
+      //         };
+      //       }
+      //     }
+      //   }
+      //   if (action.type === wsClose && socket != null) {
+      //     console.log('WebSocket closed');
+      //     socket.close();
+      //   }
       next(action);
     };
   }) as Middleware;

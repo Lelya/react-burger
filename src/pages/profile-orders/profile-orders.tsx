@@ -6,7 +6,10 @@ import OrderPreview from "../../components/order-preview/order-preview";
 import appStyle from "../../components/app/app.module.css";
 import ProfileTab from "../../components/profile-tab/profile-tab";
 import {WSS_USER_ORDERS_URL} from "../../constants/burger-constants";
-import {wSUserCloseConnection, wSUserConnectionStart} from "../../services/actions/web-socket-user";
+import {
+    WS_USER_CLOSE_CONNECTION,
+    WS_USER_CONNECTION_START
+} from "../../services/actions";
 
 export default function ProfileOrders ()  {
     const dispatch = useDispatch();
@@ -14,11 +17,17 @@ export default function ProfileOrders ()  {
     const orders = useSelectorTS(store => store.orderListUser.orders);
 
     useEffect(() => {
-        dispatch(wSUserConnectionStart({url: WSS_USER_ORDERS_URL + "?token=" + localStorage.getItem('accessToken'), socketId: "listUserOrder"}));
+        dispatch({
+            type: WS_USER_CONNECTION_START,
+            payload: {
+                url: WSS_USER_ORDERS_URL + "?token=" + localStorage.getItem('accessToken'),
+                socketId: "listUserOrder"
+            },
+        });
         return () => {
-            dispatch(wSUserCloseConnection());
+            dispatch({ type: WS_USER_CLOSE_CONNECTION, payload: {  socketId: "listUserOrder" } });
         };
-    },[dispatch])
+    }, [dispatch]);
 
     return (
         <>

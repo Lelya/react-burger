@@ -1,8 +1,8 @@
 import React, {FC, useEffect, useMemo} from 'react';
 import styles from "./info-feed.module.css";
 import {TOrder, useDispatch, useSelectorTS} from "../../utils/types";
-import {wSCloseConnection, wSConnectionStart} from "../../services/actions/web-socket";
 import {WSS_ALL_ORDERS_URL} from "../../constants/burger-constants";
+import {WS_CONNECTION_START} from "../../services/actions";
 
 type TOrderStatusListProps = {
     orders: Array<TOrder>,
@@ -34,11 +34,15 @@ export default function InfoFeed ()  {
     const ordersPending = useMemo(() => orders.filter((order: TOrder) => order.status === 'pending'), [orders]);
 
     useEffect(() => {
-        dispatch(wSConnectionStart({url: WSS_ALL_ORDERS_URL, socketId: "listOrder"}));
-        return () => {
-            dispatch(wSCloseConnection());
-        };
-    },[dispatch])
+        dispatch({
+            type: WS_CONNECTION_START,
+            payload: {
+                url: WSS_ALL_ORDERS_URL,
+                socketId: "listOrder"
+            },
+        });
+    }, [dispatch]);
+
 
     return (
         <section className={`${styles.infoFeed} mt-25`}>

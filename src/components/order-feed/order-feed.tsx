@@ -2,8 +2,8 @@ import React, {useEffect} from 'react';
 import styles from "./order-feed.module.css";
 import {TOrder, useDispatch, useSelectorTS} from "../../utils/types";
 import OrderPreview from "../order-preview/order-preview";
-import {wSCloseConnection, wSConnectionStart} from "../../services/actions/web-socket";
 import {WSS_ALL_ORDERS_URL} from "../../constants/burger-constants";
+import {WS_CLOSE_CONNECTION, WS_CONNECTION_START} from "../../services/actions";
 
 export default function OrderFeed ()  {
     const dispatch = useDispatch();
@@ -11,11 +11,18 @@ export default function OrderFeed ()  {
     const orders = useSelectorTS(store => store.orderList.orders);
 
     useEffect(() => {
-        dispatch(wSConnectionStart({url: WSS_ALL_ORDERS_URL, socketId: "listOrder"}));
+        dispatch({
+            type: WS_CONNECTION_START,
+            payload: {
+                url: WSS_ALL_ORDERS_URL,
+                socketId: "listOrder"
+            },
+        });
         return () => {
-            dispatch(wSCloseConnection());
+            dispatch({ type: WS_CLOSE_CONNECTION, payload: {  socketId: "listOrder" } });
         };
-    },[dispatch])
+    }, [dispatch]);
+
 
     return (
         <section className={`${styles.orderFeed} p-10`}>

@@ -27,38 +27,6 @@ interface IWSCloseConnection {
     payload?: any;
 }
 
-export const wSConnectionStart = (
-    payload: any
-): IWSConnectionStart => ({
-    type: WS_CONNECTION_START,
-    payload
-});
-
-export const wSConnectionSuccess = (
-    payload: any
-): IWSConnectionSuccess => ({
-    type: WS_CONNECTION_SUCCESS,
-    payload
-});
-
-export const wSConnectionError = (
-    payload: any
-): IWSConnectionError => ({
-    type: WS_CONNECTION_ERROR,
-    payload
-});
-
-export const wSGetMessage = (
-    payload: any
-): IWSGetMessage => ({
-    type: WS_GET_MESSAGE,
-    payload
-});
-
-export const wSCloseConnection = (): IWSCloseConnection => ({
-    type: WS_CLOSE_CONNECTION
-});
-
 export type TWSListOrderActions =
     | IWSConnectionStart
     | IWSConnectionSuccess

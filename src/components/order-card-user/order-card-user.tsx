@@ -5,7 +5,7 @@ import {TOrder, useDispatch} from "../../utils/types";
 import {useSelectorTS} from "../../utils/types";
 import OrderInfo from "../order-info/order-info";
 import {WSS_USER_ORDERS_URL} from "../../constants/burger-constants";
-import {wSUserConnectionStart} from "../../services/actions/web-socket-user";
+import {WS_USER_CONNECTION_START} from "../../services/actions";
 
 export interface ICardOrder{
     background?: boolean;
@@ -21,8 +21,15 @@ const OrderCardUser: React.FC<ICardOrder> = ({background }) => {
     const order = orders.find((elem: TOrder) => elem._id === id);
 
     useEffect(() => {
-        dispatch(wSUserConnectionStart({url: WSS_USER_ORDERS_URL + "?token=" + localStorage.getItem('accessToken'), socketId: "listUserOrder"}));
-    },[dispatch])
+        dispatch({
+            type: WS_USER_CONNECTION_START,
+            payload: {
+                url: WSS_USER_ORDERS_URL + "?token=" + localStorage.getItem('accessToken'),
+                socketId: "listUserOrder"
+            },
+        });
+    }, [dispatch]);
+
 
     return (
         <div className={background ?  styles.ingredient_wrapper_modal : styles.ingredient_wrapper}>
