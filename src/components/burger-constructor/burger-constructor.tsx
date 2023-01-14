@@ -34,7 +34,7 @@ const BurgerConstructor: React.FC = () => {
 
     const totalPrice = useMemo(() => {
             if (bunData.length > 0 && bunData[0]) {
-                return sauceAndMainData.reduce((l: number, el: TIngredientData) => el.price + l, bunData[0].price * 2);
+                return sauceAndMainData.reduce((l, el) => el.price + l, bunData[0].price * 2);
             }
         },
         [bunData, sauceAndMainData]
@@ -42,7 +42,7 @@ const BurgerConstructor: React.FC = () => {
 
     const moveIngredient = (item: any) => {
         const uniqId = {uniqId: uuidv4()};
-        let ingredient = ingredients.filter((elem: TIngredientData) => elem._id === item.id)[0];
+        let ingredient = ingredients.filter(elem => elem._id === item.id)[0];
         ingredient = Object.assign(uniqId, ingredient);
 
         if (ingredient.type === BurgerConstants.INGREDIENTS_BUN) {
@@ -67,7 +67,7 @@ const BurgerConstructor: React.FC = () => {
         if (userLoggedIn) {
             let ingredientIds: Array<string> = [];
             ingredientIds.push(bunData[0]._id);
-            ingredientIds = ingredientIds.concat(sauceAndMainData.map((item: { _id: string; }) => item._id));
+            ingredientIds = ingredientIds.concat(sauceAndMainData.map(item => item._id));
             ingredientIds.push(bunData[0]._id);
             dispatch(postOrderThunk(ingredientIds));
             setIsOpenModal(true);
@@ -97,7 +97,7 @@ const BurgerConstructor: React.FC = () => {
                 <div className={`${burgerConstructorStyle.sauceAndMainData} mt-1`}>
                     { sauceAndMainData.length > 0 &&
                         <ul>
-                            { sauceAndMainData.map((item: TIngredientData, index: number) => (
+                            { sauceAndMainData.map((item, index: number) => (
                                 <BurgerConstructorItem key={item.uniqId} ingredient={item} index={index}/>
                             ))}
                         </ul>

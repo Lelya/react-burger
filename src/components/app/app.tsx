@@ -96,11 +96,11 @@ const App: React.FC = () => {
                     </Route>
                 }
                 { background &&
-                    <Route exact path='/profile/orders/:id'>
+                    <ProtectedRouter onlyAuth={true} exact path='/profile/orders/:id'>
                         <Modal handlerClose={closeModal} isOpen>
                             <OrderCardUser background={true}/>
                         </Modal>
-                    </Route>
+                    </ProtectedRouter>
                 }
             </div>
         </div>
