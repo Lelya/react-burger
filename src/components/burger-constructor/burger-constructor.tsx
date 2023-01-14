@@ -11,7 +11,6 @@ import BurgerConstructorItem from "../burger-constructor-item/burger-constructor
 import BurgerConstructorEmpty from "../burger-constructor-empty/burger-constructor-empty";
 import { v4 as uuidv4 } from 'uuid';
 import {useHistory} from "react-router-dom";
-import {TIngredientData} from "../../utils/types";
 import {
     addBunToConstructorItemAction,
     addIngredientToConstructorItemAction, clearConstructorItemAction

@@ -97,6 +97,10 @@ export const statusList: Map<string,string> = new Map([
     ['done', 'Выполнен'],
 ]);
 
+export type TWSSocketInfo = {
+    url: string,
+    socketId: string
+}
 
 export type RootState = ReturnType<typeof rootReducer>;
 

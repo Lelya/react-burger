@@ -1,6 +1,6 @@
 import {MiddlewareAPI} from "@reduxjs/toolkit";
 import { Middleware } from 'redux';
-import {TStore} from "../../utils/types";
+import {TStore, TWSSocketInfo} from "../../utils/types";
 import {store} from "../store/store";
 
 type AppDispatch = typeof store.dispatch;
@@ -15,7 +15,7 @@ export type WSActions = {
 
 type TWSAction = {
   type: string;
-  payload: any;
+  payload: TWSSocketInfo;
 };
 
 export const socketMiddleware = (
