@@ -52,37 +52,7 @@ export const socketMiddleware = (
         console.log('WebSocket closed');
         socket.close();
       }
-      //
-      //
-      // if (action.type === wsStart && socket === null) {
-      //     if (socketId === action.payload.socketId) {
-      //       socket = new WebSocket(action.payload.url);
-      //
-      //       if (socket) {
-      //         socket.onopen = event => {
-      //             dispatch({ type: wsSuccess });
-      //         };
-      //
-      //         socket.onerror = event => {
-      //             dispatch({ type: onError });
-      //         };
-      //
-      //         socket.onmessage = event => {
-      //           const {data} = event;
-      //           const dataObject = JSON.parse(data);
-      //           dispatch({ type: onMessage, payload: dataObject });
-      //         };
-      //
-      //         socket.onclose = event => {
-      //           socket = null;
-      //         };
-      //       }
-      //     }
-      //   }
-      //   if (action.type === wsClose && socket != null) {
-      //     console.log('WebSocket closed');
-      //     socket.close();
-      //   }
+
       next(action);
     };
   }) as Middleware;
