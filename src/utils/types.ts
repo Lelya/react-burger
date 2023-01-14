@@ -68,6 +68,11 @@ export interface IModal {
     isOpen: boolean;
     children: React.ReactNode;
 }
+export interface IModalError {
+    handlerClose: () => void;
+    isOpenModal: boolean;
+    error: string;
+}
 export type TOrderItem = {
     id: string;
     index?: number;
