@@ -13,7 +13,7 @@ type TConstructorInitialState = {
     bun: ReadonlyArray<TIngredientData>
 }
 
-const constructorInitialState: TConstructorInitialState = {
+export const constructorInitialState: TConstructorInitialState = {
     items: [],
     bun: []
 }

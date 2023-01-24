@@ -39,7 +39,7 @@ type TUserState = {
     updateUserInfoError: boolean,
 };
 
-const userInitialState: TUserState = {
+ export const userInitialState: TUserState = {
     email: '',
     name: '',
     userLoggedIn: false,

@@ -15,7 +15,7 @@ type TOrderListUserActions = {
     ordersFailed: boolean;
 }
 
-const orderListUserInitialState: TOrderListUserActions = {
+export const orderListUserInitialState: TOrderListUserActions = {
     orders: [],
     total: 0,
     totalToday: 0,
@@ -34,7 +34,7 @@ export const orderListUserReducer  = (state = orderListUserInitialState, action:
             return { ...state, ordersFailed: true, ordersRequest: false};
         }
         case WS_USER_GET_MESSAGE: {
-            return { ...state, ordersFailed: false, orders: action.payload.orders.reverse(), total: action.payload.total, totalToday: action.payload.totalToday};
+            return { ...state, ordersRequest: false, ordersFailed: false, orders: action.payload.orders.reverse(), total: action.payload.total, totalToday: action.payload.totalToday};
         }
 
         default: {

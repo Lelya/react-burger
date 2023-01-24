@@ -8,7 +8,7 @@ type TOrderState = {
     isOpen: boolean
 };
 
-const orderInitialState: TOrderState = {
+export const orderInitialState: TOrderState = {
     orderId: '',
     isLoading: false,
     isError: false,

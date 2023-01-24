@@ -6,7 +6,7 @@ import {
 import {TOrder} from "../../utils/types";
 import {TWSListOrderActions} from "../actions/web-socket";
 
-type TOrderListInitialState = {
+export type TOrderListInitialState = {
     orders: ReadonlyArray<TOrder>,
     total: number,
     totalToday: number,
@@ -14,7 +14,7 @@ type TOrderListInitialState = {
     ordersFailed: boolean;
 }
 
-const orderListInitialState: TOrderListInitialState = {
+export const orderListInitialState: TOrderListInitialState = {
     orders: [],
     total: 0,
     totalToday: 0,

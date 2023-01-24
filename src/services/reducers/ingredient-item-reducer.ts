@@ -1,7 +1,7 @@
 import {CLOSE_CURRENT_ITEM_DETAILS, OPEN_CURRENT_ITEM_DETAILS} from "../actions";
 import {TCurrentIngredientActions} from "../actions/ingredient-actions";
 
-const ingredientItemInitialState = {
+export const ingredientItemInitialState = {
     currentItem: {},
     isOpen: false,
 }
