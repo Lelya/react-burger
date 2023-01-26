@@ -64,16 +64,8 @@ const IngredientItem: React.FC<IPropsIngredientItem> = ({ingredient}) => {
                     className={ingredientItemStyle.link}
                 >
                     <li className={`${ingredientItemStyle.wrapper} mb-8`} key={ingredient._id}
-                        /* убрано из-за добавления роутинга
-                         onClick={() => {
-                             dispatch({
-                                 type: OPEN_CURRENT_ITEM_DETAILS,
-                                 item: ingredient,
-                             });
-                             setIsOpenModal(true);
-                         }}
-                         */
                         ref={dragRef}
+                        data-test={ingredient.name}
                     >
                         { counter > 0 &&
                             <div className={ingredientItemStyle.counter}>

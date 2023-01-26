@@ -13,8 +13,9 @@ import { v4 as uuidv4 } from 'uuid';
 import {useHistory} from "react-router-dom";
 import {
     addBunToConstructorItemAction,
-    addIngredientToConstructorItemAction, clearConstructorItemAction
+    addIngredientToConstructorItemAction, clearConstructorItemAction, deleteIngredientToConstructorItemAction
 } from "../../services/actions/ingredient-actions";
+import styles from "../../pages/pages.module.css";
 
 const BurgerConstructor: React.FC = () => {
 
@@ -77,7 +78,7 @@ const BurgerConstructor: React.FC = () => {
      };
 
     return (
-        <section className={`${burgerConstructorStyle.burgerConstructor} mt-25`} ref={dropTarget}>
+        <section className={`${burgerConstructorStyle.burgerConstructor} mt-25`} ref={dropTarget} data-test="drop-place">
         { bunData.length === 0 && sauceAndMainData.length === 0 ? (
            <BurgerConstructorEmpty/>
         ) : (
