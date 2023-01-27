@@ -22,11 +22,26 @@ import {
     USER_LOGOUT_REQUEST,
     USER_LOGOUT_SUCCESS
 } from "../actions";
+import {TUserActions} from "../actions/user-actions";
 
+type TUserState = {
+    email: string,
+    name: string,
+    userLoggedIn: boolean,
+    userLoaded: boolean,
+    loginError: boolean,
+    logoutError: boolean,
+    registerError: boolean,
+    forgotPasswordError: boolean,
+    forgotPasswordVisited: boolean,
+    resetPasswordError: boolean,
+    getUserError: boolean,
+    updateUserInfoError: boolean,
+};
 
-const userInitialState = {
-    email: null,
-    name: null,
+ export const userInitialState: TUserState = {
+    email: '',
+    name: '',
     userLoggedIn: false,
     userLoaded: false,
     loginError: false,
@@ -39,12 +54,12 @@ const userInitialState = {
     updateUserInfoError: false,
 };
 
-export const userReducer  = (state = userInitialState, action) => {
+export const userReducer  = (state = userInitialState, action: TUserActions) => {
     switch (action.type) {
         case USER_LOGIN_REQUEST: {
             return {
                 ...state,
-                user: userInitialState.email,
+                email: userInitialState.email,
                 name: userInitialState.name,
                 userLoggedIn: false,
                 loginError: false
@@ -58,7 +73,7 @@ export const userReducer  = (state = userInitialState, action) => {
                 userLoggedIn: true,
                 loginError: false,
                 userLoaded: true
-            }
+            } as TUserState
         }
         case USER_LOGIN_ERROR: {
             return {
@@ -79,8 +94,8 @@ export const userReducer  = (state = userInitialState, action) => {
         case USER_LOGOUT_SUCCESS: {
             return {
                 ...state,
-                email: null,
-                name: null,
+                email: '',
+                name: '',
                 userLoggedIn: false
             };
         }
@@ -102,12 +117,13 @@ export const userReducer  = (state = userInitialState, action) => {
             };
         }
         case REGISTER_SUCCESS: {
-            return { ...state,
+            return {
+                ...state,
                 email: action.user.email,
                 name: action.user.name,
                 userLoggedIn: true,
                 userLoaded: true
-            };
+            } as TUserState;
         }
         case REGISTER_ERROR: {
             return { ...state,
@@ -142,13 +158,14 @@ export const userReducer  = (state = userInitialState, action) => {
             };
         }
         case GET_USER_SUCCESS: {
-            return { ...state,
+            return {
+                ...state,
                 email: action.user.email,
                 name: action.user.name,
                 userLoggedIn: true,
                 getUserError: false,
                 userLoaded: true
-            };
+            } as TUserState;
         }
         case GET_USER_ERROR: {
             return { ...state,
@@ -170,12 +187,13 @@ export const userReducer  = (state = userInitialState, action) => {
             };
         }
         case UPDATE_USER_INFO_SUCCESS: {
-            return { ...state,
+            return {
+                ...state,
                 email: action.user.email,
                 name: action.user.name,
                 userLoggedIn: true,
                 updateUserInfoError: false,
-            };
+            } as TUserState;
         }
         case UPDATE_USER_INFO_ERROR: {
             return { ...state,

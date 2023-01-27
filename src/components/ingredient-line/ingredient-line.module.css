@@ -1,0 +1,32 @@
+.ingredientLineWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+    width: calc(100% - 24px);
+}
+.ingredientLineImageBorder {
+    width: 64px;
+    height: 64px;
+    background-image: linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%);
+    border: 2px solid transparent;
+    border-radius: 100px;
+}
+.ingredientLineImageContainer {
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    position: relative;
+    background: #131316;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ingredientImage {
+    height: 60px;
+}
+.ingredientName{
+    width: 100%;
+    text-align: left;
+}

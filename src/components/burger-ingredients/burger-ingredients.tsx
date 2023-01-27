@@ -1,21 +1,13 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { BurgerPropTypes } from '../../prop-types/burger-prop-types'
 import burgerIngredientsStyle from './burger-ingredients.module.css';
-import {arrayOf} from "prop-types";
 import * as BurgerConstants from '../../constants/burger-constants';
-import { useSelector} from 'react-redux';
 import BurgerIngredientBlockType from "../burger-ingredient-block-type/burger-ingredient-block-type";
-import {TIngredientData} from "../../utils/types";
-
-BurgerIngredients.propTypes = {
-    data: arrayOf(BurgerPropTypes)
-}
+import {TIngredientData, useSelectorTS} from "../../utils/types";
 
 export default function BurgerIngredients ()  {
 
-    // @ts-ignore
-    const ingredients = useSelector(store => store.listAllIngredients.items);
+    const ingredients = useSelectorTS(store => store.listAllIngredients.items);
     const bunData = useMemo(() => ingredients.filter((elem: TIngredientData) => elem.type === BurgerConstants.INGREDIENTS_BUN),[ingredients]);
     const sauceData = useMemo(() => ingredients.filter((elem: TIngredientData) => elem.type === BurgerConstants.INGREDIENTS_SAUCE),[ingredients]);
     const mainData = useMemo(() => ingredients.filter((elem: TIngredientData) => elem.type === BurgerConstants.INGREDIENTS_MAIN),[ingredients]);

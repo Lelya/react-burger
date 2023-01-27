@@ -2,8 +2,8 @@ import React, {FormEvent, useState} from 'react';
 import styles from '../pages.module.css';
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect} from "react-router-dom";
-import {forgotPassword} from "../../services/actions/user-actions";
-import {useDispatch, useSelector} from "react-redux";
+import {forgotPasswordThunk} from "../../services/actions/user-actions";
+import {useDispatch, useSelectorTS} from "../../utils/types";
 import {useForm} from "../../hooks/useForm";
 
 export function ForgotPassword() {
@@ -13,10 +13,8 @@ export function ForgotPassword() {
     });
     const [errorMessage] = useState("");
     const dispatch = useDispatch();
-    // @ts-ignore
-    const errorForgotPassword = useSelector(store => store.userInfo.forgotPasswordError);
-    // @ts-ignore
-    const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
+    const errorForgotPassword = useSelectorTS(store => store.userInfo.forgotPasswordError);
+    const userLoggedIn = useSelectorTS(store => store.userInfo.userLoggedIn);
 
     if (userLoggedIn) {
         return <Redirect to={'/'} />;
@@ -24,8 +22,7 @@ export function ForgotPassword() {
 
     const handleForgotPassword = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        // @ts-ignore
-        dispatch(forgotPassword(values.email));
+        dispatch(forgotPasswordThunk(values.email));
     }
 
     return (

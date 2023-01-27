@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientItemStyle from './ingredient-item.module.css';
-import {useDispatch, useSelector} from 'react-redux';
-import {CLOSE_CURRENT_ITEM_DETAILS} from "../../services/actions";
+import styles from "../../pages/pages.module.css";
+import {useDispatch, useSelectorTS} from "../../utils/types";
 import {useDrag} from "react-dnd";
 import {INGREDIENTS_BUN} from "../../constants/burger-constants";
 import {Link, useLocation} from "react-router-dom";
 import IngredientInfo from "../ingredient-info/ingredient-info";
 import Modal from "../modal/modal";
 import {THistoryFrom, TIngredientData} from "../../utils/types";
+import {closeCurrentItemAction} from "../../services/actions/ingredient-actions";
 
 interface IPropsIngredientItem {
     ingredient: TIngredientData
@@ -20,10 +21,8 @@ const IngredientItem: React.FC<IPropsIngredientItem> = ({ingredient}) => {
     const [counter, setCounter] = useState(0);
 
     const dispatch = useDispatch();
-    // @ts-ignore
-    const bunData = useSelector(store => store.listConstructorIngredients.bun);
-    // @ts-ignore
-    const sauceAndMainData = useSelector(store => store.listConstructorIngredients.items);
+    const bunData = useSelectorTS(store => store.listConstructorIngredients.bun);
+    const sauceAndMainData = useSelectorTS(store => store.listConstructorIngredients.items);
     const location = useLocation<THistoryFrom>();
 
     const id = ingredient._id;
@@ -50,10 +49,7 @@ const IngredientItem: React.FC<IPropsIngredientItem> = ({ingredient}) => {
     }, );
 
     const handlerCloseModal = (): void => {
-        debugger;
-        dispatch({
-            type: CLOSE_CURRENT_ITEM_DETAILS,
-        });
+        dispatch(closeCurrentItemAction());
         setIsOpenModal(false)
     };
 
@@ -68,16 +64,8 @@ const IngredientItem: React.FC<IPropsIngredientItem> = ({ingredient}) => {
                     className={ingredientItemStyle.link}
                 >
                     <li className={`${ingredientItemStyle.wrapper} mb-8`} key={ingredient._id}
-                        /* убрано из-за добавления роутинга
-                         onClick={() => {
-                             dispatch({
-                                 type: OPEN_CURRENT_ITEM_DETAILS,
-                                 item: ingredient,
-                             });
-                             setIsOpenModal(true);
-                         }}
-                         */
                         ref={dragRef}
+                        data-test={ingredient.name}
                     >
                         { counter > 0 &&
                             <div className={ingredientItemStyle.counter}>
@@ -85,7 +73,7 @@ const IngredientItem: React.FC<IPropsIngredientItem> = ({ingredient}) => {
                             </div>
                         }
                         <img className={`mb-4`} src={ingredient.image}  alt={ingredient.image}/>
-                        <p className={`${ingredientItemStyle.price} mb-4 text text_type_digits-default`}><span>{ingredient.price}</span> <CurrencyIcon type="primary" /></p>
+                        <p className={`${styles.price} mb-4 text text_type_digits-default`}><span>{ingredient.price}</span> <CurrencyIcon type="primary" /></p>
                         <p className={`text text_type_main-default`}>{ingredient.name}</p>
                     </li>
                 </Link>

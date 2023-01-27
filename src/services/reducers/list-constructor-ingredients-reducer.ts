@@ -5,13 +5,20 @@ import {
     MOVE_INGREDIENT_IN_CONSTRUCTOR
 } from "../actions";
 import update from 'immutability-helper';
+import {TIngredientActions} from "../actions/ingredient-actions";
+import {TIngredientData} from "../../utils/types";
 
-const constructorInitialState = {
+type TConstructorInitialState = {
+    items: ReadonlyArray<TIngredientData>,
+    bun: ReadonlyArray<TIngredientData>
+}
+
+export const constructorInitialState: TConstructorInitialState = {
     items: [],
     bun: []
 }
 
-export const listConstructorIngredientsReducer = (state = constructorInitialState, action ) => {
+export const listConstructorIngredientsReducer = (state = constructorInitialState, action: TIngredientActions ) => {
     switch (action.type) {
         case ADD_INGREDIENT_TO_CONSTRUCTOR: {
             return {...state, items: [...state.items, action.item]  }

@@ -1,5 +1,19 @@
 import H from "history";
 import React from "react";
+import { ThunkAction } from 'redux-thunk';
+import {TIngredientsActions, TSetOrderActions} from "../services/actions/order-actions";
+import {TUserActions} from "../services/actions/user-actions";
+import {TCurrentIngredientActions, TIngredientActions} from "../services/actions/ingredient-actions";
+import { rootReducer } from "../services/reducers";
+import type {} from "redux-thunk/extend-redux";
+import {
+    TypedUseSelectorHook,
+    useDispatch as dispatchHook,
+    useSelector as selectorHook,
+} from "react-redux";
+import {TWSListOrderActions} from "../services/actions/web-socket";
+import {TWSListUserOrderActions} from "../services/actions/web-socket-user";
+import {store} from "../services/store/store";
 
 export type THistoryFrom = {
     from: string;
@@ -29,7 +43,8 @@ export type TIngredientData = {
     proteins: number,
     fat: number,
     carbohydrates: number,
-    uniqId?: number
+    uniqId?: number,
+    count: number
 }
 
 export type TFormUser = {
@@ -53,3 +68,55 @@ export interface IModal {
     isOpen: boolean;
     children: React.ReactNode;
 }
+export interface IModalError {
+    handlerClose: () => void;
+    isOpenModal: boolean;
+    error: string;
+}
+export type TOrderItem = {
+    id: string;
+    index?: number;
+    ingredient: TIngredientData;
+}
+
+export type TOrder = {
+    id?: string;
+    _id?: string;
+    number?: number;
+    status?: string;
+    name?: string;
+    items?: Array<TOrderItem>;
+    ingredients?: string[];
+    createdAt?: string;
+    updatedAt: string | number | Date;
+}
+
+export const statusList: Map<string,string> = new Map([
+    ['created', 'Создан'],
+    ['pending', 'Готовится'],
+    ['done', 'Выполнен'],
+]);
+
+export type TWSSocketInfo = {
+    url: string,
+    socketId: string
+}
+
+export type RootState = ReturnType<typeof rootReducer>;
+
+type TApplicationActions = TIngredientsActions |
+    TSetOrderActions |
+    TUserActions |
+    TIngredientActions |
+    TCurrentIngredientActions |
+    TWSListOrderActions |
+    TWSListUserOrderActions;
+
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, TApplicationActions>;
+
+export type AppDispatch<ReturnType = void> = (action: TApplicationActions | AppThunk<ReturnType>) => ReturnType;
+
+export const useDispatch: () => AppDispatch = dispatchHook;
+export const useSelectorTS: TypedUseSelectorHook<RootState> = selectorHook;
+
+export type TStore = ReturnType<typeof store.getState>;

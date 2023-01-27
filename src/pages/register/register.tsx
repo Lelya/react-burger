@@ -2,8 +2,8 @@ import React, {FormEvent} from 'react';
 import styles from '../pages.module.css';
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {register} from "../../services/actions/user-actions";
+import {useDispatch, useSelectorTS} from "../../utils/types";
+import {registerThunk} from "../../services/actions/user-actions";
 import {useForm} from "../../hooks/useForm";
 
 export function Register() {
@@ -13,11 +13,8 @@ export function Register() {
         name: ""
     });
     const dispatch = useDispatch();
-    // @ts-ignore
-    const errorRegister = useSelector(store => store.userInfo.registerError);
-
-    // @ts-ignore
-    const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
+    const errorRegister = useSelectorTS(store => store.userInfo.registerError);
+    const userLoggedIn = useSelectorTS(store => store.userInfo.userLoggedIn);
 
     if (userLoggedIn) {
         return <Redirect to={'/'} />;
@@ -25,8 +22,7 @@ export function Register() {
 
     const handleRegister = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        // @ts-ignore
-        dispatch(register(values));
+        dispatch(registerThunk(values));
     }
 
     return (

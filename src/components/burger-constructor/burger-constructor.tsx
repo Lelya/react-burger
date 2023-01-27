@@ -4,45 +4,37 @@ import burgerConstructorStyle from './burger-constructor.module.css';
 import * as BurgerConstants from "../../constants/burger-constants";
 import OrderDetails from "../order-details/order-details";
 import ErrorModal from "../error-modal/error-modal";
-import {useDispatch, useSelector} from "react-redux";
-import {postOrder} from "../../services/actions/order-actions";
+import {useDispatch, useSelectorTS} from "../../utils/types";
+import {closeOrderAction, postOrderThunk} from "../../services/actions/order-actions";
 import {useDrop} from 'react-dnd';
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
 import BurgerConstructorEmpty from "../burger-constructor-empty/burger-constructor-empty";
 import { v4 as uuidv4 } from 'uuid';
 import {useHistory} from "react-router-dom";
 import {
-    ADD_BUN_INGREDIENT_TO_CONSTRUCTOR,
-    ADD_INGREDIENT_TO_CONSTRUCTOR,
-    CLEAR_CONSTRUCTOR, CLOSE_ORDER
-} from "../../services/actions";
-import {TIngredientData} from "../../utils/types";
+    addBunToConstructorItemAction,
+    addIngredientToConstructorItemAction, clearConstructorItemAction, deleteIngredientToConstructorItemAction
+} from "../../services/actions/ingredient-actions";
+import styles from "../../pages/pages.module.css";
 
 const BurgerConstructor: React.FC = () => {
 
     const history = useHistory();
     const dispatch = useDispatch();
-    // @ts-ignore
-    const ingredients = useSelector(store => store.listAllIngredients.items);
-    // @ts-ignore
-    const order = useSelector(store => store.orderInfo.orderId);
-    // @ts-ignore
-    const error = useSelector(store => store.orderInfo.isError);
-    // @ts-ignore
-    const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
+    const ingredients = useSelectorTS(store => store.listAllIngredients.items);
+    const order = useSelectorTS(store => store.orderInfo.orderId);
+    const error = useSelectorTS(store => store.orderInfo.isError);
+    const userLoggedIn = useSelectorTS(store => store.userInfo.userLoggedIn);
 
     const [isOpenModal, setIsOpenModal] = useState(false);
 
-    // @ts-ignore
-    const isLoading  = useSelector(store => store.orderInfo.isLoading);
-    // @ts-ignore
-    const bunData = useSelector(store => store.listConstructorIngredients.bun);
-    // @ts-ignore
-    const sauceAndMainData = useSelector(store => store.listConstructorIngredients.items);
+    const isLoading  = useSelectorTS(store => store.orderInfo.isLoading);
+    const bunData = useSelectorTS(store => store.listConstructorIngredients.bun);
+    const sauceAndMainData = useSelectorTS(store => store.listConstructorIngredients.items);
 
     const totalPrice = useMemo(() => {
-            if (bunData.length ) {
-                return sauceAndMainData.reduce((l: number, el: TIngredientData) => el.price + l, bunData[0].price * 2);
+            if (bunData.length > 0 && bunData[0]) {
+                return sauceAndMainData.reduce((l, el) => el.price + l, bunData[0].price * 2);
             }
         },
         [bunData, sauceAndMainData]
@@ -50,19 +42,13 @@ const BurgerConstructor: React.FC = () => {
 
     const moveIngredient = (item: any) => {
         const uniqId = {uniqId: uuidv4()};
-        let ingredient = ingredients.filter((elem: TIngredientData) => elem._id === item.id)[0];
+        let ingredient = ingredients.filter(elem => elem._id === item.id)[0];
         ingredient = Object.assign(uniqId, ingredient);
 
         if (ingredient.type === BurgerConstants.INGREDIENTS_BUN) {
-            dispatch({
-                type: ADD_BUN_INGREDIENT_TO_CONSTRUCTOR,
-                bun: ingredient
-            });
+            dispatch(addBunToConstructorItemAction(ingredient));
         } else {
-            dispatch({
-                type: ADD_INGREDIENT_TO_CONSTRUCTOR,
-                item: ingredient
-            });
+            dispatch(addIngredientToConstructorItemAction(ingredient));
         }
 
     }
@@ -79,12 +65,11 @@ const BurgerConstructor: React.FC = () => {
 
     const setOrder = () => {
         if (userLoggedIn) {
-            let ingredientIds = [];
+            let ingredientIds: Array<string> = [];
             ingredientIds.push(bunData[0]._id);
-            ingredientIds = ingredientIds.concat(sauceAndMainData.map((item: { _id: string; }) => item._id));
+            ingredientIds = ingredientIds.concat(sauceAndMainData.map(item => item._id));
             ingredientIds.push(bunData[0]._id);
-            // @ts-ignore
-            dispatch(postOrder(ingredientIds));
+            dispatch(postOrderThunk(ingredientIds));
             setIsOpenModal(true);
         } else {
             history.replace('/login');
@@ -93,7 +78,7 @@ const BurgerConstructor: React.FC = () => {
      };
 
     return (
-        <section className={`${burgerConstructorStyle.burgerConstructor} mt-25`} ref={dropTarget}>
+        <section className={`${burgerConstructorStyle.burgerConstructor} mt-25`} ref={dropTarget} data-test="drop-place">
         { bunData.length === 0 && sauceAndMainData.length === 0 ? (
            <BurgerConstructorEmpty/>
         ) : (
@@ -112,7 +97,7 @@ const BurgerConstructor: React.FC = () => {
                 <div className={`${burgerConstructorStyle.sauceAndMainData} mt-1`}>
                     { sauceAndMainData.length > 0 &&
                         <ul>
-                            { sauceAndMainData.map((item: TIngredientData, index: number) => (
+                            { sauceAndMainData.map((item, index: number) => (
                                 <BurgerConstructorItem key={item.uniqId} ingredient={item} index={index}/>
                             ))}
                         </ul>
@@ -146,21 +131,15 @@ const BurgerConstructor: React.FC = () => {
                 { isOpenModal && !error && order !== 0 ? (
                     <OrderDetails
                         handlerClose={() => {
-                            dispatch({
-                                type: CLOSE_ORDER,
-                            });
+                            dispatch(closeOrderAction());
                             setIsOpenModal(false);
-                            dispatch({
-                                type: CLEAR_CONSTRUCTOR
-                            });
+                            dispatch(clearConstructorItemAction());
                         }}
                         isOpenModal={isOpenModal}/>
                 ) : (
                     <ErrorModal
                         handlerClose={() => {
-                            dispatch({
-                                type: CLOSE_ORDER,
-                            });
+                            dispatch(closeOrderAction());
                             setIsOpenModal(false);
                         }}
                         error="Проблемы при оформлении заказа" isOpenModal={isOpenModal}/>

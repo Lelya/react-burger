@@ -6,6 +6,8 @@ import {NavLink, useRouteMatch} from "react-router-dom";
 const AppHeader = () => {
     const isConstructor = useRouteMatch({ path: '/', exact: true });
     const isProfile = useRouteMatch({ path: '/profile', exact: true });
+    const isProfileOrder = useRouteMatch({ path: '/profile/orders', exact: true });
+    const isFeed = useRouteMatch({ path: '/feed', exact: true });
 
     return (
         <header className={headerStyle.header}>
@@ -24,8 +26,15 @@ const AppHeader = () => {
                     </li>
                     <li>
                         <button className={`${headerStyle.navButton} `}>
-                            <ListIcon type={"secondary"} />
-                            <span className={'text text_type_main-default text_color_inactive'}>Лента заказов</span>
+                            <ListIcon type={isFeed ? 'primary' : 'secondary'} />
+                            <NavLink
+                                to="/feed"
+                                exact
+                                className={headerStyle.navButton_link}
+                                activeClassName={headerStyle.navButton_active}
+                            >
+                                <p className="text text_type_main-default">Лента заказов</p>
+                            </NavLink>
                         </button>
                     </li>
                     <li className={headerStyle.logo}>
@@ -34,7 +43,7 @@ const AppHeader = () => {
                         </NavLink>
                     </li>
                     <li className={headerStyle.navButton}>
-                        <ProfileIcon type={isProfile ? 'primary' : 'secondary'} />
+                        <ProfileIcon type={isProfile || isProfileOrder ? 'primary' : 'secondary'} />
                         <NavLink
                             to="/profile"
                             exact

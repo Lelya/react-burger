@@ -1,0 +1,29 @@
+.orderFeed {
+    width: 600px;
+    background: #131316;
+    display: flex;
+    flex-direction: column;
+}
+
+.ingredients {
+    height: 100%;
+    overflow-y: scroll;
+    scrollbar-color: #8585AD;
+    scrollbar-base-color: #2F2F37;
+}
+
+.ingredients::-webkit-scrollbar {
+    width: 8px;
+    background: #2F2F37;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+    background: #8585AD;
+    -webkit-border-radius: 0;
+}
+
+.ingredients::-webkit-scrollbar-corner {
+    background: #000;
+}
+
+

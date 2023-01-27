@@ -4,18 +4,22 @@ import appStyle from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import {Main} from "../../pages/main/main";
 import {Login} from "../../pages/login/login";
-import {useDispatch} from "react-redux";
-import {getIngredients} from "../../services/actions/order-actions";
+import {useDispatch} from "../../utils/types";
+import {getIngredientsThunk} from "../../services/actions/order-actions";
 import {Register} from "../../pages/register/register";
 import {ForgotPassword} from "../../pages/forgot-password/forgot-password";
 import {ResetPassword} from "../../pages/reset-password/reset-password";
 import {Profile} from "../../pages/profile/profile";
+import {Feed} from "../../pages/feed/feed";
 import {ProtectedRouter} from "../protected-router/protected-router";
 import IngredientCard from "../ingredient-card/ingredient-card";
 import Modal from "../modal/modal";
 import Error404 from "../../pages/error-404/error-404";
-import {getUserData} from "../../services/actions/user-actions";
+import {getUserDataThunk} from "../../services/actions/user-actions";
 import {TModalBackground} from "../../utils/types";
+import OrderCard from "../order-card/order-card";
+import ProfileOrders from "../../pages/profile-orders/profile-orders";
+import OrderCardUser from "../order-card-user/order-card-user";
 
 const App: React.FC = () => {
 
@@ -30,10 +34,8 @@ const App: React.FC = () => {
     };
 
     useEffect(() => {
-        // @ts-ignore
-        dispatch(getIngredients());
-        // @ts-ignore
-        dispatch(getUserData());
+        dispatch(getIngredientsThunk());
+        dispatch(getUserDataThunk());
     },[dispatch]);
 
 
@@ -60,8 +62,20 @@ const App: React.FC = () => {
                     <ProtectedRouter onlyAuth={true} path="/profile" exact>
                         <Profile />
                     </ProtectedRouter>
+                    <ProtectedRouter onlyAuth={true} path='/profile/orders' exact>
+                        <ProfileOrders />
+                    </ProtectedRouter>
                     <Route exact path="/ingredients/:id">
                         <IngredientCard/>
+                    </Route>
+                    <Route exact path="/feed/:id">
+                        <OrderCard/>
+                    </Route>
+                    <ProtectedRouter onlyAuth={true}  path="/profile/orders/:id" exact>
+                        <OrderCardUser/>
+                    </ProtectedRouter>
+                    <Route exact path="/feed">
+                        <Feed />
                     </Route>
                     <Route>
                         <Error404 />
@@ -73,6 +87,20 @@ const App: React.FC = () => {
                             <IngredientCard background={true}/>
                         </Modal>
                     </Route>
+                }
+                { background &&
+                    <Route exact path='/feed/:id'>
+                        <Modal handlerClose={closeModal} isOpen>
+                            <OrderCard background={true}/>
+                        </Modal>
+                    </Route>
+                }
+                { background &&
+                    <ProtectedRouter onlyAuth={true} exact path='/profile/orders/:id'>
+                        <Modal handlerClose={closeModal} isOpen>
+                            <OrderCardUser background={true}/>
+                        </Modal>
+                    </ProtectedRouter>
                 }
             </div>
         </div>

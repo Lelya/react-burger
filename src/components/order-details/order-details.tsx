@@ -1,13 +1,12 @@
 import React from 'react';
 import Modal from "../modal/modal";
 import orderIcon from "../../images/orderIcon.png";
-import {useSelector} from "react-redux";
+import {useSelectorTS} from "../../utils/types";
 import {IOrderDetails} from "../../utils/types";
 
 const OrderDetails: React.FC<IOrderDetails> = ({handlerClose, isOpenModal }) => {
 
-    // @ts-ignore
-    const order = useSelector(store => store.orderInfo.orderId);
+    const order = useSelectorTS(store => store.orderInfo.orderId);
 
     return (
         <>

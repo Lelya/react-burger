@@ -2,9 +2,9 @@ import React, {FormEvent} from 'react';
 import styles from '../pages.module.css';
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelectorTS} from "../../utils/types";
 import {useForm} from "../../hooks/useForm";
-import {resetPassword} from "../../services/actions/user-actions";
+import {resetPasswordThunk} from "../../services/actions/user-actions";
 
 export function ResetPassword() {
     const { values, handleChange } = useForm({
@@ -12,13 +12,9 @@ export function ResetPassword() {
         token: ""
     });
     const dispatch = useDispatch();
-    // @ts-ignore
-    const errorResetPassword = useSelector(store => store.userInfo.resetPasswordError);
-    // @ts-ignore
-    const userLoggedIn = useSelector(store => store.userInfo.userLoggedIn);
-    debugger;
-    // @ts-ignore
-    const forgotPasswordVisited = useSelector(store => store.userInfo.forgotPasswordVisited);
+    const errorResetPassword = useSelectorTS(store => store.userInfo.resetPasswordError);
+    const userLoggedIn = useSelectorTS(store => store.userInfo.userLoggedIn);
+    const forgotPasswordVisited = useSelectorTS(store => store.userInfo.forgotPasswordVisited);
 
     if (userLoggedIn) {
         return <Redirect to={'/'} />;
@@ -30,8 +26,7 @@ export function ResetPassword() {
 
     const handleResetPassword = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        // @ts-ignore
-        dispatch(resetPassword(values));
+        dispatch(resetPasswordThunk());
     }
 
     return (

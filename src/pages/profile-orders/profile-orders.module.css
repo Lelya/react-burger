@@ -1,0 +1,6 @@
+.wrapper_profile_tab {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    top: 7rem;
+}
